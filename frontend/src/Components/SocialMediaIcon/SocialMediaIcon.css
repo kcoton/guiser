@@ -1,0 +1,61 @@
+/* SocialMediaIcon.css */
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 200px;
+    background: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    color: white; /* Set text color to white */
+}
+
+.icon-container i {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.icon-container .icon-text {
+    text-align: center;
+}
+
+.icon-container h3 {
+    margin: 10px 0;
+    font-size: 20px;
+    color: white; /* Set text color to white */
+}
+
+.icon-container p {
+    font-size: 14px;
+    color: #ccc; /* Set text color to a lighter shade */
+}
+
+.icon-container a {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.icon-container a:hover {
+    text-decoration: underline;
+}
+
+/* Specific styles for each icon */
+.icon-container .fa-facebook-f {
+    color: #1877F2;
+}
+
+.icon-container .fa-instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.icon-container .fa-twitter {
+    color: #1DA1F2;
+}
+
+.icon-container .fa-linkedin-in {
+    color: #0077B5;
+}
