@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 // eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Connect from '../pages/Connect';
+import Home from '../pages/Home';
 import Personas from '../pages/Personas';
+import Connect from '../pages/Connect';
+import Generate from '../pages/Generate';
+import Posts from '../pages/Posts';
+import Settings from '../pages/Settings';
+import Logout from '../pages/Logout';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -93,7 +98,7 @@ function NavigationBar() {
     'Personas': <SwitchAccountRoundedIcon />,
     'Connect': <ShareRoundedIcon />,
     'Generate': <AddBoxRoundedIcon />,
-    'Drafts': <EditNoteRoundedIcon />,
+    'Posts': <EditNoteRoundedIcon />,
     'Settings': <SettingsApplicationsRoundedIcon />,
     'Logout': <LogoutRoundedIcon />,
   }
@@ -103,7 +108,7 @@ function NavigationBar() {
     'Personas': '/personas',
     'Connect': '/connect',
     'Generate': '/generate',
-    'Drafts': '/drafts',
+    'Posts': '/posts',
     'Settings': '/settings',
     'Logout': '/logout',
   }
@@ -148,7 +153,7 @@ function NavigationBar() {
         <Divider />
 
         <List>
-        {['Home', 'Personas', 'Connect', 'Generate'].map((text) => (
+        {['Home', 'Personas', 'Connect', 'Generate', 'Posts'].map((text) => (
             <ListItem key={text} disablePadding>
                 <Link to={routesMap[text]}>
                     <ListItemButton>
@@ -163,7 +168,7 @@ function NavigationBar() {
         </List>
         <Divider />
         <List>
-        {['Drafts', 'Settings', 'Logout'].map((text) => (
+        {['Settings', 'Logout'].map((text) => (
             <ListItem key={text} disablePadding>
                 <Link to={routesMap[text]}>
                     <ListItemButton>
@@ -181,8 +186,13 @@ function NavigationBar() {
       <Main open={open}>
         <DrawerHeader />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/personas" element={<Personas />} />
           <Route path="/connect" element={<Connect />} />
+          <Route path="/generate" element={<Generate />} />
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/logout" element={<Logout />} />
         </Routes>
       </Main>
     </Box>
