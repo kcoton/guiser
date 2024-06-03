@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 // eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Connect from './Connect';
-import Profiles from './Profiles';
+import Connect from '../pages/Connect';
+import Profiles from '../pages/Profiles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
