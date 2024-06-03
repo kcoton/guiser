@@ -5,7 +5,7 @@ const LoginPage = () => {
     return (
         <div className="login-page">
             <div className="login-form">
-                <h1>APP NAME</h1>
+                <h1>Guiser</h1>
                 <div className="logo">logo</div>
                 <form>
                     <div className="input-group">
