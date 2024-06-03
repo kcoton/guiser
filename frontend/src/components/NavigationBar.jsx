@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 // eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from '../pages/Home';
-import Personas from '../pages/Personas';
-import Connect from '../pages/Connect';
-import Generate from '../pages/Generate';
-import Posts from '../pages/Posts';
-import Settings from '../pages/Settings';
-import Logout from '../pages/Logout';
+import HomePage from '../pages/HomePage';
+import PersonasPage from '../pages/PersonasPage';
+import ConnectPage from '../pages/ConnectPage';
+import GeneratePage from '../pages/GeneratePage';
+import PostsPage from '../pages/PostsPage';
+import SettingsPage from '../pages/SettingsPage';
+import LogoutPage from '../pages/LogoutPage';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -186,13 +186,13 @@ function NavigationBar() {
       <Main open={open}>
         <DrawerHeader />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/personas" element={<Personas />} />
-          <Route path="/connect" element={<Connect />} />
-          <Route path="/generate" element={<Generate />} />
-          <Route path="/posts" element={<Posts />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/logout" element={<Logout />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/personas" element={<PersonasPage />} />
+          <Route path="/connect" element={<ConnectPage />} />
+          <Route path="/generate" element={<GeneratePage />} />
+          <Route path="/posts" element={<PostsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/logout" element={<LogoutPage />} />
         </Routes>
       </Main>
     </Box>
