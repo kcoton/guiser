@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { drawerWidth } from '../constants/common';
 import { Link } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 // eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Homepage from './Homepage';
+import Connect from './Connect';
 import Profiles from './Profiles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -29,6 +28,8 @@ import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import EditNoteRoundedIcon from '@mui/icons-material/EditNoteRounded';
 import SettingsApplicationsRoundedIcon from '@mui/icons-material/SettingsApplicationsRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+
+const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -78,7 +79,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 function NavigationBar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const drawerWidth = 240;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -182,7 +182,7 @@ function NavigationBar() {
         <DrawerHeader />
         <Routes>
           <Route path="/profiles" element={<Profiles />} />
-          <Route path="/" element={<Homepage />} />
+          <Route path="/connect" element={<Connect />} />
         </Routes>
       </Main>
     </Box>
