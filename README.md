@@ -1,5 +1,11 @@
 # Group 02 - Guiser
 
+## How To Run
+1. `npm install` using node version 20
+2. `npm run dev` to run on localhost
+
+This project uses: JavaScript, React, MaterialUI
+
 ## Project Description
 
 Guiser (pronounced like geyser) is designed for content creators, marketers, and organizations that want to partially automate the creation and publication of social media content.
