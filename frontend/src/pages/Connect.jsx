@@ -4,7 +4,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PhotoIcon from "@mui/icons-material/Photo";
 import { Stack } from "@mui/material";
-import { connectedAccounts } from "../mock/mock-profiles";
+import { connectedAccounts } from "../mock/mock-personas";
 
 function Connect() {
   return (

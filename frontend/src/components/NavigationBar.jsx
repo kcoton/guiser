@@ -4,7 +4,7 @@ import { styled, useTheme } from '@mui/material/styles';
 // eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Connect from '../pages/Connect';
-import Profiles from '../pages/Profiles';
+import Personas from '../pages/Personas';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -90,7 +90,7 @@ function NavigationBar() {
 
   const iconMap = {
     'Home': <HomeRoundedIcon />,
-    'Profiles': <SwitchAccountRoundedIcon />,
+    'Personas': <SwitchAccountRoundedIcon />,
     'Connect': <ShareRoundedIcon />,
     'Generate': <AddBoxRoundedIcon />,
     'Drafts': <EditNoteRoundedIcon />,
@@ -100,7 +100,7 @@ function NavigationBar() {
 
   const routesMap = {
     'Home': '/',
-    'Profiles': '/profiles',
+    'Personas': '/personas',
     'Connect': '/connect',
     'Generate': '/generate',
     'Drafts': '/drafts',
@@ -148,7 +148,7 @@ function NavigationBar() {
         <Divider />
 
         <List>
-        {['Home', 'Profiles', 'Connect', 'Generate'].map((text) => (
+        {['Home', 'Personas', 'Connect', 'Generate'].map((text) => (
             <ListItem key={text} disablePadding>
                 <Link to={routesMap[text]}>
                     <ListItemButton>
@@ -181,7 +181,7 @@ function NavigationBar() {
       <Main open={open}>
         <DrawerHeader />
         <Routes>
-          <Route path="/profiles" element={<Profiles />} />
+          <Route path="/personas" element={<Personas />} />
           <Route path="/connect" element={<Connect />} />
         </Routes>
       </Main>
