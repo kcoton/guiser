@@ -1,3 +1,3 @@
-export default function Logout() {
+export default function LogoutPage() {
     return <p>TODO: Logout</p>;
 }

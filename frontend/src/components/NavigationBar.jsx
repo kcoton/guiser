@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import PersonasPage from '../pages/PersonasPage';
 import ConnectPage from '../pages/ConnectPage';
-import GeneratePage from '../pages/GeneratePage';
+import GeneratePage from '../pages/GeneratePage/GeneratePage';
 import PostsPage from '../pages/PostsPage';
 import SettingsPage from '../pages/SettingsPage';
 import LogoutPage from '../pages/LogoutPage';
@@ -81,7 +81,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-function NavigationBar() {
+export default function NavigationBar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -198,5 +198,3 @@ function NavigationBar() {
     </Box>
   );
 }
-
-export default NavigationBar;

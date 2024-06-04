@@ -3,7 +3,7 @@ import { Avatar, Button, TextField, Stack } from "@mui/material";
 import "../App.css";
 import { personas } from "../mock/mock-personas";
 
-function Personas() {
+export default function PersonasPage() {
   const [activePersona, setActivePersona] = useState(personas[0]);
   const [newPersonaName, setNewPersonaName] = useState("");
   const [newPersonaDescription, setNewPersonaDescription] = useState("");
@@ -65,5 +65,3 @@ function Personas() {
     </div>
   );
 }
-
-export default Personas;
