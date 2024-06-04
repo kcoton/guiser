@@ -5,10 +5,12 @@ import PersonaCardGrid from './PersonaCardGrid';
 import PersonaContentModal from './PersonaContentModal';
 import PostContentModal from './PostContentModal';
 import ErrorModal from './ErrorModal';
+import CircularIndeterminate from "./CircularIndeterminate";
 
 export default function GeneratePage() {
     const personas = new PersonaService(1).get(); // TODO: change constructor call once auth figured out
     const contentGenerationService = new ContentGenerationService(1); // TODO: change constructor call once auth figured out
+    const [showLoading, setShowLoading] = useState(false);
     const [showPersonaContentModal, setShowPersonaContentModal] = useState(false);
     const [showGenerateContentModal, setShowGenerateContentModal] = useState(false);
     const [showGeneratedContentModal, setShowGeneratedContentModal] = useState(false);
@@ -52,13 +54,16 @@ export default function GeneratePage() {
         }
 
         setShowGenerateContentModal(false);
-        // TODO: add spinner
+        setShowLoading(true);
         try {
             setGeneratedContent(await contentGenerationService.getContent(selectedPersona, form.context.value));
             setShowGeneratedContentModal(true);
         }
         catch (ex) {
             setShowErrorModal(true);
+        }
+        finally {
+            setShowLoading(false);
         }
     }
 
@@ -81,6 +86,7 @@ export default function GeneratePage() {
 
     return (
         <>
+            {showLoading && <CircularIndeterminate />}
             <PersonaCardGrid
                 personas={personas}
                 onShowPersonaContentClick={handleShowPersonaContentClick}

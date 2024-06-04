@@ -9,7 +9,7 @@ export default function PostContentModal({ open, proceedBtnText, onProceed, reje
                 <DialogContent>
                     <TextField
                         name={content ? 'post' : 'context'}
-                        label="Write prompt context"
+                        label={content ? 'Generated content' : "Write prompt context"}
                         variant="outlined"
                         fullWidth
                         multiline
