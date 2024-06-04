@@ -4,6 +4,7 @@ import ContentGenerationService from "../../services/ContentGenerationService";
 import PersonaCardGrid from './PersonaCardGrid';
 import PersonaContentModal from './PersonaContentModal';
 import PostContentModal from './PostContentModal';
+import ErrorModal from './ErrorModal';
 
 export default function GeneratePage() {
     const personas = new PersonaService(1).get(); // TODO: change constructor call once auth figured out
@@ -11,6 +12,7 @@ export default function GeneratePage() {
     const [showPersonaContentModal, setShowPersonaContentModal] = useState(false);
     const [showGenerateContentModal, setShowGenerateContentModal] = useState(false);
     const [showGeneratedContentModal, setShowGeneratedContentModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
     const [selectedPersona, setSelectedPersona] = useState(undefined);
     const [generatedContent, setGeneratedContent] = useState(undefined);
 
@@ -35,6 +37,7 @@ export default function GeneratePage() {
     }
 
     function resetState() {
+        setShowErrorModal(false);
         setShowGeneratedContentModal(false);
         setSelectedPersona(undefined);
         setGeneratedContent(undefined);
@@ -48,15 +51,14 @@ export default function GeneratePage() {
             return;
         }
 
+        setShowGenerateContentModal(false);
+        // TODO: add spinner
         try {
             setGeneratedContent(await contentGenerationService.getContent(selectedPersona, form.context.value));
+            setShowGeneratedContentModal(true);
         }
         catch (ex) {
-            setGeneratedContent("We're sorry, content generation is currently unavailable. Please try again later.")
-        }
-        finally {
-            setShowGenerateContentModal(false);
-            setShowGeneratedContentModal(true);
+            setShowErrorModal(true);
         }
     }
 
@@ -91,7 +93,6 @@ export default function GeneratePage() {
             />
             <PostContentModal
                 open={showGenerateContentModal}
-                isAfter={false}
                 proceedBtnText={'Generate'}
                 onProceed={handleGenerateContentClick}
                 rejectBtnText={'Cancel'}
@@ -101,13 +102,16 @@ export default function GeneratePage() {
             />
             <PostContentModal
                 open={showGeneratedContentModal}
-                isAfter={true}
                 proceedBtnText={'Accept'}
                 onProceed={handleApproveContentClick}
                 rejectBtnText={'Reject'}
                 onReject={handleRejectContentClick}
                 content={generatedContent}
                 persona={selectedPersona}
+            />
+            <ErrorModal 
+                open={showErrorModal}
+                onClose={resetState}
             />
         </>
     );

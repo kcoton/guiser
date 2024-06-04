@@ -14,6 +14,7 @@ export default function PostContentModal({ open, proceedBtnText, onProceed, reje
                         fullWidth
                         multiline
                         rows={5}
+                        required
                         defaultValue={content ?? ''}
                     />
                 </DialogContent>
