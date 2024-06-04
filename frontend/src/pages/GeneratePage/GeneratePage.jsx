@@ -67,7 +67,7 @@ export default function GeneratePage() {
         }
     }
 
-    function handleApproveContentClick(e) {
+    function handleAcceptContentClick(e) {
         e.preventDefault();
         const form = e.target;
         if (!form.checkValidity()) {
@@ -75,12 +75,12 @@ export default function GeneratePage() {
             return;
         }
 
-        console.log('approved');
+        console.log('accepted...');
         resetState();
     }
 
     function handleRejectContentClick() {
-        console.log('rejected');
+        console.log('rejected...');
         resetState();
     }
 
@@ -109,7 +109,7 @@ export default function GeneratePage() {
             <PostContentModal
                 open={showGeneratedContentModal}
                 proceedBtnText={'Accept'}
-                onProceed={handleApproveContentClick}
+                onProceed={handleAcceptContentClick}
                 rejectBtnText={'Reject'}
                 onReject={handleRejectContentClick}
                 content={generatedContent}
