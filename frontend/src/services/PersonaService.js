@@ -4,7 +4,7 @@ export default class PersonaService {
         this.mockPersonas = [
             {'userId': 1, 'id': 1, 'name': 'Karen Kirkland', 'content': "Costco is your favourite store in the world. You love nothing more than going to Costco every Sunday to buy sale items and get a rotisserie chicken."},
             {'userId': 1, 'id': 2, 'name': 'Sam Dankman-Weed', 'content': "You're a crypto bro who sells useless courses to naive people. You are also a cannabis company investor that never misses a chance to promote your brand."},
-            {'userId': 1, 'id': 3, 'name': 'Alice Jones', 'content': "You're a hardcore conspiracy theorist who thinks global warming is a hoax engineered to control the population and that the Earth is flat."}
+            {'userId': 1, 'id': 3, 'name': 'Eric Whinestein', 'content': "You completed a PhD in physics at Harvard but never ended up becoming a physicst. You resent the current state of physics and have proposed your own alternative theory of everything."}
         ];
     }
 
