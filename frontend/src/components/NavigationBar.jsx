@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 // eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Connect from './Connect';
-import Profiles from './Profiles';
+import HomePage from '../pages/HomePage';
+import PersonasPage from '../pages/PersonasPage';
+import ConnectPage from '../pages/ConnectPage';
+import GeneratePage from '../pages/GeneratePage/GeneratePage';
+import PostsPage from '../pages/PostsPage';
+import SettingsPage from '../pages/SettingsPage';
+import LogoutPage from '../pages/LogoutPage';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -76,7 +81,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-function NavigationBar() {
+export default function NavigationBar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -90,20 +95,20 @@ function NavigationBar() {
 
   const iconMap = {
     'Home': <HomeRoundedIcon />,
-    'Profiles': <SwitchAccountRoundedIcon />,
+    'Personas': <SwitchAccountRoundedIcon />,
     'Connect': <ShareRoundedIcon />,
     'Generate': <AddBoxRoundedIcon />,
-    'Drafts': <EditNoteRoundedIcon />,
+    'Posts': <EditNoteRoundedIcon />,
     'Settings': <SettingsApplicationsRoundedIcon />,
     'Logout': <LogoutRoundedIcon />,
   }
 
   const routesMap = {
     'Home': '/',
-    'Profiles': '/profiles',
+    'Personas': '/personas',
     'Connect': '/connect',
     'Generate': '/generate',
-    'Drafts': '/drafts',
+    'Posts': '/posts',
     'Settings': '/settings',
     'Logout': '/logout',
   }
@@ -148,7 +153,7 @@ function NavigationBar() {
         <Divider />
 
         <List>
-        {['Home', 'Profiles', 'Connect', 'Generate'].map((text) => (
+        {['Home', 'Personas', 'Connect', 'Generate', 'Posts'].map((text) => (
             <ListItem key={text} disablePadding>
                 <Link to={routesMap[text]}>
                     <ListItemButton>
@@ -163,7 +168,7 @@ function NavigationBar() {
         </List>
         <Divider />
         <List>
-        {['Drafts', 'Settings', 'Logout'].map((text) => (
+        {['Settings', 'Logout'].map((text) => (
             <ListItem key={text} disablePadding>
                 <Link to={routesMap[text]}>
                     <ListItemButton>
@@ -181,12 +186,15 @@ function NavigationBar() {
       <Main open={open}>
         <DrawerHeader />
         <Routes>
-          <Route path="/profiles" element={<Profiles />} />
-          <Route path="/connect" element={<Connect />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/personas" element={<PersonasPage />} />
+          <Route path="/connect" element={<ConnectPage />} />
+          <Route path="/generate" element={<GeneratePage />} />
+          <Route path="/posts" element={<PostsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/logout" element={<LogoutPage />} />
         </Routes>
       </Main>
     </Box>
   );
 }
-
-export default NavigationBar;

@@ -4,9 +4,9 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PhotoIcon from "@mui/icons-material/Photo";
 import { Stack } from "@mui/material";
-import { connectedAccounts } from "../mock/mock-profiles";
+import { connectedAccounts } from "../mock/mock-personas";
 
-function Connect() {
+export default function ConnectPage() {
   return (
     <div>
       <h1>Let&apos;s add some social accounts</h1>
@@ -40,5 +40,3 @@ function Connect() {
     </div>
   );
 }
-
-export default Connect;
