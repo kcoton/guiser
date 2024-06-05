@@ -4,10 +4,17 @@
     flex-direction: column;
     align-items: center;
     max-width: 200px;
-    background: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background */
+    background: rgba(255, 255, 255, 0.6);; 
     padding: 20px;
-    border-radius: 10px;
-    color: white; /* Set text color to white */
+    border-radius: 15px; 
+    color: #333; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.icon-container:hover {
+    transform: translateY(-20px); 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .icon-container i {
@@ -21,27 +28,34 @@
 
 .icon-container h3 {
     margin: 10px 0;
-    font-size: 20px;
-    color: white; /* Set text color to white */
+    font-size: 22px;
+    color: #0f3ed8;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .icon-container p {
-    font-size: 14px;
-    color: #ccc; /* Set text color to a lighter shade */
+    font-size: 14px; 
+    color: #333; 
+    line-height: 1.5; 
+    margin-bottom: 15px; 
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8); /
 }
 
 .icon-container a {
     font-size: 14px;
-    color: #007bff;
+    color: #1f10ef;
     text-decoration: none;
     margin-top: 10px;
+    transition: color 0.3s ease;
 }
 
 .icon-container a:hover {
+    color: #FF6347;
     text-decoration: underline;
 }
 
-/* Specific styles for each icon */
+
 .icon-container .fa-facebook-f {
     color: #1877F2;
 }
@@ -49,6 +63,7 @@
 .icon-container .fa-instagram {
     background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -58,4 +73,6 @@
 
 .icon-container .fa-linkedin-in {
     color: #0077B5;
-}
+} 
+
+

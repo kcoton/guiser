@@ -9,12 +9,14 @@ const LandingPage = () => {
     const handleGetStarted = () => {
         navigate('/login');
     };
+
     return (
         <div className="landing-page">
             <div className="background-image"></div>
             <div className="content">
                 <h1>Guiser</h1>
                 <p>Manage your social media with ease</p>
+                <p></p>
                 <button className="get-started-button" onClick={handleGetStarted}>Get Started</button>
             </div>
             <div className="social-media-icons">
@@ -22,25 +24,25 @@ const LandingPage = () => {
                     iconClass="fab fa-instagram"
                     title="Instagram"
                     description="Edit and plan photos, reels, carousels, and stories with ease."
-                    link="#"
+                    link="https://www.instagram.com/"
                 />
                 <SocialMediaIcon
                     iconClass="fab fa-facebook-f"
                     title="Facebook"
                     description="Get more engagement and build your Facebook following."
-                    link="#"
+                    link="https://www.facebook.com/"
                 />
                 <SocialMediaIcon
                     iconClass="fab fa-twitter"
                     title="Twitter"
                     description="Stay connected with your audience through tweets."
-                    link="#"
+                    link="https://x.com/"
                 />
                 <SocialMediaIcon
                     iconClass="fab fa-linkedin-in"
                     title="LinkedIn"
                     description="Expand your professional network and engage with your audience."
-                    link="#"
+                    link="https://www.linkedin.com/"
                 />
             </div>
         </div>
