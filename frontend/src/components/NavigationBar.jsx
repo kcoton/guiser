@@ -1,15 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
-// eslint-disable-next-line no-unused-vars
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from '../pages/HomePage';
-import PersonasPage from '../pages/PersonasPage';
-import ConnectPage from '../pages/ConnectPage';
-import GeneratePage from '../pages/GeneratePage/GeneratePage';
-import PostsPage from '../pages/PostsPage';
-import SettingsPage from '../pages/SettingsPage';
-import LogoutPage from '../pages/LogoutPage';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -104,7 +95,7 @@ export default function NavigationBar() {
   }
 
   const routesMap = {
-    'Home': '/',
+    'Home': '/dashboard',
     'Personas': '/personas',
     'Connect': '/connect',
     'Generate': '/generate',
@@ -185,15 +176,6 @@ export default function NavigationBar() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/personas" element={<PersonasPage />} />
-          <Route path="/connect" element={<ConnectPage />} />
-          <Route path="/generate" element={<GeneratePage />} />
-          <Route path="/posts" element={<PostsPage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/logout" element={<LogoutPage />} />
-        </Routes>
       </Main>
     </Box>
   );
