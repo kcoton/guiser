@@ -17,7 +17,7 @@ export default function PersonasPage() {
   };
 
   return (
-    <div>
+    <div className="page-container">
       <Stack direction="row" spacing={5}>
         {personas.map((persona, index) => (
           <div

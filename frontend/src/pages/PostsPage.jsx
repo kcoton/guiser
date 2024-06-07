@@ -25,7 +25,7 @@ export default function PostsPage() {
     }
 
     return (
-        <>
+        <div className="page-container">
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
                     rows={posts}
@@ -66,6 +66,6 @@ export default function PostsPage() {
                 })}
             </Grid>
             }
-        </>
+        </div>
     );
 }

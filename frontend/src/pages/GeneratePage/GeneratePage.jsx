@@ -85,7 +85,7 @@ export default function GeneratePage() {
     }
 
     return (
-        <>
+        <div className="page-container">
             {showLoading && <CircularIndeterminate />}
             <PersonaCardGrid
                 personas={personas}
@@ -119,6 +119,6 @@ export default function GeneratePage() {
                 open={showErrorModal}
                 onClose={resetState}
             />
-        </>
+        </div>
     );
 }

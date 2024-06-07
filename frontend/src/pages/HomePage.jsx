@@ -1,3 +1,3 @@
 export default function HomePage() {
-    return <p>TODO: Home</p>;
+    return <div className="page-container"><p>TODO: Home</p></div>;
 }

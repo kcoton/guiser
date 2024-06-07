@@ -8,7 +8,7 @@ import { connectedAccounts } from "../mock/mock-personas";
 
 export default function ConnectPage() {
   return (
-    <div>
+    <div className="page-container">
       <h1>Let&apos;s add some social accounts</h1>
       <Stack direction="row" spacing={5}>
         <Button variant="outlined" startIcon={<TwitterIcon />}>

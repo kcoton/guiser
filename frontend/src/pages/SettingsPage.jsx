@@ -1,3 +1,3 @@
 export default function SettingsPage() {
-    return <p>TODO: Settings</p>;
+    return <div className="page-container"><p>TODO: Settings</p></div>;
 }

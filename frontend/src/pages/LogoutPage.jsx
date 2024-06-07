@@ -1,3 +1,3 @@
 export default function LogoutPage() {
-    return <p>TODO: Logout</p>;
+    return <div className="page-container"><p>TODO: Logout</p></div>;
 }
