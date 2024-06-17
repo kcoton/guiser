@@ -8,9 +8,9 @@
 import Server from "./server/Server";
 
 export default class App {
-	public init(port: number) {
-		return new Server(port).start();
-	}
+    public init(port: number) {
+        return new Server(port).start();
+    }
 }
 
 (async () => await new App().init(3001))();
