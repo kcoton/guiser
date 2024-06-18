@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import LandingPage from './pages/LandingPage/LandingPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import NavigationBar from './components/NavigationBar';
@@ -10,13 +11,16 @@ import GeneratePage from './pages/GeneratePage/GeneratePage';
 import PostsPage from './pages/PostsPage';
 import SettingsPage from './pages/SettingsPage';
 import LogoutPage from './pages/LogoutPage';
+import store from './redux/store';
 import './App.css'
 
 function App() {
   return (
-    <Router>
-      <MainApp />
-    </Router>
+      <Provider store={store}>
+	  <Router>
+	      <MainApp />
+	  </Router>
+      </Provider>
   );
 }
 

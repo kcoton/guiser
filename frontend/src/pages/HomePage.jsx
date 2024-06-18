@@ -1,3 +1,12 @@
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 export default function HomePage() {
-    return <div className="page-container"><p>TODO: Home</p></div>;
+    
+    const user = useSelector(s => s.user.user);
+    
+    return <div className="page-container">
+	       <img src={!user ? "" : user.picture} />
+	       <p>Hello{!user ? "" : ", " + user.name_given}</p>
+	   </div>;
 }

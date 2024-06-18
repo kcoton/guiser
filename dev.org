@@ -1,0 +1,33 @@
+* Accounts
+** Admin
++ guiserteam@gmail.com
+** Testers
++ guiser.user.az@gmail.com
+* Meeting Minutes
+** Post-PR2
+*** Changes to existing pages/functionality
++ [ ] Hamburger/Drawer
+  + Should auto-collapse when click outside of it
+  + Page content should shift over when drawer expands
++ [X] Landing/Sign-on
+  + Change "Get Started" to "Sign in with Google"
+  + remove sign-on page
+  + have Google-only master authentication
++ [ ] Personas/Connect
+  + Need better way to display personas and connect them with accounts
+    + Combine them; likely collapse "Connect" page into the "Personas" page
+  + Note on associativity of personas and accounts
+    + User has 0+ personas
+    + Persona associated with 0-4 platform accounts; at most one per platform
+    + Platform accounts associated with exactly 1 persona
++ [ ] Generate
+  + Scrollable horizontal list with "tiles" for each persona at top
+  + Clicking tile highlights/outlines selected persona tile
+  + "Generate Post" workflow / form appears under the top scroller list
+  + Instead of "Accept", shows "Post to..." button(s), "Save to Drafts" button, and "Reject"/garbage can icon
++ [ ] Posts -> Rename to "Content"
+  + Add table column which displays icons of platforms to which item (row) has been posted
+*** TODO for P3
++ [X] Setup redux for state management
++ [X] Store user credentials from Google auth on login, remove on logout
++ [ ] Store default personas and posts, update on change

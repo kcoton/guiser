@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 import SocialMediaIcon from '../SocialMediaIcon/SocialMediaIcon';
+import GoogleSignIn from '../../components/GoogleSignIn';
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -18,7 +19,8 @@ const LandingPage = () => {
                     <h1>Guiser</h1>
                     <p>Manage your social media with ease</p>
                     <p></p>
-                    <button className="get-started-button" onClick={handleGetStarted}>Get Started</button>
+                    {/* <button className="get-started-button" onClick={handleGetStarted}>Get Started</button> */}
+		    <GoogleSignIn continuation={() => navigate('/dashboard')}/>
                 </div>
                 <div className="social-media-icons">
                     <SocialMediaIcon
