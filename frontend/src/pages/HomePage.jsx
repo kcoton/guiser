@@ -7,6 +7,6 @@ export default function HomePage() {
     
     return <div className="page-container">
 	       <img src={!user ? "" : user.picture} />
-	       <p>Hello {!user ? "" : ", " + user.name_given}</p>
+	       <p>Hello{!user ? "" : ", " + user.name_given}</p>
 	   </div>;
 }

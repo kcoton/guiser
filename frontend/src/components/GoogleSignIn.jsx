@@ -34,7 +34,7 @@ const GoogleSignIn = ({ continuation }) => {
 	};
     }, [continuation]);
 
-    const oauthClientID = "96978990905-stipuuf5cubcs5v5ecpupj5plc3jthfp.apps.googleusercontent.com";
+    const oauthClientID="440372252508-l6to260fq7m68vhrgvd50lmjl1tk6t7k.apps.googleusercontent.com";
     return (
 	<>
 	    <div id="g_id_onload"
