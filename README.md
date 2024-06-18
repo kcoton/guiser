@@ -1,10 +1,17 @@
 # Group 02 - Guiser
 
-## How To Run
-1. `npm install` using node version 20
-2. `npm run dev` to run on localhost
+## How To Run Frontend
+1. `cd` to a frontend location
+2. `npm install` using node version 20
+3. `npm run dev` to run on localhost
 
-This project uses: JavaScript, React, MaterialUI
+## How To Run Backend
+1. `cd` to a backend location
+2. `npm install` using node version 20
+3. `npm run build` to compile Typescript
+4. `npm run start` to start the server
+
+This project uses: Typescript, React, MaterialUI, and Express
 
 ## Project Description
 
