@@ -20,7 +20,7 @@ const LandingPage = () => {
                     <p>Manage your social media with ease</p>
                     <p></p>
                     {/* <button className="get-started-button" onClick={handleGetStarted}>Get Started</button> */}
-		    <GoogleSignIn continuation={() => navigate('/dashboard')}/>
+		            <GoogleSignIn continuation={() => navigate('/dashboard')}/>
                 </div>
                 <div className="social-media-icons">
                     <SocialMediaIcon
