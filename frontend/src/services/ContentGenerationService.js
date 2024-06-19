@@ -1,9 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import * as keys from "../../../keys";
 
 export default class ContentGenerationService {
     constructor(userId) {
         this.userId = userId;
-        this.model = new GoogleGenerativeAI('AIzaSyCMzK0fPFxr-o4A370MXGKc8kMOUZLhIwI')
+        this.model = new GoogleGenerativeAI(keys.google_genAI)
             .getGenerativeModel({ model: "gemini-1.5-flash"});
     }
 
@@ -13,5 +14,4 @@ export default class ContentGenerationService {
         const response = result.response;
         return response.text();
     }
-
 }
