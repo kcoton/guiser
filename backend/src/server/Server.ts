@@ -9,6 +9,7 @@ import express, {Application, Request, Response} from "express";
 import * as http from "http";
 import cors from "cors";
 import AuthRouter from "../routes/AuthRouter";
+import cookieParser from "cookie-parser";
 
 export default class Server {
     private readonly port: number;
@@ -50,6 +51,8 @@ export default class Server {
 
     private registerMiddleware() {
         this.express.use(express.json());
+        this.express.use(cookieParser());
+        this.express.use(express.urlencoded( { extended: false }));
         this.express.use(cors());
     }
 

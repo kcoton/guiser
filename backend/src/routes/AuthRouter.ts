@@ -3,7 +3,7 @@ import * as controller from '../controllers/AuthController';
 
 const AuthRouter = Router();
 
-// AuthRouter.get('/uid',  controller.getMasterUserDtls);
-AuthRouter.post('/gid', controller.setGoogleUserDtls);
+AuthRouter.get('/uid',  controller.getSessionUser);
+AuthRouter.post('/gid', controller.loginGoogleUser);
 
 export default AuthRouter;
