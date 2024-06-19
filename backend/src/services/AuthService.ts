@@ -1,11 +1,12 @@
 import { OAuth2Client } from 'google-auth-library';
 import fs from 'fs';
+import { google_clientID } from '../../../keys.js';
 
 export const parseGoogleID = async (credential: string) => {
     const client = new OAuth2Client();
     const ticket = await client.verifyIdToken({
         idToken: credential,
-        audience: "440372252508-l6to260fq7m68vhrgvd50lmjl1tk6t7k.apps.googleusercontent.com"
+        audience: google_clientID as string
     });
     const payload = ticket.getPayload();
     return payload && {
