@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { decodeJwt } from 'jose';
 import { login } from '../redux/actions.js';
+import * as keys from '../../../keys'; 
 
 const GoogleSignIn = ({ continuation }) => {
 
@@ -34,13 +35,12 @@ const GoogleSignIn = ({ continuation }) => {
 	};
     }, [continuation]);
 
-    const oauthClientID="440372252508-l6to260fq7m68vhrgvd50lmjl1tk6t7k.apps.googleusercontent.com";
     return (
 	<>
 	    <div id="g_id_onload"
-		 data-client_id={oauthClientID}
+		 data-client_id={keys.google_clientID}
 		 data-context="signin"
-		 data-ux_mode="popup"
+		 data-ux_mode="redirect"
 		 data-itp_support="true"
 		 data-auto_prompt="false"
 		 data-callback="handleCredentials">
