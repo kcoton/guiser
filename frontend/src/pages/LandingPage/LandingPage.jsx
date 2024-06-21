@@ -7,10 +7,6 @@ import GoogleSignIn from '../../components/GoogleSignIn';
 const LandingPage = () => {
     const navigate = useNavigate();
 
-    const handleGetStarted = () => {
-        navigate('/login');
-    };
-
     return (
         <div className="landing-page-container">
             <div className="landing-page">
@@ -19,7 +15,6 @@ const LandingPage = () => {
                     <h1>Guiser</h1>
                     <p>Manage your social media with ease</p>
                     <p></p>
-                    {/* <button className="get-started-button" onClick={handleGetStarted}>Get Started</button> */}
 		            <GoogleSignIn continuation={() => navigate('/dashboard')}/>
                 </div>
                 <div className="social-media-icons">
