@@ -31,3 +31,15 @@
 + [X] Setup redux for state management
 + [X] Store user credentials from Google auth on login, remove on logout
 + [ ] Store default personas and posts, update on change
+** Mid-PR2
++ Meeting 17:00 Saturday to plan sprint
++ Demo Day:
+  * React/Redux for content generation  
+  * Google Auth / server integration
++ Discussion
+  * Back end authentication
+  * Team dynamics
+    - quick message when you start working on assigned functionality
+    - push/pull to/from project branch regularly to stay "live"
+    - 2nd Thursday block: group tests project branch for Saturday prep
+    - keep project branch stable on Friday pre-demo except for necessary functionality
