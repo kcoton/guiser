@@ -1,6 +1,5 @@
 export default class SocialSiteService {
-    constructor(userId) {
-        this.userId = userId;
+    constructor() {
         this.mockSocialSites = [
             {'id': 1, 'website': 'Twitter'},
             {'id': 2, 'website': 'Facebook'},

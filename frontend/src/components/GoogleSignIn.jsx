@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { decodeJwt } from 'jose';
-import { login } from '../redux/actions.js';
+import { login, init } from '../redux/userSlice.js';
 import * as keys from '../../../keys';
 
 const GoogleSignIn = ({ continuation }) => {
@@ -22,6 +22,7 @@ const GoogleSignIn = ({ continuation }) => {
                 picture: idToken.picture
             };
             dispatch(login(user));
+            dispatch(init());
             continuation();
         };
 

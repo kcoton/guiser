@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/actions.js';
+import { login, init } from '../redux/userSlice.js';
 import axios from 'axios';
 
 const LoginPage = () => {
@@ -33,6 +33,7 @@ const LoginPage = () => {
         const thunk = async () => {
             const user = await requestUser();
             dispatch(login(user));
+            dispatch(init());
             navigate('/dashboard');
         }
         thunk();        

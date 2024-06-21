@@ -1,15 +1,17 @@
 import { useState } from "react";
-import PersonaService from "../../services/PersonaService";
-import ContentGenerationService from "../../services/ContentGenerationService";
 import PersonaCardGrid from './PersonaCardGrid';
 import PersonaContentModal from './PersonaContentModal';
 import PostContentModal from './PostContentModal';
 import ErrorModal from './ErrorModal';
 import CircularIndeterminate from "./CircularIndeterminate";
+import { useDispatch, useSelector } from 'react-redux';
+import { addPost } from '../../redux/userSlice.js';
+import PostService from "../../services/PostService";
 
 export default function GeneratePage() {
-    const personas = new PersonaService(1).get(); // TODO: change constructor call once auth figured out
-    const contentGenerationService = new ContentGenerationService(1); // TODO: change constructor call once auth figured out
+    const dispatch = useDispatch();
+    const personas = useSelector(s => s.user.user.personas);
+    const postService = new PostService(useSelector(s => s.user.user.uid));
     const [showLoading, setShowLoading] = useState(false);
     const [showPersonaContentModal, setShowPersonaContentModal] = useState(false);
     const [showGenerateContentModal, setShowGenerateContentModal] = useState(false);
@@ -56,7 +58,8 @@ export default function GeneratePage() {
         setShowGenerateContentModal(false);
         setShowLoading(true);
         try {
-            setGeneratedContent(await contentGenerationService.getContent(selectedPersona, form.context.value));
+            const content = await postService.generateText(selectedPersona, form.context.value);
+            setGeneratedContent(content);
             setShowGeneratedContentModal(true);
         }
         catch (ex) {
@@ -74,13 +77,12 @@ export default function GeneratePage() {
             form.reportValidity();
             return;
         }
-
-        console.log('accepted...');
+        dispatch(addPost({personaId: selectedPersona.id, content: generatedContent, isRejected: false}));
         resetState();
     }
 
     function handleRejectContentClick() {
-        console.log('rejected...');
+        dispatch(addPost({personaId: selectedPersona.id, content: generatedContent, isRejected: true}));
         resetState();
     }
 

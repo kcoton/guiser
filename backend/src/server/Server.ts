@@ -10,6 +10,7 @@ import * as http from "http";
 import cors from "cors";
 import AuthRouter from "../routes/AuthRouter";
 import cookieParser from "cookie-parser";
+import postRouter from "../routes/PostRouter";
 
 export default class Server {
     private readonly port: number;
@@ -59,6 +60,7 @@ export default class Server {
     private registerRoutes() {
         this.express.get("/echo/:msg", Server.echo);
         this.express.use("/auth", AuthRouter);
+        this.express.use("/post", postRouter);
         // Add more routing modules here
     }
 

@@ -8,7 +8,7 @@ import HomePage from './pages/HomePage';
 import PersonasPage from './pages/PersonasPage';
 import ConnectPage from './pages/ConnectPage';
 import GeneratePage from './pages/GeneratePage/GeneratePage';
-import PostsPage from './pages/PostsPage';
+import PostsPage from './pages/PostsPage/PostsPage';
 import SettingsPage from './pages/SettingsPage';
 import LogoutPage from './pages/LogoutPage';
 import store from './redux/store';
