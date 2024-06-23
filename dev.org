@@ -31,7 +31,7 @@
 + [X] Setup redux for state management
 + [X] Store user credentials from Google auth on login, remove on logout
 + [ ] Store default personas and posts, update on change
-** Mid-PR2
+** Mid-PR3
 + Meeting 17:00 Saturday to plan sprint
 + Demo Day:
   * React/Redux for content generation  
@@ -43,5 +43,44 @@
     - push/pull to/from project branch regularly to stay "live"
     - 2nd Thursday block: group tests project branch for Saturday prep
     - keep project branch stable on Friday pre-demo except for necessary functionality
-** Post-PR2
-+ This is b test for Ewan's email issues
+** Post-PR3
+*** PR4 requirements
++ Brant: Figure out DB hosting \to Atlas hosting w/ guiserteam@gmail.com account
++ Brant: Database model (many collections vs. few)
+   + Hybrid: nesting down users->personas->post-ID | posts float free, assoc. by ID
++ Brant: Node/Express connection to MongoDB instance
++ All: Read/write endpoints connected to Redux
+   + Ewan: auth
+   + Brant: posts/content
+   + Kiara: personas
++ Updates: change persona, change post content, etc.
++ Deletes: personas
+*** Task Breakdown:
++ Ewan:
+  * [ ] Hook up Facebook for hard-coded post
+  * [ ] Auth -> express endpoint connected w/ DB
+    + Hookup to DB for connection w/ Google
++ Shumin / Kiara:
+  * [ ] Hamburger/Drawer
+    + Should auto-collapse when click outside of it
+    + Page content should shift over when drawer expands
+  * [ ] Personas/Connect
+    + Eliminate connect page
+    + On personas page, clicking persona tile pops open modal dialog
+    + Modal dialog has pre-populated form with persona name, character text, update button
+    + Modal dialog has links/icons to connect to platform accounts    
+  * [ ] hook up to Twitter for hard-coded posts
++ Brant:
+  * [ ] DB Setup
+    + setup Atlas hosting w/ guiserteam@gmail.com account
+    + basic DB model
+    + Node/Express connection for DB
+  * [ ] Generate
+    + Scrollable horizontal list with "tiles" for each persona at top
+    + Clicking tile highlights/outlines selected persona tile
+    + "Generate Post" workflow / form appears under the top scroller list (incrementally)
+    + Instead of "Accept", shows "Post to..." button(s), "Save to Drafts" button, and "Reject"/garbage can icon
+  * [ ] posts/content -> express endpoint connected w/ DB  
++ Kiara:
+  * [ ] Personas -> express endpoint connected w/ DB
+    
