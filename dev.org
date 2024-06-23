@@ -44,4 +44,4 @@
     - 2nd Thursday block: group tests project branch for Saturday prep
     - keep project branch stable on Friday pre-demo except for necessary functionality
 ** Post-PR2
-+ This is a test for Ewan's email issues
++ This is b test for Ewan's email issues
