@@ -1,3 +1,13 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
+
 export default function HomePage() {
-    return <div className="page-container"><p>TODO: Home</p></div>;
+    
+    const user = useSelector(s => s.user.user);
+
+    console.log(user);
+    
+    return <div className="page-container">
+     	       <p>Hello{!user ? "" : ", " + user.name}</p>
+    	   </div>;
 }

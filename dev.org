@@ -1,0 +1,86 @@
+* Accounts
+** Admin
++ guiserteam@gmail.com
+** Testers
++ guiser.user.az@gmail.com
+* Meeting Minutes
+** Post-PR2
+*** Changes to existing pages/functionality
++ [ ] Hamburger/Drawer
+  + Should auto-collapse when click outside of it
+  + Page content should shift over when drawer expands
++ [X] Landing/Sign-on
+  + Change "Get Started" to "Sign in with Google"
+  + remove sign-on page
+  + have Google-only master authentication
++ [ ] Personas/Connect
+  + Need better way to display personas and connect them with accounts
+    + Combine them; likely collapse "Connect" page into the "Personas" page
+  + Note on associativity of personas and accounts
+    + User has 0+ personas
+    + Persona associated with 0-4 platform accounts; at most one per platform
+    + Platform accounts associated with exactly 1 persona
++ [ ] Generate
+  + Scrollable horizontal list with "tiles" for each persona at top
+  + Clicking tile highlights/outlines selected persona tile
+  + "Generate Post" workflow / form appears under the top scroller list
+  + Instead of "Accept", shows "Post to..." button(s), "Save to Drafts" button, and "Reject"/garbage can icon
++ [ ] Posts -> Rename to "Content"
+  + Add table column which displays icons of platforms to which item (row) has been posted
+*** TODO for P3
++ [X] Setup redux for state management
++ [X] Store user credentials from Google auth on login, remove on logout
++ [ ] Store default personas and posts, update on change
+** Mid-PR3
++ Meeting 17:00 Saturday to plan sprint
++ Demo Day:
+  * React/Redux for content generation  
+  * Google Auth / server integration
++ Discussion
+  * Back end authentication
+  * Team dynamics
+    - quick message when you start working on assigned functionality
+    - push/pull to/from project branch regularly to stay "live"
+    - 2nd Thursday block: group tests project branch for Saturday prep
+    - keep project branch stable on Friday pre-demo except for necessary functionality
+** Post-PR3
+*** PR4 requirements
++ Brant: Figure out DB hosting \to Atlas hosting w/ guiserteam@gmail.com account
++ Brant: Database model (many collections vs. few)
+   + Hybrid: nesting down users->personas->post-ID | posts float free, assoc. by ID
++ Brant: Node/Express connection to MongoDB instance
++ All: Read/write endpoints connected to Redux
+   + Ewan: auth
+   + Brant: posts/content
+   + Kiara: personas
++ Updates: change persona, change post content, etc.
++ Deletes: personas
+*** Task Breakdown:
++ Ewan:
+  * [ ] Hook up Facebook for hard-coded post
+  * [ ] Auth -> express endpoint connected w/ DB
+    + Hookup to DB for connection w/ Google
++ Shumin / Kiara:
+  * [ ] Hamburger/Drawer
+    + Should auto-collapse when click outside of it
+    + Page content should shift over when drawer expands
+  * [ ] Personas/Connect
+    + Eliminate connect page
+    + On personas page, clicking persona tile pops open modal dialog
+    + Modal dialog has pre-populated form with persona name, character text, update button
+    + Modal dialog has links/icons to connect to platform accounts    
+  * [ ] hook up to Twitter for hard-coded posts
++ Brant:
+  * [ ] DB Setup
+    + setup Atlas hosting w/ guiserteam@gmail.com account
+    + basic DB model
+    + Node/Express connection for DB
+  * [ ] Generate
+    + Scrollable horizontal list with "tiles" for each persona at top
+    + Clicking tile highlights/outlines selected persona tile
+    + "Generate Post" workflow / form appears under the top scroller list (incrementally)
+    + Instead of "Accept", shows "Post to..." button(s), "Save to Drafts" button, and "Reject"/garbage can icon
+  * [ ] posts/content -> express endpoint connected w/ DB  
++ Kiara:
+  * [ ] Personas -> express endpoint connected w/ DB
+    
