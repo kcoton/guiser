@@ -5,11 +5,13 @@ import PostService from '../services/PostService';
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: null
+    user: null,
+    sid: null
   },
   reducers: {
     login: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload.uid;
+      state.sid = action.payload.sid;
     },
     init: (state) => {
       const userId = state.user.uid;
@@ -37,6 +39,7 @@ const userSlice = createSlice({
     },
     logout: (state) => {
       state.user = null;
+      state.sid = null;
     }
   }
 });

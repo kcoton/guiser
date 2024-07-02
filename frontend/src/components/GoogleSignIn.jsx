@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { decodeJwt } from 'jose';
 import { login, init } from '../redux/userSlice.js';
-import * as keys from '../../../keys';
 
 const GoogleSignIn = ({ continuation }) => {
+    const BASEURL_BACK = import.meta.env.VITE_BASEURL_BACK;
+    const GOOGLE_CLIENID = import.meta.env.VITE_GOOGLE_CLIENTID;
+    const GOOGLE_GSI_SOURCE = import.meta.env.VITE_GOOGLE_GSI_SOURCE;
 
     const isFrontal = false; // determines if we use front or back end for login
 
@@ -27,7 +29,7 @@ const GoogleSignIn = ({ continuation }) => {
         };
 
         const script = document.createElement('script');
-        script.src = "https://accounts.google.com/gsi/client";
+        script.src = GOOGLE_GSI_SOURCE;
         script.async = true;
         script.defer = true;
         document.body.appendChild(script);
@@ -38,13 +40,14 @@ const GoogleSignIn = ({ continuation }) => {
         };
     }, [continuation]);
 
+    // TODO - manage protocol and host with .env
     return (
         <>
         <div id="g_id_onload"
-         data-client_id={keys.google_clientID}
+         data-client_id={GOOGLE_CLIENID}
          data-context="signin"
          data-ux_mode={isFrontal ? "popup" : "redirect"}
-         data-login_uri="http://localhost:3001/auth/gid"
+         data-login_uri={BASEURL_BACK + "/auth/gid"}
          data-itp_support="true"
          data-auto_prompt="false"
          data-callback="handleCredentials">

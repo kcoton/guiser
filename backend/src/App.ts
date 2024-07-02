@@ -4,12 +4,17 @@
  * 
  * https://github.com/bshapka/insight-ubc/commit/1c0c9f621d4307a6baa5f8aa221f518896c3b9ee
  */
-
+require('dotenv').config({path: '../.env'});
 import Server from "./server/Server";
 
 export default class App {
+    
     public init(port: number) {
-        return new Server(port).start();
+        return new Server(
+	    port,
+	    './guiser.server.pem',
+	    './guiser.server-key.pem'
+	).start();
     }
 }
 

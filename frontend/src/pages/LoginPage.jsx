@@ -9,11 +9,10 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     
-    const requestUser = async () => {        
+    const requestUser = async () => {
         const query = new URLSearchParams(window.location.search);
         const token = query.get('token');
-        // TODO - find better way to manage protocol and host
-        const baseURL = "http://localhost:3001";        
+        const baseURL = import.meta.env.VITE_BASEURL_BACK;
         const endpoint = baseURL + "/auth/uid";        
         try {
             const res = await axios.get(endpoint, {
@@ -26,13 +25,10 @@ const LoginPage = () => {
         }
     }
 
-    // TODO - add state handling for sessionID
-    
-    
     useEffect(() => {
         const thunk = async () => {
-            const user = await requestUser();
-            dispatch(login(user));
+            const sessionUser = await requestUser();
+            dispatch(login(sessionUser));
             dispatch(init());
             navigate('/dashboard');
         }

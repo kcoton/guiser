@@ -7,9 +7,10 @@ export default class GoogleGenAiService implements IGenAiService {
     private readonly apiKey: string;
     private readonly modelType: string
     private readonly model: GenerativeModel;
-
+    
     constructor() {
-        this.apiKey = 'AIzaSyCMzK0fPFxr-o4A370MXGKc8kMOUZLhIwI'; // TODO: move to secret store once implemented
+        this.apiKey = "" + process.env.GOOGLE_AI_API_KEY;
+	if (this.apiKey === "undefined") { console.error("Missing Google AI API key") };
         this.modelType = 'gemini-1.5-flash';
         this.model = new GoogleGenerativeAI(this.apiKey).getGenerativeModel({ model: this.modelType});
     }
