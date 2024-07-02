@@ -65,13 +65,17 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
 	console.log("Long term access token:"+token);
 
 	// TODO service method to associate requestID in db with obtained access_token
-	const reqRecord = JSON.stringify({ reqID: requestID, token: token }, null, 2);	
+	const reqRecord = JSON.stringify({
+	    reqID: requestID,
+	    type: 'THREADS',
+	    token: token
+	}, null, 2);	
 	fs.writeFileSync('requestRecord.json', reqRecord, 'utf8');
-	
+
+	// construct final response
 	const baseURL = process.env.BASEURL_FRONT;
 	const pageURL = baseURL + "/threadsResolver";	
-	qstr = `?reqID=${encodeURIComponent(requestID)}`;   
-	res.redirect(pageURL + qstr);
+	res.redirect(pageURL + `?reqID=${encodeURIComponent(requestID)}`);
     } catch (error) {
 	console.error(error);	
         res.status(500).json({ error: 'Internal server error.' });	
@@ -79,19 +83,24 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
 }
 
 export async function linkThreadsUser(req: Request, res: Response) {
-    // TODO verify session id in request (another service method)
-    const reqRecord = JSON.parse(fs.readFileSync('requestRecord.json', 'utf8'));
-    if (reqRecord.reqID = req.body.reqID) { // this should be a DB lookup service method
-	// TODO associate persona with access_token in DB via service method
-	const assocRecord = JSON.stringify({ pid: req.body.pid, token: reqRecord.token }, null, 2);
+    // TODO service to verify session id in request
+
+    // TODO service method to get request log from DB, and selected request (or false)
+    const reqRecord = JSON.parse(fs.readFileSync('requestRecord.json', 'utf8'));    
+    if (reqRecord.reqID = req.body.reqID) {
+	
+	// TODO service method to associate personaID with access_token in DB
+	const assocRecord = JSON.stringify({
+	    pid: req.body.pid,
+	    type: 'THREADS',
+	    token: reqRecord.token
+	}, null, 2);
 	fs.writeFileSync('associationRecord.json', assocRecord, 'utf8');
-	console.log("wrote assoc:" + assocRecord);
 	res.json({sid: req.body.sid, pid: req.body.pid}); // ??? anything better
 	res.status(200).send();
     } else {
 	// Redirect to home page ???
-	console.log("no matching request record");
-	console.log(JSON.stringify(req.body));
+	console.error("no matching request record");
 	res.redirect(process.env.BASEURL_FRONT + '/');
     }
 }
