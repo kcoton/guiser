@@ -27,21 +27,19 @@ export default class PostService {
         console.log('TODO: implement PostService.delete');
     }
 
-    async generateText(persona, promptContext) {
-        const { posts, ...partialPersona } = persona;
-        const response = await fetch('http://localhost:3001/post/generate/text', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ persona: partialPersona, promptContext })
-        });
-
-        const data = await response.json();
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        return data['result'];
+  async generateText(persona, promptContext) {
+      const { posts, ...partialPersona } = persona;
+      const response = await fetch(import.meta.env.VITE_BASEURL_BACK + '/post/generate/text', {
+          method: 'POST',
+          headers: {
+	      'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ persona: partialPersona, promptContext })
+      });
+      const data = await response.json();	 
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return data['result'];
     }
 }

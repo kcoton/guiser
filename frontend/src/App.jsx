@@ -13,7 +13,7 @@ import SettingsPage from './pages/SettingsPage';
 import LogoutPage from './pages/LogoutPage';
 import store from './redux/store';
 import './App.css'
-import ThreadsResolverPage from './pages/ThreadsResolverPage';
+import ResolverPage from './pages/ResolverPage';
 
 function App() {
   return (
@@ -41,7 +41,7 @@ function MainApp() {
         <Route path="/posts" element={<PostsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/logout" element={<LogoutPage />} />
-        <Route path="/threadsResolver" element={<ThreadsResolverPage />} />
+        <Route path="/resolver" element={<ResolverPage />} />
       </Routes>
     </div>
   );

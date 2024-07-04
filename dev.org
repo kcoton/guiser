@@ -3,6 +3,25 @@
 + guiserteam@gmail.com
 ** Testers
 + guiser.user.az@gmail.com
+  + threads
+** Platforms
++ Goog: guiserteam@gmail.com on [[console.cloud.google.com/apis/dashboard]]
++ Meta: guiserteam@gmail.com on [[developers.facebook.com/apps]]  
+* Steps to set up for local dev
++ in /etc/hosts, add line:
+  127.0.0.1 guiser.server
++ install mkcert (brew install mkcert)
++ in terminal:
+  > mkcert install
+  > cd [backend project root dir]
+  > mkcert guiser.server
+  > npm install
+  > npm run build
+  > npm run start
+  > cd [frontend project root dir]
+  > npm install
+  > npm run dev
+
 * Meeting Minutes
 ** Post-PR2
 *** Changes to existing pages/functionality
@@ -83,4 +102,40 @@
   * [ ] posts/content -> express endpoint connected w/ DB  
 + Kiara:
   * [ ] Personas -> express endpoint connected w/ DB
-    
+
+
+
+
+
+
+how can  i specify style for just the first div under a css class
+
+ You can use the =:first-of-type= pseudo-class to target the first =div= element that is a child of a particular class. Here's an example:
+#+begin_src css
+.myClass div:first-of-type {
+  /* Your styles here */
+}
+#+end_src
+This will apply the specified styles only to the first =div= element that is a direct child of any element with the class =myClass=. Note that this will not apply to nested =div= elements or =div= elements that are not direct children of the element with the =myClass= class.
+
+are you sure it's 'first of type'
+
+
+ Yes, I'm sure that the correct CSS pseudo-class for selecting the first occurrence of a particular element type within its parent element is =:first-of-type=. Here's an example of how it works:
+#+begin_src html
+<div class="myClass">
+  <p>This is some text.</p>
+  <div>This is the first div.</div>
+  <div>This is the second div.</div>
+  <span>This is some span text.</span>
+</div>
+#+end_src
+You can use the CSS selector =.myClass div:first-of-type= to target only the first =div= element, like so:
+#+begin_src css
+.myClass div:first-of-type {
+  background: yellow;
+}
+#+end_src
+This will apply the yellow background color to the first =div= element only, and not to any subsequent =div= elements within the same parent element.
+
+It's important to note that =:first-of-type= only selects elements based on their position within their parent element, and not based on their specific type. So, if you wanted to select the first =p= element instead, you would use the selector =.myClass p:first-of-type=, and so on.

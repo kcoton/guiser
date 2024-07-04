@@ -5,8 +5,6 @@ export default function HomePage() {
     
     const user = useSelector(s => s.user.user);
 
-    console.log(user);
-    
     return <div className="page-container">
      	       <p>Hello{!user ? "" : ", " + user.name}</p>
 	       <LinkToThreads personaID="timmy"/>

@@ -1,6 +1,16 @@
 import { OAuth2Client } from 'google-auth-library';
 import fs from 'fs';
 
+export const newRequestRecord = (reqID: string, type: string, token: string) => {
+    // TODO convert to DB write
+    const reqRecord = {
+	reqID: reqID,
+	type: type,
+	token: token	
+    };
+    fs.writeFileSync('requestRecord.json', JSON.stringify(reqRecord), 'utf8');
+    return reqRecord;
+}
 
 export const parseGoogleID = async (credential: string) => {
     const client = new OAuth2Client();
@@ -16,20 +26,31 @@ export const parseGoogleID = async (credential: string) => {
     }
 }
 
-export const getSessionUser = (sessionID: any) => {
+export const getSessionID = (reqID: string) => {
+    // TODO - lookup request in DB and get associated requestID
+    const request = JSON.parse(fs.readFileSync('requestRecord.json', 'utf8'));
+    if (request && request.reqID === reqID) {
+	return request.sid;
+    } else {
+	throw new Error("Bad sessionID request");
+    }
+}
 
-    // TODO - lookup session ID in DB and return it and user if session alive
+export const getSessionUser = (sessionID: string) => {
+
+    // TODO - lookup sessionID in DB and return it and user if session alive
     const session = fs.readFileSync('session.json', 'utf8');
     return JSON.parse(session);
 };
 
-export const setSessionUser = (dtls: any) => {
+export const newSessionUser = (reqID: string, dtls: any) => {
+    const timey = new Date().getTime(); 
+    const randy = Math.floor(Math.random() * 1000000);     
+    const sessionID = timey.toString() + randy.toString();
+    const session = JSON.stringify({sid: sessionID, uid: dtls });    
 
-    // TODO - generate /unique/ session ID and associate with user ID in DB
-    const sessionID = Math.random().toString(36);
-    const session = JSON.stringify({ sid: sessionID, uid: dtls }, null, 2);
+    // TODO store session record in DB
     fs.writeFileSync('session.json', session, 'utf8');
-    console.log(`Logging in as ${dtls && dtls.name} for session ${sessionID}`);
-    return sessionID;
+    newRequestRecord(reqID, 'SESSION', sessionID);
 };
 

@@ -10,13 +10,13 @@ const LoginPage = () => {
     const dispatch = useDispatch();
     
     const requestUser = async () => {
-        const query = new URLSearchParams(window.location.search);
-        const token = query.get('token');
+	const reqID = sessionStorage.getItem("reqID");
+	
         const baseURL = import.meta.env.VITE_BASEURL_BACK;
         const endpoint = baseURL + "/auth/uid";        
         try {
             const res = await axios.get(endpoint, {
-                headers: { token: token }
+                headers: { token: reqID }
             });
             return res.data;
         } catch (error) {

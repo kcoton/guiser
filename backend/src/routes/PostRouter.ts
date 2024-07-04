@@ -2,6 +2,7 @@ import { Router } from 'express';
 import GoogleGenAiService from '../services/GenAi/GoogleGenAiService';
 import IGenAiService from '../services/GenAi/IGenAiService';
 import PostController from '../controllers/PostController';
+import TogetherService from '../services/GenAi/TogetherService';
 
 class PostRouter {
     private router: Router;
@@ -9,7 +10,7 @@ class PostRouter {
     private postController: PostController;
 
     constructor() {
-        this.genAiService = new GoogleGenAiService();
+        this.genAiService = new TogetherService();//new GoogleGenAiService();
         this.postController = new PostController(this.genAiService);
         this.router = Router();
         this.registerRoutes();
