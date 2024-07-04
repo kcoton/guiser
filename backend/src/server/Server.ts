@@ -10,13 +10,9 @@ import * as http from "http";
 import cors from "cors";
 import AuthRouter from "../routers/AuthRouter";
 import cookieParser from "cookie-parser";
-<<<<<<< HEAD
-import postRouter from "../routes/PostRouter";
-import PubRouter from "../routes/PubRouter";
-import fs from 'fs';
-=======
 import postRouter from "../routers/PostRouter";
->>>>>>> c0cf1e92d51c963f7e3d5fe2e75966c079d0347e
+import PubRouter from "../routers/PubRouter";
+import fs from 'fs';
 
 export default class Server {
     private readonly port: number;
