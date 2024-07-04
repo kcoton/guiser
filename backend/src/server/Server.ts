@@ -8,9 +8,9 @@
 import express, {Application, Request, Response} from "express";
 import * as http from "http";
 import cors from "cors";
-import AuthRouter from "../routes/AuthRouter";
+import AuthRouter from "../routers/AuthRouter";
 import cookieParser from "cookie-parser";
-import postRouter from "../routes/PostRouter";
+import postRouter from "../routers/PostRouter";
 
 export default class Server {
     private readonly port: number;
