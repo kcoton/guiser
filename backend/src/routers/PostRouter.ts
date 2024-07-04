@@ -4,9 +4,9 @@ import IGenAiService from '../services/GenAi/IGenAiService';
 import PostController from '../controllers/PostController';
 
 class PostRouter {
-    private router: Router;
-    private genAiService: IGenAiService;
-    private postController: PostController;
+    private readonly router: Router;
+    private readonly genAiService: IGenAiService;
+    private readonly postController: PostController;
 
     constructor() {
         this.genAiService = new GoogleGenAiService();

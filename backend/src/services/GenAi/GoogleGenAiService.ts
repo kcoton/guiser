@@ -29,13 +29,13 @@ export default class GoogleGenAiService implements IGenAiService {
         return `Pretend your name is ${persona.name} and you are ${persona.content}: ${promptContext}`;
     }
 
-    public async getContent(persona: IPersona, promptContext: string): Promise<string> {
+    public async getTextContent(persona: IPersona, promptContext: string): Promise<string> {
         const prompt = this.makePrompt(persona, promptContext);
         let content;
         try {
             content = (await this.model.generateContent(prompt))?.response?.text();
         }
-        catch {
+        catch (err) {
             throw new GenAiServiceError(`Failure to get text response from GoogleGenerativeAI model ${this.modelType}`);
         }
 

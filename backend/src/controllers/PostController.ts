@@ -13,7 +13,7 @@ export default class PostController {
         const { persona, promptContext } = req.body as { persona: IPersona; promptContext: string };
 
         try {
-            const content = await this.genAiService.getContent(persona, promptContext);
+            const content = await this.genAiService.getTextContent(persona, promptContext);
             res.status(200).json({ result: content });
         } catch (error) {
             res.status(500).json({ error: (error as Error).message });
