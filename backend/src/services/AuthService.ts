@@ -47,7 +47,7 @@ export const newSessionUser = (reqID: string, dtls: any) => {
     const timey = new Date().getTime(); 
     const randy = Math.floor(Math.random() * 1000000);     
     const sessionID = timey.toString() + randy.toString();
-    const session = JSON.stringify({sid: sessionID, uid: dtls });    
+    const session = JSON.stringify({sid: sessionID, user: dtls });
 
     // TODO store session record in DB
     fs.writeFileSync('session.json', session, 'utf8');

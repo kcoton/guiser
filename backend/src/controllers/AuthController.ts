@@ -74,11 +74,12 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
 	const pageURL = baseURL + "/resolver?dest=" + encodeURIComponent('/dashboard'); // TODO-update
 	res.redirect(pageURL);
     } catch (error) {
-	console.error(error);	
+	console.error(error);
         res.status(500).json({ error: 'Internal server error.' });	
     }
 }
 
+// function to be called once to exchange initial requestID for generated sessionID
 export async function getSessionID(req: Request, res: Response) {
     try {
         const dtls = await AuthService.getSessionID(req.headers.token as string);
@@ -90,6 +91,7 @@ export async function getSessionID(req: Request, res: Response) {
     }
 }
 
+// function to be called whenever to exchange sessionID for (up-to-date) user details
 export async function getSessionUser(req: Request, res: Response) {
     try {
         const dtls = await AuthService.getSessionUser(req.headers.token as string);

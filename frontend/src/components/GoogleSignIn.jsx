@@ -29,7 +29,7 @@ const GoogleSignIn = () => {
 		 data-client_id={GOOGLE_CLIENID}
 		 data-context="signin"
 		 data-ux_mode="redirect"
-		 data-login_uri={BASEURL_BACK + "/auth/gid"}		 
+		 data-login_uri={BASEURL_BACK + "/auth/login"}		 
 		 data-itp_support="true"
 		 data-auto_prompt="false"
 		 data-state={reqID}>

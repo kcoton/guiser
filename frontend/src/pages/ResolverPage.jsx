@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/userSlice'
+import { sync } from '../redux/userSlice'
 
 const ResolverPage = () => {
     const navigate = useNavigate();
@@ -9,7 +9,7 @@ const ResolverPage = () => {
     const dest = new URLSearchParams(location.search).get('dest');
     const state = JSON.parse(sessionStorage.getItem("resolverData"));
     useEffect(() => {
-	dispatch(login(state));
+	dispatch(sync(state));
 	sessionStorage.removeItem("resolverData");
         navigate(dest);
     }, [])

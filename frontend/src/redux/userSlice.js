@@ -9,8 +9,8 @@ const userSlice = createSlice({
     sid: null
   },
   reducers: {
-    login: (state, action) => {
-      state.user = action.payload.uid;
+    sync: (state, action) => {
+      state.user = action.payload.user;
       state.sid = action.payload.sid;
     },
     init: (state) => {
@@ -44,5 +44,5 @@ const userSlice = createSlice({
   }
 });
 
-export const { login, init, logout, addPost } = userSlice.actions;
+export const { sync, init, logout, addPost } = userSlice.actions;
 export default userSlice.reducer;

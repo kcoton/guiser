@@ -3,8 +3,8 @@ import * as controller from '../controllers/AuthController';
 
 const AuthRouter = Router();
 
-AuthRouter.get('/uid',  controller.getSessionUser); 
-AuthRouter.post('/gid', controller.loginGoogleUser);
+AuthRouter.post('/login', controller.loginGoogleUser);
+AuthRouter.get('/login',  controller.getSessionUser);
 
 AuthRouter.get('/threads', controller.authorizeThreadsUser);
 

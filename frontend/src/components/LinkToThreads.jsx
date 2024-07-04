@@ -16,7 +16,7 @@ const LinkToThreads = ({ personaID }) => {
 
     const handleLink = () => {
 	sessionStorage.setItem("resolverData",
-			       JSON.stringify({sid: sessionID, uid: user}));
+			       JSON.stringify({sid: sessionID, user: user}));
 	
 	var url = AUTH_API_BASEURL + "/oauth/authorize";
 	url += "?client_id=" + APP_ID;

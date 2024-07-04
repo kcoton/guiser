@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login, init } from '../redux/userSlice.js';
+import { sync, init } from '../redux/userSlice.js';
 import axios from 'axios';
 
 const LoginPage = () => {
@@ -9,11 +9,10 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     
-    const requestUser = async () => {
-	const reqID = sessionStorage.getItem("reqID");
-	
+    const requestSession = async () => {
+	const reqID = sessionStorage.getItem("reqID");	
         const baseURL = import.meta.env.VITE_BASEURL_BACK;
-        const endpoint = baseURL + "/auth/uid";        
+        const endpoint = baseURL + "/auth/login";        
         try {
             const res = await axios.get(endpoint, {
                 headers: { token: reqID }
@@ -27,8 +26,8 @@ const LoginPage = () => {
 
     useEffect(() => {
         const thunk = async () => {
-            const sessionUser = await requestUser();
-            dispatch(login(sessionUser));
+            const session = await requestSession();
+            dispatch(sync(session));
             dispatch(init());
             navigate('/dashboard');
         }
