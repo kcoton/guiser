@@ -12,6 +12,7 @@
     "facebook-nodejs-business-sdk": "^20.0.0",
     "google-auth-library": "^9.11.0",
     "mocha": "^10.4.0",
+    "together-ai": "^0.6.0-alpha.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
