@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import PersonaService from '../services/PersonaService';
-import PostService from '../services/PostService';
+import ContentService from '../services/ContentService';
 
 const userSlice = createSlice({
   name: 'user',
@@ -16,26 +16,26 @@ const userSlice = createSlice({
     init: (state) => {
       const userId = state.user.uid;
       const personaService = new PersonaService(userId);
-      const postService = new PostService(userId);
-      state.user.nextPostId = postService.get().length + 1;
+      const contentService = new ContentService(userId);
+      state.user.nextContentId = contentService.get().length + 1;
       const personas = personaService.get().map(persona => ({
         ...persona,
-        posts: postService.get(post => post.personaId === persona.id),
+        content: contentService.get(contentEntry => contentEntry.personaId === persona.id),
       }));
       state.user.personas = personas;
     },
-    addPost: (state, action) => {
-      const {personaId, content, isRejected} = action.payload;
+    addContent: (state, action) => {
+      const {personaId, text, isRejected} = action.payload;
       const persona = state.user.personas.find(p => p.id === personaId);
-      const post = {
-        id: state.user.nextPostId++,
+      const content = {
+        id: state.user.nextContentId++,
         userId: state.user.uid,
         timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
-        content: content,
+        text: text,
         posted: 0,
         isRejected: isRejected
       };
-      persona.posts.push(post);
+      persona.content.push(content);
     },
     logout: (state) => {
       state.user = null;
@@ -44,5 +44,5 @@ const userSlice = createSlice({
   }
 });
 
-export const { sync, init, logout, addPost } = userSlice.actions;
+export const { sync, init, logout, addContent } = userSlice.actions;
 export default userSlice.reducer;

@@ -9,10 +9,10 @@ describe('GoogleGenAiService', () => {
 
     beforeEach(() => {
         googleGenAiService = new GoogleGenAiService();
-        persona = { id: '1', name: 'Test Persona', content: 'a helpful assistant' };
+        persona = { id: '1', name: 'Test Persona', text: 'a helpful assistant' };
     });
 
-    describe('getContent', () => {
+    describe('getTextContent', () => {
         it('should throw if persona.name is missing', async () => {
             persona.name = '';
             try {
@@ -24,14 +24,14 @@ describe('GoogleGenAiService', () => {
             }
         });
 
-        it('should throw if persona.content is missing', async () => {
-            persona.content = '';
+        it('should throw if persona.text is missing', async () => {
+            persona.text = '';
             try {
                 await googleGenAiService.getTextContent(persona, 'Test context');
                 throw new Error('Expected method to reject.');
             } catch (err) {
                 expect(err).to.be.instanceOf(GenAiServiceError);
-                expect((err as Error).message).to.equal('persona.content is required to make a prompt.');
+                expect((err as Error).message).to.equal('persona.text is required to make a prompt.');
             }
         });
 

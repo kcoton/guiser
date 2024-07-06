@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import IPersona from "../models/IPersona";
 import IGenAiService from "../services/GenAi/IGenAiService";
 
-export default class PostController {
+export default class ContentController {
     private readonly genAiService: IGenAiService;
 
     constructor(genAiService: IGenAiService) {

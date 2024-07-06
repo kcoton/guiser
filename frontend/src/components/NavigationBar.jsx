@@ -89,7 +89,7 @@ export default function NavigationBar() {
     'Personas': <SwitchAccountRoundedIcon />,
     'Connect': <ShareRoundedIcon />,
     'Generate': <AddBoxRoundedIcon />,
-    'Posts': <EditNoteRoundedIcon />,
+    'Content': <EditNoteRoundedIcon />,
     'Settings': <SettingsApplicationsRoundedIcon />,
     'Logout': <LogoutRoundedIcon />,
   }
@@ -99,7 +99,7 @@ export default function NavigationBar() {
     'Personas': '/personas',
     'Connect': '/connect',
     'Generate': '/generate',
-    'Posts': '/posts',
+    'Content': '/content',
     'Settings': '/settings',
     'Logout': '/logout',
   }
@@ -144,7 +144,7 @@ export default function NavigationBar() {
         <Divider />
 
         <List>
-        {['Home', 'Personas', 'Connect', 'Generate', 'Posts'].map((text) => (
+        {['Home', 'Personas', 'Connect', 'Generate', 'Content'].map((text) => (
             <ListItem key={text} disablePadding>
                 <Link to={routesMap[text]}>
                     <ListItemButton>

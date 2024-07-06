@@ -18,13 +18,13 @@ function getIcon(website) {
     return iconMap[website];
 }
 
-export default function PostsTable({ onRowClick }) {
-    const posts = useSelector(s => s.user.user.personas)
+export default function ContentTable({ onRowClick }) {
+    const content = useSelector(s => s.user.user.personas)
         .reduce((acc, persona) => {
             const personaName = persona.name;
-            persona.posts.forEach(post => {
-                if (!post.isRejected) {
-                    acc.push({ ...post, personaName })
+            persona.content.forEach(contentEntry => {
+                if (!contentEntry.isRejected) {
+                    acc.push({ ...contentEntry, personaName })
                 }
             });
             return acc;
@@ -34,7 +34,7 @@ export default function PostsTable({ onRowClick }) {
     const columns = [
         { field: 'personaName', headerName: 'Persona Name', width: 200 },
         { field: 'timestamp', headerName: 'Date', width: 200 },
-        { field: 'content', headerName: 'Content', width: 400 },
+        { field: 'text', headerName: 'Text', width: 400 },
         { 
             field: 'posted', 
             headerName: 'Posted To', 
@@ -57,7 +57,7 @@ export default function PostsTable({ onRowClick }) {
     return (
         <div style={{ height: 400, width: '100%' }}>
             <DataGrid
-                rows={posts}
+                rows={content}
                 columns={columns}
                 initialState={{
                         pagination: {

@@ -10,7 +10,7 @@ import * as http from "http";
 import cors from "cors";
 import AuthRouter from "../routers/AuthRouter";
 import cookieParser from "cookie-parser";
-import postRouter from "../routers/PostRouter";
+import contentRouter from "../routers/ContentRouter";
 import PubRouter from "../routers/PubRouter";
 import fs from 'fs';
 
@@ -23,11 +23,11 @@ export default class Server {
 
     constructor(port: number, cert: string = '', key: string = '') {
         this.port = port;
-	this.httpsCert = cert;
-	this.httpsKey = key;
+	    this.httpsCert = cert;
+	    this.httpsKey = key;
         this.express = express();
         this.registerMiddleware();
-	this.registerRoutes();
+	    this.registerRoutes();
     }
 
     public start(): Promise<void> {
@@ -41,15 +41,15 @@ export default class Server {
                     reject(err);
                 });
             } else {
-		const certBuf: Buffer = fs.readFileSync(this.httpsCert);
-		const keyBuf: Buffer = fs.readFileSync(this.httpsKey);
-		const httpsParams = {key: keyBuf, cert: certBuf};
-		this.server = https.createServer(httpsParams, this.express).listen(this.port, () => {
-		    resolve();
-		}).on("error", (err: Error) => {
-		    reject(err);
-		});
-	    }
+                const certBuf: Buffer = fs.readFileSync(this.httpsCert);
+                const keyBuf: Buffer = fs.readFileSync(this.httpsKey);
+                const httpsParams = {key: keyBuf, cert: certBuf};
+                this.server = https.createServer(httpsParams, this.express).listen(this.port, () => {
+                    resolve();
+                }).on("error", (err: Error) => {
+                    reject(err);
+                });
+            }
         });
     }
 
@@ -75,9 +75,8 @@ export default class Server {
     private registerRoutes() {
         this.express.get("/echo/:msg", Server.echo);
         this.express.use("/auth", AuthRouter);
-        this.express.use("/post", postRouter);
-	this.express.use("/pub", PubRouter);
-        // Add more routing modules here
+        this.express.use("/content", contentRouter);
+	    this.express.use("/pub", PubRouter);
     }
 
     private static echo(req: Request, res: Response) {

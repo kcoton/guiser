@@ -7,13 +7,13 @@ import { Grid } from '@mui/material';
 import SocialSiteService from '../../services/SocialSiteService';
 import React from 'react';
 
-export default function PostCards({ selectedPost }) {
+export default function ContentCards({ selectedContent }) {
     const socialSites = new SocialSiteService().get();
 
     return (
         <Grid container spacing={4} style={{ marginTop: 10 }}>
             {socialSites.map(site => {
-                const isPostedToSite = selectedPost.posted & (2 ** (site.id - 1));
+                const isPostedToSite = selectedContent.posted & (2 ** (site.id - 1));
                 return (
                     <Grid item xs={12} sm={6} md={4} key={site.id}>
                         <Card sx={{ minWidth: 20 }}>

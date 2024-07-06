@@ -1,17 +1,17 @@
 import { Router } from 'express';
 import GoogleGenAiService from '../services/GenAi/GoogleGenAiService';
 import IGenAiService from '../services/GenAi/IGenAiService';
-import PostController from '../controllers/PostController';
+import ContentController from '../controllers/ContentController';
 import TogetherService from '../services/GenAi/TogetherService';
 
-class PostRouter {
+class ContentRouter {
     private readonly router: Router;
     private readonly genAiService: IGenAiService;
-    private readonly postController: PostController;
+    private readonly contentController: ContentController;
 
     constructor() {
-        this.genAiService = new TogetherService(); // new GoogleGenAiService();
-        this.postController = new PostController(this.genAiService);
+        this.genAiService = new TogetherService();
+        this.contentController = new ContentController(this.genAiService);
         this.router = Router();
         this.registerRoutes();
     }
@@ -21,8 +21,8 @@ class PostRouter {
     }
 
     private registerRoutes() {
-        this.router.post('/generate/text', this.postController.generateText);
+        this.router.post('/generate/text', this.contentController.generateText);
     }
 }
 
-export default new PostRouter().getRouter();
+export default new ContentRouter().getRouter();

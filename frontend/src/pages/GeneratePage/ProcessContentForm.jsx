@@ -9,7 +9,7 @@ export default function ProcessContentForm({ onSubmit, onAccept, onReject, gener
                 <span>Edit, keep, or discard the post</span>
                 <form>
                     <TextField
-                        name='post'
+                        name='content'
                         variant="outlined"
                         fullWidth
                         multiline
