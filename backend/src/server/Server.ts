@@ -13,36 +13,38 @@ import cookieParser from "cookie-parser";
 import contentRouter from "../routers/ContentRouter";
 import PubRouter from "../routers/PubRouter";
 import fs from 'fs';
+import mongoose from "mongoose";
 
 export default class Server {
     private readonly port: number;
-    private readonly httpsCert: string;
-    private readonly httpsKey: string;
+    private readonly httpsCertPath: string;
+    private readonly httpsKeyPath: string;
     private express: Application;
     private server: https.Server | http.Server | undefined;
 
-    constructor(port: number, cert: string = '', key: string = '') {
+    constructor(port: number, httpsCertPath: string = '', httpsKeyPath: string = '') {
         this.port = port;
-	    this.httpsCert = cert;
-	    this.httpsKey = key;
+	    this.httpsCertPath = httpsCertPath;
+	    this.httpsKeyPath = httpsKeyPath;
         this.express = express();
         this.registerMiddleware();
 	    this.registerRoutes();
+        this.connectToDatabase();
     }
 
     public start(): Promise<void> {
         return new Promise((resolve, reject) => {
             if (this.server !== undefined) {
                 reject();
-            } else if (!this.httpsCert || !this.httpsKey) {
+            } else if (!this.httpsCertPath || !this.httpsKeyPath) {
                 this.server = this.express.listen(this.port, () => {
                     resolve();
                 }).on("error", (err: Error) => {
                     reject(err);
                 });
             } else {
-                const certBuf: Buffer = fs.readFileSync(this.httpsCert);
-                const keyBuf: Buffer = fs.readFileSync(this.httpsKey);
+                const certBuf: Buffer = fs.readFileSync(this.httpsCertPath);
+                const keyBuf: Buffer = fs.readFileSync(this.httpsKeyPath);
                 const httpsParams = {key: keyBuf, cert: certBuf};
                 this.server = https.createServer(httpsParams, this.express).listen(this.port, () => {
                     resolve();
@@ -77,6 +79,13 @@ export default class Server {
         this.express.use("/auth", AuthRouter);
         this.express.use("/content", contentRouter);
 	    this.express.use("/pub", PubRouter);
+    }
+
+    private connectToDatabase() {
+        const mongoDbUri: string = process.env.MONGO_DB_URI ?? '';
+        mongoose.connect(mongoDbUri).catch(
+            (err) => console.error('Error connecting to MongoDB', err)
+        );
     }
 
     private static echo(req: Request, res: Response) {
