@@ -11,10 +11,10 @@ export default class App {
     
     public init(port: number) {
         return new Server(
-	    port,
-	    './guiser.server.pem',
-	    './guiser.server-key.pem'
-	).start();
+			port,
+			'./guiser.server.pem',
+			'./guiser.server-key.pem'
+		).start();
     }
 }
 
