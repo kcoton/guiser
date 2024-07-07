@@ -1,11 +1,11 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-interface IContent extends Document {
+export interface IContent extends Document {
     text: string;
     isRejected: boolean;
 }
 
-const ContentSchema: Schema = new Schema<IContent>({
+export const ContentSchema: Schema = new Schema<IContent>({
     text: { type: String, required: true },
     isRejected: { type: Boolean, required: true }
 }, {
@@ -14,8 +14,7 @@ const ContentSchema: Schema = new Schema<IContent>({
 
 const Content = mongoose.model<IContent>(
     'Content', 
-    ContentSchema, 
-    'content'
+    ContentSchema
 );
 
 export default Content;
