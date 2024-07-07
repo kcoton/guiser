@@ -79,11 +79,12 @@
   * [ ] Hook up Facebook for hard-coded post
   * [ ] Auth -> express endpoint connected w/ DB
     + Hookup to DB for connection w/ Google
-+ Shumin / Kiara:
-  * [ ] Hamburger/Drawer
++ Shumin 
+  * [X] Hamburger/Drawer
     + Should auto-collapse when click outside of it
-    + Page content should shift over when drawer expands
-  * [ ] Personas/Connect
+    + Page content should shift over when drawer expands 
+      (change the way to click the drawer, it will automatically close)
+  * [X] Personas/Connect
     + Eliminate connect page
     + On personas page, clicking persona tile pops open modal dialog
     + Modal dialog has pre-populated form with persona name, character text, update button
