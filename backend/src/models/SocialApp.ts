@@ -1,8 +1,9 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+import MongooseDelete, { SoftDeleteModel, SoftDeleteDocument } from 'mongoose-delete';
 
 const autoIncrement = require('mongoose-sequence')(mongoose);
 
-export interface ISocialApp extends Document {
+export interface ISocialApp extends SoftDeleteDocument {
     name: string;
 }
 
@@ -13,11 +14,12 @@ const SocialAppSchema: Schema = new Schema<ISocialApp>({
 });
 
 SocialAppSchema.plugin(autoIncrement, { inc_field: 'seqNo', start_seq: 1 });
+SocialAppSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });
 
-const SocialApp = mongoose.model<ISocialApp>(
+const SocialApp: SoftDeleteModel<ISocialApp> = mongoose.model<ISocialApp>(
     'SocialApp', 
     SocialAppSchema, 
     'social_app'
-);
+) as SoftDeleteModel<ISocialApp>;
 
 export default SocialApp;
