@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 const autoIncrement = require('mongoose-sequence')(mongoose);
 
-interface ISocialApp extends Document {
+export interface ISocialApp extends Document {
     name: string;
 }
 
