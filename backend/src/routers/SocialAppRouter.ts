@@ -17,6 +17,7 @@ class SocialAppRouter {
 
     private registerRoutes() {
         this.router.get('/', this.socialAppController.getAll);
+        this.router.post('/', this.socialAppController.create);
     }
 }
 
