@@ -1,13 +1,13 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { PersonaSchema, IPersona } from "./Persona";
 
-export interface IUser extends Document {
+interface IUser extends Document {
     externalId: string;
     personas: IPersona[];
 }
 
-export const UserSchema: Schema = new Schema<IUser>({
-    externalId: { type: String, required: true },
+const UserSchema: Schema = new Schema<IUser>({
+    externalId: { type: String, required: true, unique: true },
     personas: [PersonaSchema]
 }, {
     timestamps: true
