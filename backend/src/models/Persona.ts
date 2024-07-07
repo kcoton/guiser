@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { ContentSchema, IContent} from './Content';
+import { ContentSchema, IContent } from './Content';
 
 export interface IPersona extends Document {
     name: string;
