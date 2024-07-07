@@ -13,6 +13,7 @@ import cookieParser from "cookie-parser";
 import contentRouter from "../routers/ContentRouter";
 import PubRouter from "../routers/PubRouter";
 import socialAppRouter from "../routers/SocialAppRouter";
+import userRouter from "../routers/UserRouter";
 import fs from 'fs';
 import mongoose from "mongoose";
 
@@ -81,6 +82,7 @@ export default class Server {
         this.express.use("/content", contentRouter);
 	    this.express.use("/pub", PubRouter);
         this.express.use("/social-app", socialAppRouter);
+        this.express.use("/user", userRouter);
     }
 
     private connectToDatabase() {
