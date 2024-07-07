@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { PersonaSchema, IPersona } from "./Persona";
 
-interface IUser extends Document {
+export interface IUser extends Document {
     externalId: string;
     personas: IPersona[];
 }
