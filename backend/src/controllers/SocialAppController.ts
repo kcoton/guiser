@@ -10,4 +10,14 @@ export default class SocialAppController {
             res.status(500).json({ error: error });
         }
     }
+
+    public create = async (req: Request, res: Response) => {
+        try {
+            const { name } = req.body;
+            let socialApp: any = await SocialApp.create({ name: name });
+            res.status(200).json({ result: socialApp });
+        } catch (error) {
+            res.status(500).json({ error: error });
+        }
+    }
 }
