@@ -154,7 +154,7 @@ export default function NavigationBar() {
               (text) => (
                 <ListItem key={text} disablePadding>
                   <Link to={routesMap[text]}>
-                    <ListItemButton>
+                    <ListItemButton onClick={handleDrawerClose}>
                       <ListItemIcon>{iconMap[text]}</ListItemIcon>
                       <ListItemText primary={text} />
                     </ListItemButton>
