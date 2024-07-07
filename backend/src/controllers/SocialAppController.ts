@@ -13,7 +13,7 @@ export default class SocialAppController {
 
     public create = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { name } = req.body;
+            const name: string = req.body.name as string;
             if (!name) {
                 res.status(400).json({ error: 'name is required' });
                 return;
