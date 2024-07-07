@@ -88,7 +88,7 @@ export default function NavigationBar() {
   const iconMap = {
     Home: <HomeRoundedIcon />,
     Personas: <SwitchAccountRoundedIcon />,
-    Connect: <ShareRoundedIcon />,
+    // Connect: <ShareRoundedIcon />,
     Generate: <AddBoxRoundedIcon />,
     Content: <EditNoteRoundedIcon />,
     Settings: <SettingsApplicationsRoundedIcon />,
@@ -98,7 +98,7 @@ export default function NavigationBar() {
   const routesMap = {
     Home: "/dashboard",
     Personas: "/personas",
-    Connect: "/connect",
+    // Connect: "/connect",
     Generate: "/generate",
     Content: "/content",
     Settings: "/settings",
@@ -150,7 +150,7 @@ export default function NavigationBar() {
           <Divider />
 
           <List>
-            {["Home", "Personas", "Connect", "Generate", "Content"].map(
+            {["Home", "Personas",  "Generate", "Content"].map(
               (text) => (
                 <ListItem key={text} disablePadding>
                   <Link to={routesMap[text]}>

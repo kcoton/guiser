@@ -5,8 +5,8 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import LoginPage from './pages/LoginPage';
 import NavigationBar from './components/NavigationBar';
 import HomePage from './pages/HomePage';
-import PersonasPage from './pages/PersonasPage';
-import ConnectPage from './pages/ConnectPage';
+import PersonasPage from './pages/PersonasPage/PersonasPage';
+// import ConnectPage from './pages/ConnectPage';
 import GeneratePage from './pages/GeneratePage/GeneratePage';
 import ContentPage from './pages/ContentPage/ContentPage';
 import SettingsPage from './pages/SettingsPage';
@@ -36,7 +36,7 @@ function MainApp() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/dashboard' element={<HomePage />} />
         <Route path="/personas" element={<PersonasPage />} />
-        <Route path="/connect" element={<ConnectPage />} />
+        {/* <Route path="/connect" element={<ConnectPage />} /> */}
         <Route path="/generate" element={<GeneratePage />} />
         <Route path="/content" element={<ContentPage />} />
         <Route path="/settings" element={<SettingsPage />} />
