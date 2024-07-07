@@ -8,6 +8,8 @@ interface ISocialApp extends Document {
 
 const SocialAppSchema: Schema = new Schema<ISocialApp>({
     name: { type: String, required: true }
+}, {
+    timestamps: true
 });
 
 SocialAppSchema.plugin(autoIncrement, { inc_field: 'seqNo', start_seq: 1 });
