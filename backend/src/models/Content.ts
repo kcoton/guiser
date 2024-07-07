@@ -1,6 +1,7 @@
-import { Document, Schema } from 'mongoose';
+import { Schema } from 'mongoose';
+import MongooseDelete, { SoftDeleteDocument } from 'mongoose-delete';
 
-export interface IContent extends Document {
+export interface IContent extends SoftDeleteDocument {
     text: string;
     isRejected: boolean;
 }
@@ -11,3 +12,5 @@ export const ContentSchema: Schema = new Schema<IContent>({
 }, {
     timestamps: true
 });
+
+ContentSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });
