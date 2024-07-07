@@ -1,23 +1,33 @@
 import { Request, Response } from "express";
-import SocialApp from "../models/SocialApp";
+import SocialApp, { ISocialApp } from "../models/SocialApp";
 
 export default class SocialAppController {
-    public getAll = async (req: Request, res: Response) => {
+    public getAll = async (req: Request, res: Response): Promise<void> => {
         try {
-            const result: any = await SocialApp.find();
-            res.status(200).json({ result: result });
+            const socialApps: ISocialApp[] = await SocialApp.find().lean();
+            res.status(200).json({ result: socialApps });
         } catch (error) {
-            res.status(500).json({ error: error });
+            this.handleError(res, error);
         }
     }
 
-    public create = async (req: Request, res: Response) => {
+    public create = async (req: Request, res: Response): Promise<void> => {
         try {
             const { name } = req.body;
-            let socialApp: any = await SocialApp.create({ name: name });
-            res.status(200).json({ result: socialApp });
+            if (!name) {
+                res.status(400).json({ error: 'name is required' });
+                return;
+            }
+
+            const socialApp: ISocialApp = (await SocialApp.create({ name: name })).toJSON();
+            res.status(201).json({ result: socialApp });
         } catch (error) {
-            res.status(500).json({ error: error });
+            this.handleError(res, error);
         }
+    }
+
+    private handleError = (res: Response, error: unknown): void => {
+        const errorMessage = (error as Error)?.message ?? 'An unexpected error occurred.';
+        res.status(500).json({ error: errorMessage });
     }
 }
