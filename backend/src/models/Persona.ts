@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 import { ContentSchema, IContent } from './Content';
 
 export interface IPersona extends Document {
@@ -14,10 +14,3 @@ export const PersonaSchema: Schema = new Schema<IPersona>({
 }, {
     timestamps: true
 });
-
-const Persona = mongoose.model<IPersona>(
-    'Persona', 
-    PersonaSchema
-);
-
-export default Persona;

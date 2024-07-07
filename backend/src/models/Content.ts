@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
 export interface IContent extends Document {
     text: string;
@@ -11,10 +11,3 @@ export const ContentSchema: Schema = new Schema<IContent>({
 }, {
     timestamps: true
 });
-
-const Content = mongoose.model<IContent>(
-    'Content', 
-    ContentSchema
-);
-
-export default Content;
