@@ -47,7 +47,7 @@ export default class UserController {
         try {
             const userId: string = req.params.userId as string;
             const { name, text } = req.body as { name: string, text: string };
-            for (const [key, value] of Object.entries({ 'userId': userId, 'name': name, 'text': text})) {
+            for (const [key, value] of Object.entries({ 'userId': userId, 'name': name, 'text': text })) {
                 if (!value) {
                     res.status(400).json({ error: `${key} is required` });
                     return;
@@ -70,6 +70,41 @@ export default class UserController {
             await user.save();
             newPersona = user.personas[user.personas.length - 1];
             res.status(201).json({ result: newPersona });
+        } catch (error) {
+            this.handleGeneralError(res, error);
+        } 
+    }
+
+    public deletePersona = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const userId: string = req.params.userId as string;
+            const personaId = req.query.personaId as string;
+            for (const [key, value] of Object.entries({ 'userId': userId, 'personaId': personaId })) {
+                if (!value) {
+                    res.status(400).json({ error: `${key} is required` });
+                    return;
+                }
+                if (!mongoose.Types.ObjectId.isValid(value)) {
+                    res.status(400).json({ error: `${key} is invalid` });
+                    return;
+                }
+            }
+
+            const user: IUser | null = await User.findById(userId);
+            if (!user) {
+                res.status(404).json({ error: 'user with matching id not found' });
+                return;
+            }
+
+            const persona: IPersona | undefined = user.personas.find(p => p._id == personaId);
+            if (!persona) {
+                res.status(404).json({ error: 'persona with matching id not found' });
+                return;
+            }
+
+            persona.delete();
+            user.save();
+            res.status(200).json({ result: personaId });
         } catch (error) {
             this.handleGeneralError(res, error);
         } 
