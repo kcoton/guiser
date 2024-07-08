@@ -127,19 +127,21 @@ export default class UserController {
 
     public createContent = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { userId, personaId } = this.extractObjectIds(req, res, false);
-            if (!userId || !personaId) { return; }
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(400).json({ errors: errors.array() });
+                return;
+            }
 
-            const { text, isRejected } = this.extractContentFields(req, res);
-            if (!text || isRejected === null) { return; }
+            const reqData = matchedData(req);
 
-            const user: IUser | null = await this.findUserById(userId, res);
+            const user: IUser | null = await this.findUserById(reqData.userId, res);
             if (!user) { return; }
 
-            const persona: IPersona | null = this.findPersonaById(personaId, user.personas, res);
+            const persona: IPersona | null = this.findPersonaById(reqData.personaId, user.personas, res);
             if (!persona) { return; }
 
-            let newContent: IContent = { text, isRejected } as IContent;
+            let newContent: IContent = { text: reqData.text, isRejected: reqData.isRejected } as IContent;
             persona.content.push(newContent);
             newContent = persona.content[persona.content.length - 1].toJSON();
             await user.save();

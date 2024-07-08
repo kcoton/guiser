@@ -72,7 +72,16 @@ class UserRouter {
             ],
             this.userController.deletePersona
         );
-        this.router.post('/:userId/persona/:personaId/content', this.userController.createContent);
+        this.router.post(
+            '/:userId/persona/:personaId/content', 
+            [
+                param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                body('text').isString().notEmpty().withMessage('is required'),
+                body('isRejected').isBoolean().notEmpty().withMessage('is required')
+            ],
+            this.userController.createContent
+        );
     }
 }
 
