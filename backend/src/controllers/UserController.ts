@@ -55,6 +55,33 @@ export default class UserController {
         }
     }
 
+    public updatePersona = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { userId, personaId } = this.extractObjectIds(req, res);
+            if (!userId || !personaId) return;
+
+            const { name, text } = req.body as { name: string, text: string };
+            if (!name && !text) {
+                res.status(400).json({ error: 'at least one of name or text are required' });
+                return;
+            }
+
+            const user = await this.findUserById(userId, res);
+            if (!user) { return; }
+
+            const persona: IPersona | null = this.findPersonaById(personaId, user, res);
+            if (!persona) { return; }
+
+            if (name) { persona.name = name; }
+            if (text) { persona.text = text; }
+
+            await user.save();
+            res.status(200).json({ result: persona });
+        } catch (error) {
+            this.handleGeneralError(res, error);
+        }
+    }
+
     public deletePersona = async (req: Request, res: Response): Promise<void> => {
         try {
             const { userId, personaId } = this.extractObjectIds(req, res);
