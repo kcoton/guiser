@@ -1,7 +1,8 @@
-import { Document, Schema } from 'mongoose';
+import { Schema } from 'mongoose';
+import MongooseDelete, { SoftDeleteDocument } from 'mongoose-delete';
 import { ContentSchema, IContent } from './Content';
 
-export interface IPersona extends Document {
+export interface IPersona extends SoftDeleteDocument {
     name: string;
     text: string;
     content: IContent[];
@@ -14,3 +15,5 @@ export const PersonaSchema: Schema = new Schema<IPersona>({
 }, {
     timestamps: true
 });
+
+PersonaSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });
