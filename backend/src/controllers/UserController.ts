@@ -77,23 +77,22 @@ export default class UserController {
 
     public updatePersona = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { userId, personaId } = this.extractObjectIds(req, res, true);
-            if (!userId || !personaId) return;
-
-            const { name, text } = req.body as { name: string, text: string };
-            if (!name && !text) {
-                res.status(400).json({ error: 'at least one of name or text are required' });
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(400).json({ errors: errors.array() });
                 return;
             }
 
-            const user = await this.findUserById(userId, res);
+            const reqData = matchedData(req);
+
+            const user = await this.findUserById(reqData.userId, res);
             if (!user) { return; }
 
-            const persona: IPersona | null = this.findPersonaById(personaId, user.personas, res);
+            const persona: IPersona | null = this.findPersonaById(reqData.personaId, user.personas, res);
             if (!persona) { return; }
 
-            if (name) { persona.name = name; }
-            if (text) { persona.text = text; }
+            if (reqData.name) { persona.name = reqData.name; }
+            if (reqData.text) { persona.text = reqData.text; }
 
             await user.save();
             res.status(200).json({ result: persona });

@@ -45,7 +45,22 @@ class UserRouter {
             ],
             this.userController.createPersona
         );
-        this.router.patch('/:userId/persona', this.userController.updatePersona);
+        this.router.patch(
+            '/:userId/persona',
+            [
+                param('userId').custom(this.objectIdValidator).notEmpty().withMessage('userId is required'),
+                query('personaId').custom(this.objectIdValidator).notEmpty().withMessage('personaId is required'),
+                body('name').isString().optional(),
+                body('text').isString().optional(),
+                body().custom(body => {
+                    if (!body.name && !body.text) {
+                        throw new Error('either name or text is required');
+                    }
+                    return true;
+                })
+            ],
+            this.userController.updatePersona
+        );
         this.router.delete('/:userId/persona', this.userController.deletePersona);
         this.router.post('/:userId/persona/:personaId/content', this.userController.createContent);
     }
