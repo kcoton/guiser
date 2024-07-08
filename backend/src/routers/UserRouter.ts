@@ -24,7 +24,13 @@ class UserRouter {
             ],
             this.userController.getUser
         );
-        this.router.post('/', this.userController.createUser);
+        this.router.post(
+            '/',
+            [
+                body('externalId').isString().notEmpty().withMessage('externalId is required')
+            ],
+            this.userController.createUser
+        );
         this.router.post('/:userId/persona', this.userController.createPersona);
         this.router.patch('/:userId/persona', this.userController.updatePersona);
         this.router.delete('/:userId/persona', this.userController.deletePersona);

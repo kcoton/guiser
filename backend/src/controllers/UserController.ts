@@ -34,10 +34,15 @@ export default class UserController {
 
     public createUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const externalId: string | null = this.extractExternalId(req, res, false);
-            if (!externalId) { return; }
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(400).json({ errors: errors.array() });
+                return;
+            }
 
-            const user: IUser = (await User.create({ externalId: externalId })).toJSON();
+            const reqData = matchedData(req);
+
+            const user: IUser = (await User.create({ externalId: reqData.externalId })).toJSON();
             res.status(200).json({ result: user });
         } catch (error) {
             if ((error as any)?.code === 11000) {
