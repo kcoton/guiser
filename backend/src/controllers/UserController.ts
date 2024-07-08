@@ -12,7 +12,7 @@ export default class UserController {
 
             const user: IUser | null = await User.findOne({ externalId: externalId }).lean();
             if (!user) {
-                res.status(404).json({ error: `User with externalId ${externalId} not found.` });
+                res.status(404).json({ error: `User with matching externalId not found.` });
                 return;
             }
 
@@ -33,7 +33,11 @@ export default class UserController {
             const user: IUser = (await User.create({ externalId: externalId })).toJSON();
             res.status(200).json({ result: user });
         } catch (error) {
-            this.handleError(res, error);
+            if ((error as any)?.code === 11000) {
+                res.status(409).json({ error: 'User with externalId already exists.' });
+            } else {
+                this.handleError(res, error);
+            }
         }
     }
 
