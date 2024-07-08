@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User, { IUser } from "../models/User";
 import { IPersona } from "../models/Persona";
 import mongoose from "mongoose";
+import { IContent } from "../models/Content";
 
 export default class UserController {
     public getUser = async (req: Request, res: Response): Promise<void> => {
@@ -57,7 +58,7 @@ export default class UserController {
 
     public updatePersona = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { userId, personaId } = this.extractObjectIds(req, res);
+            const { userId, personaId } = this.extractObjectIds(req, res, true);
             if (!userId || !personaId) return;
 
             const { name, text } = req.body as { name: string, text: string };
@@ -84,7 +85,7 @@ export default class UserController {
 
     public deletePersona = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { userId, personaId } = this.extractObjectIds(req, res);
+            const { userId, personaId } = this.extractObjectIds(req, res, true);
             if (!userId || !personaId) { return; }
 
             const user: IUser | null = await this.findUserById(userId, res);
@@ -96,6 +97,30 @@ export default class UserController {
             persona.delete();
             await user.save();
             res.status(200).json({ result: personaId });
+        } catch (error) {
+            this.handleGeneralError(res, error);
+        }
+    }
+
+    public createContent = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { userId, personaId } = this.extractObjectIds(req, res, false);
+            if (!userId || !personaId) { return; }
+
+            const { text, isRejected } = this.extractContentFields(req, res);
+            if (!text || !isRejected) { return; }
+
+            const user: IUser | null = await this.findUserById(userId, res);
+            if (!user) { return; }
+
+            const persona: IPersona | null = this.findPersonaById(personaId, user, res);
+            if (!persona) { return; }
+
+            let newContent: IContent = { text, isRejected } as IContent;
+            persona.content.push(newContent);
+            newContent = persona.content[persona.content.length - 1].toJSON();
+            await user.save();
+            res.status(200).json({ result: newContent });
         } catch (error) {
             this.handleGeneralError(res, error);
         }
@@ -157,10 +182,10 @@ export default class UserController {
     }
 
     private extractObjectIds(
-        req: Request, res: Response
+        req: Request, res: Response, isQuerySourceForPersonaId: boolean
     ): { userId: string | null, personaId: string | null } {
         const userId: string = req.params.userId as string;
-        const personaId = req.query.personaId as string;
+        const personaId = (isQuerySourceForPersonaId ? req.query : req.params).personaId as string;
         
         for (const [fieldName, fieldValue] of Object.entries({ userId, personaId })) {
             if (!fieldValue || !mongoose.Types.ObjectId.isValid(fieldValue)) {
@@ -172,6 +197,22 @@ export default class UserController {
         }
 
         return { userId, personaId };
+    }
+
+    private extractContentFields(
+        req: Request, res: Response
+    ): { text: string | null, isRejected: boolean | null } {
+        const { text, isRejected } = req.body as { text: string, isRejected: boolean };
+        if (!text) {
+            res.status(400).json({ error: 'text is required' });
+            return { text: null, isRejected: null }
+        }
+        if (isRejected === null || isRejected === undefined) {
+            res.status(400).json({ error: 'isRejected is required' });
+            return { text: null, isRejected: null }
+        }
+        
+        return { text, isRejected };
     }
 
     private handleGeneralError(res: Response, error: unknown): void {
