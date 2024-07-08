@@ -151,18 +151,6 @@ export default class UserController {
         }
     }
 
-    private extractExternalId(
-        req: Request, res: Response, isQuerySource: boolean
-    ): string | null {
-        const externalId: string = (isQuerySource ? req.query : req.body).externalId as string;
-        if (!externalId) {
-            res.status(400).json({ error: 'externalId is required' });
-            return null;
-        }
-
-        return externalId;
-    }
-
     private async findUserById(userId: string, res: Response): Promise<IUser | null> {
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             res.status(400).json({ error: 'userId is invalid' });
@@ -188,56 +176,6 @@ export default class UserController {
         }
 
         return persona;
-    }
-
-    private extractPersonaFields(
-        req: Request, res: Response
-    ): { userId: string | null, name: string | null, text: string | null } {
-        const userId: string = req.params.userId as string;
-        const { name, text } = req.body as { name: string, text: string };
-        
-        for (const [fieldName, fieldValue] of Object.entries({ userId, name, text })) {
-            if (!fieldValue) {
-                res.status(400).json({ error: `${fieldName} is required` });
-                return { userId: null, name: null, text: null };
-            }
-        }
-
-        return { userId, name, text };
-    }
-
-    private extractObjectIds(
-        req: Request, res: Response, isQuerySourceForPersonaId: boolean
-    ): { userId: string | null, personaId: string | null } {
-        const userId: string = req.params.userId as string;
-        const personaId = (isQuerySourceForPersonaId ? req.query : req.params).personaId as string;
-        
-        for (const [fieldName, fieldValue] of Object.entries({ userId, personaId })) {
-            if (!fieldValue || !mongoose.Types.ObjectId.isValid(fieldValue)) {
-                res.status(400).json(
-                    { error: `${fieldName} is ${fieldValue ? 'invalid' : 'required'}` }
-                );
-                return { userId: null, personaId: null };
-            }
-        }
-
-        return { userId, personaId };
-    }
-
-    private extractContentFields(
-        req: Request, res: Response
-    ): { text: string | null, isRejected: boolean | null } {
-        const { text, isRejected } = req.body as { text: string, isRejected: boolean };
-        if (!text) {
-            res.status(400).json({ error: 'text is required' });
-            return { text: null, isRejected: null }
-        }
-        if (isRejected === null || isRejected === undefined) {
-            res.status(400).json({ error: 'isRejected is required' });
-            return { text: null, isRejected: null }
-        }
-        
-        return { text, isRejected };
     }
 
     private handleGeneralError(res: Response, error: unknown): void {
