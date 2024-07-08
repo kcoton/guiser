@@ -21,6 +21,7 @@ class UserRouter {
         this.router.post('/:userId/persona', this.userController.createPersona);
         this.router.patch('/:userId/persona', this.userController.updatePersona);
         this.router.delete('/:userId/persona', this.userController.deletePersona);
+        this.router.post('/:userId/persona/:personaId/content', this.userController.createContent);
     }
 }
 
