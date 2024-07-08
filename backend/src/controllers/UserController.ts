@@ -3,16 +3,26 @@ import User, { IUser } from "../models/User";
 import { IPersona } from "../models/Persona";
 import mongoose from "mongoose";
 import { IContent } from "../models/Content";
+import { validationResult, matchedData } from "express-validator";
+import { error } from "console";
 
 export default class UserController {
     public getUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const externalId: string | null = this.extractExternalId(req, res, true);
-            if (!externalId) { return; }
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(400).json({ errors: errors.array() });
+                return;
+            }
 
-            const user: IUser | null = await User.findOne({ externalId: externalId }).lean().exec();
+            const reqData = matchedData(req);
+
+            const user: IUser | null = await User.findOne({ externalId: reqData.externalId })
+                .lean()
+                .exec();
+            
             if (!user) {
-                res.status(404).json({ error: 'user with matching externalId not found' });
+                res.status(404).json({ errors: ['user with matching externalId not found'] });
                 return;
             }
 

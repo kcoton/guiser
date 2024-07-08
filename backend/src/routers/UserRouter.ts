@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { body, query, param } from 'express-validator';
 import UserController from '../controllers/UserController';
 
 class UserRouter {
@@ -16,7 +17,13 @@ class UserRouter {
     }
 
     private registerRoutes() {
-        this.router.get('/', this.userController.getUser);
+        this.router.get(
+            '/',
+            [
+                query('externalId').isString().notEmpty().withMessage('externalId is required')
+            ],
+            this.userController.getUser
+        );
         this.router.post('/', this.userController.createUser);
         this.router.post('/:userId/persona', this.userController.createPersona);
         this.router.patch('/:userId/persona', this.userController.updatePersona);
