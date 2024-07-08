@@ -113,16 +113,6 @@ export default class UserController {
         return externalId;
     }
 
-    private extractExternalIdFromBody(req: Request, res: Response): string | null {
-        const externalId: string = req.body.externalId as string;
-        if (!externalId) {
-            res.status(400).json({ error: 'externalId is required' });
-            return null;
-        }
-
-        return externalId;
-    }
-
     private async findUserById(userId: string, res: Response): Promise<IUser | null> {
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             res.status(400).json({ error: 'userId is invalid' });
