@@ -4,7 +4,6 @@ import { IPersona } from "../models/Persona";
 import mongoose from "mongoose";
 import { IContent } from "../models/Content";
 import { validationResult, matchedData } from "express-validator";
-import { error } from "console";
 
 export default class UserController {
     public getUser = async (req: Request, res: Response): Promise<void> => {
@@ -55,13 +54,18 @@ export default class UserController {
 
     public createPersona = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { userId, name, text } = this.extractPersonaFields(req, res);
-            if (!userId || !name || !text) { return; }
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(400).json({ errors: errors.array() });
+                return;
+            }
 
-            const user: IUser | null = await this.findUserById(userId, res);
+            const reqData = matchedData(req);
+
+            const user: IUser | null = await this.findUserById(reqData.userId, res);
             if (!user) { return; }
 
-            let newPersona: IPersona = { name, text } as IPersona;
+            let newPersona: IPersona = { name: reqData.name, text: reqData.text } as IPersona;
             user.personas.push(newPersona);
             await user.save();
             newPersona = user.personas[user.personas.length - 1].toJSON();
