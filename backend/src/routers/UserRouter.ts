@@ -18,6 +18,7 @@ class UserRouter {
     private registerRoutes() {
         this.router.get('/', this.userController.getUser);
         this.router.post('/', this.userController.createUser);
+        this.router.post('/:userId/persona', this.userController.createPersona);
     }
 }
 
