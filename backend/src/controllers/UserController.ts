@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 export default class UserController {
     public getUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const externalId: string | null = this.extractExternalIdFromQuery(req, res);
+            const externalId: string | null = this.extractExternalId(req, res, true);
             if (!externalId) { return; }
 
             const user: IUser | null = await User.findOne({ externalId: externalId }).lean().exec();
@@ -23,7 +23,7 @@ export default class UserController {
 
     public createUser = async (req: Request, res: Response): Promise<void> => {
         try {
-            const externalId: string | null = this.extractExternalIdFromBody(req, res);
+            const externalId: string | null = this.extractExternalId(req, res, false);
             if (!externalId) { return; }
 
             const user: IUser = (await User.create({ externalId: externalId })).toJSON();
@@ -101,8 +101,10 @@ export default class UserController {
         }
     }
 
-    private extractExternalIdFromQuery(req: Request, res: Response): string | null {
-        const externalId: string = req.query.externalId as string;
+    private extractExternalId(
+        req: Request, res: Response, isQuerySource: boolean
+    ): string | null {
+        const externalId: string = (isQuerySource ? req.query : req.body).externalId as string;
         if (!externalId) {
             res.status(400).json({ error: 'externalId is required' });
             return null;
