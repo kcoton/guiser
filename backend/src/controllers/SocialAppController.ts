@@ -27,7 +27,7 @@ export default class SocialAppController {
     }
 
     private handleError = (res: Response, error: unknown): void => {
-        const errorMessage = (error as Error)?.message ?? 'An unexpected error occurred.';
+        const errorMessage = (error as Error)?.message ?? 'an unexpected error occurred';
         res.status(500).json({ error: errorMessage });
     }
 }
