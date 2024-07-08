@@ -103,18 +103,23 @@ export default class UserController {
 
     public deletePersona = async (req: Request, res: Response): Promise<void> => {
         try {
-            const { userId, personaId } = this.extractObjectIds(req, res, true);
-            if (!userId || !personaId) { return; }
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(400).json({ errors: errors.array() });
+                return;
+            }
 
-            const user: IUser | null = await this.findUserById(userId, res);
+            const reqData = matchedData(req);
+
+            const user: IUser | null = await this.findUserById(reqData.userId, res);
             if (!user) { return; }
 
-            const persona: IPersona | null = this.findPersonaById(personaId, user.personas, res);
+            const persona: IPersona | null = this.findPersonaById(reqData.personaId, user.personas, res);
             if (!persona) { return; }
 
             persona.delete();
             await user.save();
-            res.status(200).json({ result: personaId });
+            res.status(200).json({ result: reqData.personaId });
         } catch (error) {
             this.handleGeneralError(res, error);
         }
