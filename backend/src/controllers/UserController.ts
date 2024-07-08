@@ -143,7 +143,7 @@ export default class UserController {
 
             let newContent: IContent = { text: reqData.text, isRejected: reqData.isRejected } as IContent;
             persona.content.push(newContent);
-            newContent = persona.content[persona.content.length - 1].toJSON();
+            newContent = persona.content[persona.content.length - 1];
             await user.save();
             res.status(200).json({ result: newContent });
         } catch (error) {
