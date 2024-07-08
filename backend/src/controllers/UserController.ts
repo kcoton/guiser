@@ -70,7 +70,7 @@ export default class UserController {
             const user = await this.findUserById(userId, res);
             if (!user) { return; }
 
-            const persona: IPersona | null = this.findPersonaById(personaId, user, res);
+            const persona: IPersona | null = this.findPersonaById(personaId, user.personas, res);
             if (!persona) { return; }
 
             if (name) { persona.name = name; }
@@ -91,7 +91,7 @@ export default class UserController {
             const user: IUser | null = await this.findUserById(userId, res);
             if (!user) { return; }
 
-            const persona: IPersona | null = this.findPersonaById(personaId, user, res);
+            const persona: IPersona | null = this.findPersonaById(personaId, user.personas, res);
             if (!persona) { return; }
 
             persona.delete();
@@ -108,12 +108,12 @@ export default class UserController {
             if (!userId || !personaId) { return; }
 
             const { text, isRejected } = this.extractContentFields(req, res);
-            if (!text || !isRejected) { return; }
+            if (!text || isRejected === null) { return; }
 
             const user: IUser | null = await this.findUserById(userId, res);
             if (!user) { return; }
 
-            const persona: IPersona | null = this.findPersonaById(personaId, user, res);
+            const persona: IPersona | null = this.findPersonaById(personaId, user.personas, res);
             if (!persona) { return; }
 
             let newContent: IContent = { text, isRejected } as IContent;
@@ -153,9 +153,9 @@ export default class UserController {
         return user;
     }
 
-    private findPersonaById(personaId: string, user: IUser, res: Response): IPersona | null {
-        const persona: IPersona | undefined = user.personas?.find(
-            p => p._id == personaId && !p.deleted
+    private findPersonaById(personaId: string, personas: IPersona[], res: Response): IPersona | null {
+        const persona: IPersona | undefined = personas?.find(p => 
+            p._id == personaId && !p.deleted
         );
         if (!persona) {
             res.status(404).json({ error: 'persona with matching id not found' });
