@@ -9,14 +9,13 @@ export default class ContentController {
         this.genAiService = genAiService;
     }
 
-    public generateText = async (req: Request, res: Response) => {
-        const { persona, promptContext } = req.body as { persona: IPersona; promptContext: string };
-
+    public generateText = async (req: Request, res: Response): Promise<void> => {
         try {
-            const content = await this.genAiService.getTextContent(persona, promptContext);
+            const { persona, promptContext } = req.body as { persona: IPersona; promptContext: string };
+            const content: string = await this.genAiService.getTextContent(persona, promptContext);
             res.status(200).json({ result: content });
         } catch (error) {
-            res.status(500).json({ error: (error as Error).message });
+            res.status(500).json({ error: (error as Error)?.message ?? 'An unexpected error occured.'});
         }
     }
 }
