@@ -2,12 +2,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import PersonaService from '../services/PersonaService';
 
+// TODO: Replace hardcoded externalId and _id values with dynamic values from GET /user
+export const EXTERNAL_ID = '106396242553744029996';
+export const _ID = '668c7ce0fc7c063ca7021e5b';
 
 // Define the async thunk
 export const fetchPersonas = createAsyncThunk(
   'persona/fetchPersonas',
   async () => {
-    const personaService = new PersonaService('106396242553744029996', '668c7ce0fc7c063ca7021e5b');
+    const personaService = new PersonaService(EXTERNAL_ID, _ID);
     const personas = await personaService.get();
     return personas;
   }

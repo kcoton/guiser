@@ -26,7 +26,7 @@ export default function PersonaModal({
   handleClose,
   persona,
   setPersonaName,
-  setPersonaDescription,
+  setPersonaText,
   handleUpdatePersona,
   handleDeletePersona,
 }) {
@@ -57,7 +57,7 @@ export default function PersonaModal({
             multiline
             rows={4}
             value={persona.text}
-            onChange={(e) => setPersonaDescription(e.target.value)}
+            onChange={(e) => setPersonaText(e.target.value)}
           />
           <Button variant="contained" color="primary" onClick={handleUpdatePersona}>
             Update Persona

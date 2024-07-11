@@ -1,36 +1,32 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Avatar, Stack, TextField, Button } from "@mui/material";
 import PersonaModal from "../../components/PersonaModal";
 import ForumIcon from '@mui/icons-material/Forum'; 
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-// import { personas } from "../../mock/mock-personas";
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaService from '../../services/PersonaService';
-import { createPersona, updatePersona, deletePersona, fetchPersonas } from '../../redux/personaSlice';
+import { createPersona, updatePersona, deletePersona, EXTERNAL_ID, _ID } from '../../redux/personaSlice';
 import "./PersonasPage.css";
 
 export default function PersonasPage() {
   const dispatch = useDispatch();
   const personas = useSelector((state) => state.personas);
-  const personaService = new PersonaService('106396242553744029996', '668c7ce0fc7c063ca7021e5b');
+  // TODO: create redux store for PersonaService to use across the same instance of the app
+  const personaService = new PersonaService(EXTERNAL_ID, _ID);
   const [activePersona, setActivePersona] = useState(personas[0]);
   const [newPersonaName, setNewPersonaName] = useState("");
-  const [newPersonaDescription, setNewPersonaDescription] = useState("");
+  const [newPersonaText, setNewPersonaText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    dispatch(fetchPersonas());
-  }, [dispatch]);
 
   const handlePersonaClick = (persona) => {
     setActivePersona(persona);
-    setIsModalOpen(true); // Open modal when a persona tile is clicked
+    setIsModalOpen(true);
   };
 
   const handleSavePersona = async () => {
     try {
-      const newPersona = await personaService.create(newPersonaName, newPersonaDescription);
+      const newPersona = await personaService.create(newPersonaName, newPersonaText);
       dispatch(createPersona(newPersona));
     } catch (e) {
       console.error('Error creating new persona:', e);
@@ -44,7 +40,7 @@ export default function PersonasPage() {
     } catch (e) {
       console.error('Error updating persona:', e);
     }
-    setIsModalOpen(false); // Close modal after updating persona
+    setIsModalOpen(false);
   };
 
   const handleDeletePersona = async () => {
@@ -54,7 +50,7 @@ export default function PersonasPage() {
     } catch (e) {
       console.error('Error deleting persona:', e);
     } 
-    setIsModalOpen(false); // Close modal after deleting persona
+    setIsModalOpen(false);
   };
 
   return (
@@ -94,8 +90,8 @@ export default function PersonasPage() {
           variant="outlined"
           multiline
           rows={4}
-          value={newPersonaDescription}
-          onChange={(e) => setNewPersonaDescription(e.target.value)}
+          value={newPersonaText}
+          onChange={(e) => setNewPersonaText(e.target.value)}
         />
         <Button variant="contained" color="primary" onClick={handleSavePersona}>
           Save Persona
@@ -106,7 +102,7 @@ export default function PersonasPage() {
         handleClose={() => setIsModalOpen(false)}
         persona={activePersona}
         setPersonaName={(name) => setActivePersona({ ...activePersona, name })}
-        setPersonaDescription={(text) =>
+        setPersonaText={(text) =>
           setActivePersona({ ...activePersona, text })
         }
         handleUpdatePersona={handleUpdatePersona}

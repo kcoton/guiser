@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { sync, init } from '../redux/userSlice.js';
+import { fetchPersonas } from '../redux/personaSlice';
+
 import axios from 'axios';
 
 const LoginPage = () => {
@@ -23,12 +25,13 @@ const LoginPage = () => {
             throw error;
         }
     }
-
+    
     useEffect(() => {
         const thunk = async () => {
             const session = await requestSession();
             dispatch(sync(session));
             dispatch(init());
+            dispatch(fetchPersonas());
             navigate('/dashboard');
             }
         thunk();        
