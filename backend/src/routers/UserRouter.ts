@@ -39,6 +39,13 @@ class UserRouter {
             ],
             this.userController.createUser
         );
+        this.router.get(
+            '/personas',
+            [
+                query('externalId').isString().notEmpty().withMessage('is required')
+            ],
+            this.userController.getPersonas
+        );
         this.router.post(
             '/:userId/persona',
             [

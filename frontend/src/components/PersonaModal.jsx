@@ -26,8 +26,9 @@ export default function PersonaModal({
   handleClose,
   persona,
   setPersonaName,
-  setPersonaDescription,
+  setPersonaText,
   handleUpdatePersona,
+  handleDeletePersona,
 }) {
   return (
     <Modal
@@ -37,7 +38,12 @@ export default function PersonaModal({
       aria-describedby="modal-description"
     >
       <Box sx={style}>
+        <Stack direction="row" spacing={3} justifyContent="space-between" sx={{ mb: 3 }}>
         <h2 id="modal-title">Edit Persona</h2>
+        <Button variant="contained" color="error" onClick={handleDeletePersona}>
+          Delete Persona
+        </Button>
+        </Stack>
         <Stack direction="column" spacing={3}>
           <TextField
             label="Persona Name"
@@ -50,8 +56,8 @@ export default function PersonaModal({
             variant="outlined"
             multiline
             rows={4}
-            value={persona.description}
-            onChange={(e) => setPersonaDescription(e.target.value)}
+            value={persona.text}
+            onChange={(e) => setPersonaText(e.target.value)}
           />
           <Button variant="contained" color="primary" onClick={handleUpdatePersona}>
             Update Persona
@@ -61,25 +67,25 @@ export default function PersonaModal({
               variant="outlined"
               startIcon={<TwitterIcon />}
               style={buttonStyle}
-              disabled={persona.connections.twitter} 
+              disabled={persona.connections?.twitter} 
             >
-              {persona.connections.twitter ? 'Connected Twitter' : 'Connect Twitter'}
+              {persona.connections?.twitter ? 'Connected Twitter' : 'Connect Twitter'}
             </Button>
             <Button
               variant="outlined"
               startIcon={<LinkedInIcon />}
               style={buttonStyle}
-              disabled={persona.connections.linkedin} 
+              disabled={persona.connections?.linkedin} 
             >
-              {persona.connections.linkedin ? 'Connected LinkedIn' : 'Connect LinkedIn'}
+              {persona.connections?.linkedin ? 'Connected LinkedIn' : 'Connect LinkedIn'}
             </Button>
             <Button
               variant="outlined"
               startIcon={<ForumIcon />}
               style={buttonStyle}
-              disabled={persona.connections.threads} 
+              disabled={persona.connections?.threads} 
             >
-              {persona.connections.threads ? 'Connected Threads' : 'Connect Threads'}
+              {persona.connections?.threads ? 'Connected Threads' : 'Connect Threads'}
             </Button>
           </Stack>
         </Stack>

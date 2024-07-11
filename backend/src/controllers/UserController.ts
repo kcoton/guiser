@@ -52,6 +52,29 @@ export default class UserController {
         }
     }
 
+    public getPersonas = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(400).json({ errors: errors.array() });
+                return;
+            }
+            const reqData = matchedData(req);
+            const user: IUser | null = await User.findOne({ externalId: reqData.externalId })
+                .lean()
+                .exec();
+            
+            if (!user) {
+                res.status(404).json({ errors: ['user with matching externalId not found'] });
+                return;
+            }
+            const personas: IPersona[] = user?.personas || [];
+            res.status(200).json({ result: personas });
+        } catch (error) {
+            this.handleGeneralError(res, error);
+        }
+    }
+
     public createPersona = async (req: Request, res: Response): Promise<void> => {
         try {
             const errors = validationResult(req);

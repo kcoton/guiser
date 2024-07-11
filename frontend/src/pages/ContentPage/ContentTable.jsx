@@ -19,7 +19,7 @@ function getIcon(website) {
 }
 
 export default function ContentTable({ onRowClick }) {
-    const content = useSelector(s => s.user.user.personas)
+    const content = (useSelector(s => s?.user?.user?.personas) ?? [])
         .reduce((acc, persona) => {
             const personaName = persona.name;
             persona.content.forEach(contentEntry => {
