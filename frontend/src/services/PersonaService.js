@@ -15,11 +15,16 @@ export default class PersonaService {
         ];
     }
 
+    getMock(selection = (persona) => true, projection = (persona) => persona) {
+        return this.mockPersonas.filter(selection).map(projection);
+    }
+
     async get(selection = (persona) => true, projection = (persona) => persona) {
             try {
                 const url = `${this.url}/personas?externalId=${this.userId}`;
                 const response = await axios.get(url);
-                this.personas = response.result;
+                const result = response.data.result;
+                this.personas = result.filter(persona => !persona.deleted);
                 return this.personas;
             } catch (error) {
                 console.error('Error fetching personas:', error);
@@ -32,7 +37,7 @@ export default class PersonaService {
             const url = `${this.url}/${this.id}/persona`;
             const persona = { name, text };
             const response = await axios.post(url, persona);
-            const newPersona = response.result;
+            const newPersona = response.data.result;
             return newPersona;
         } catch (error) {
             console.error('Error creating persona:', error);
@@ -44,7 +49,7 @@ export default class PersonaService {
             const url = `${this.url}/${this.id}/persona?personaId=${personaId}`;
             const persona = { name, text };
             const response = await axios.patch(url, persona);
-            const updatedPersona = response.result;
+            const updatedPersona = response.data.result;
             return updatedPersona;
         } catch (error) {
             console.error('Error updating persona:', error);
@@ -55,7 +60,7 @@ export default class PersonaService {
         try {
             const url = `${this.url}/${this.id}/persona?personaId=${personaId}`;
             const response = await axios.delete(url);
-            const deletedId = response.result;
+            const deletedId = response.data.result;
             return deletedId;
         } catch (error) {
             console.error('Error deleting persona:', error);

@@ -15,10 +15,11 @@ const userSlice = createSlice({
     },
     init: (state) => {
       const userId = state.user.uid;
-      const personaService = new PersonaService(userId);
+      const personaService = new PersonaService(userId, '668c7ce0fc7c063ca7021e5b');
       const contentService = new ContentService(userId);
       state.user.nextContentId = contentService.get().length + 1;
-      const personas = personaService.get().map(persona => ({
+      // TODO: replace mock call
+      const personas = personaService.getMock().map(persona => ({
         ...persona,
         content: contentService.get(contentEntry => contentEntry.personaId === persona.id),
       }));

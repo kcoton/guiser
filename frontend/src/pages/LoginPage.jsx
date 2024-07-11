@@ -30,9 +30,9 @@ const LoginPage = () => {
             dispatch(sync(session));
             dispatch(init());
             navigate('/dashboard');
-        }
+            }
         thunk();        
-    }, [])
+    }, [dispatch, navigate])
 
     return ( <div> Logged in. </div> );
 }
