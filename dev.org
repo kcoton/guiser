@@ -8,6 +8,7 @@
 + Goog: guiserteam@gmail.com on [[console.cloud.google.com/apis/dashboard]]
 + Meta: guiserteam@gmail.com on [[developers.facebook.com/apps]]  
 * Steps to set up for local dev
++ create .env file in root directory
 + in /etc/hosts, add line:
   127.0.0.1 guiser.server
 + install mkcert (brew install mkcert)
