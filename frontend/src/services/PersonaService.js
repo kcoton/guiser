@@ -23,8 +23,7 @@ export default class PersonaService {
             try {
                 const url = `${this.url}/personas?externalId=${this.userId}`;
                 const response = await axios.get(url);
-                const result = response.data.result;
-                this.personas = result.filter(persona => !persona.deleted);
+                this.personas = response.data.result;
                 return this.personas;
             } catch (error) {
                 console.error('Error fetching personas:', error);
