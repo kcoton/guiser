@@ -42,14 +42,14 @@ Time permitting, Guiser may also support:
 
 ### Standard Requirements
 - Extended Content Distribution: Automate the posting of generated content to a second social media website
-- Extended Content Distribution: Automate the posting of generated content to a third social media website
 - Responsive Web Design: Design the interface to be simple and functional on both desktop and mobile devices
 - Content Storage: Store generated content so that it can be used to generate follow-up content
 - Content Editing: Allow users to modify generated content before it is posted to social media websites
-- Post Modification: Allow users to modify posts on social media websites that have been made through the app
 
 ### Stretch Requirements
-- Extended Content Generation and Distribution: Enable the generation of image content tailored to personas and posting on an appropriate site (i.e. Instagram)
+- Extended Content Generation and Distribution: Enable the generation of image content tailored to personas and posting on an appropriate site
+- Photo capability: Enable users to attach photos to text content for publishing
+- Extended Content Distribution: Automate the posting of generated content to a third social media website
 - Content Scheduling: Develop a basic scheduling system where users can set dates and times for posts to be automatically published on connected platforms
 - Advanced Analytics: Use machine learning to predict the best times for posting and the potential engagement level of different content types
 
