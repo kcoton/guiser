@@ -1,5 +1,5 @@
-import IPersona from "../../models/IPersona";
+import IPersonaStub from "./IPersonaStub";
 
 export default interface IGenAiService {
-    getTextContent(persona: IPersona, promptContext: string): Promise<string>;
+    getTextContent(personaStub: IPersonaStub, promptContext: string): Promise<string>;
 }
