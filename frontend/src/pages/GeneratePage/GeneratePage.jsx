@@ -10,7 +10,7 @@ import ProcessContentForm from './ProcessContentForm';
 
 export default function GeneratePage() {
     const dispatch = useDispatch();
-    const personas = useSelector(s => s?.user?.user?.personas);
+    const personas = useSelector((state) => state.personas);
     const contentService = new ContentService(useSelector(s => s?.user?.user?.uid));
     const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
