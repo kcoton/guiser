@@ -28,14 +28,13 @@ export default class ContentService {
     }
 
   async generateText(persona, promptContext) {
-      const { content, ...partialPersona } = persona;
-      console.log(partialPersona);
+      const { name, text } = persona;
       const response = await fetch(import.meta.env.VITE_BASEURL_BACK + '/content/generate/text', {
           method: 'POST',
           headers: {
-	      'Content-Type': 'application/json'
+	        'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ persona: partialPersona, promptContext })
+          body: JSON.stringify({ personaStub: {name, text}, promptContext })
       });
       const data = await response.json();	 
       if (!response.ok) {
