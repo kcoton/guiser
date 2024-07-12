@@ -12,7 +12,7 @@ export default function ContentPage() {
     return (
         <div className="page-container">
             <ContentTable onRowClick={handleRowClick} />
-            {selectedContent && <ContentCards selectedContent={selectedContent} />}
+            {/* {selectedContent && <ContentCards selectedContent={selectedContent} />} */}
         </div>
     );
 }

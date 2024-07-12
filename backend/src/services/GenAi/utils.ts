@@ -1,17 +1,17 @@
 import GenAiServiceError from './GenAiServiceError';
-import IPersona from '../../models/IPersona';
+import IPersonaStub from './IPersonaStub';
 
-export function makePrompt(persona: IPersona, promptContext: string): string {
+export function makePrompt(personaStub: IPersonaStub, promptContext: string): string {
   const errMsg = (fieldName: string) => `${fieldName} is required to make a prompt.`; 
-  if (!persona.name) {
+  if (!personaStub.name) {
     throw new GenAiServiceError(errMsg('persona.name'));
   }
-  if (!persona.text) {
+  if (!personaStub.text) {
     throw new GenAiServiceError(errMsg('persona.text'));
   }
   if (!promptContext) {
     throw new GenAiServiceError(errMsg('promptContext'));
   }
-  return `Pretend your name is ${persona.name}. This is you: ${persona.text}. Now: ${promptContext}`;
+  return `Pretend your name is ${personaStub.name}. This is you: ${personaStub.text}. Now: ${promptContext}`;
 }
 
