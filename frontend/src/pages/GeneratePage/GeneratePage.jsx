@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import PersonaCardCarousel from './PersonaCardCarousel';
 import ErrorModal from './ErrorModal';
 import LoadingOverlay from "./LoadingOverlay";
-import { addContent } from '../../redux/userSlice.js';
 import ContentService from "../../services/ContentService";
 import GenerateContentForm from './GenerateContentForm';
 import ProcessContentForm from './ProcessContentForm';
+import { addContent } from "../../redux/personaSlice";
 
 export default function GeneratePage() {
     const dispatch = useDispatch();
     const personas = useSelector((state) => state.personas);
-    const contentService = new ContentService(useSelector(s => s?.user?.user?.uid));
+    const contentService = new ContentService();
     const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [selectedPersona, setSelectedPersona] = useState(undefined);
@@ -50,13 +50,14 @@ export default function GeneratePage() {
         setGeneratedContent(undefined);
     }
 
-    function handleProcessContentSubmit(e, form, isRejected) {
+    async function handleProcessContentSubmit(e, form, isRejected) {
         e.preventDefault();
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
-        dispatch(addContent({ personaId: selectedPersona.id, text: form.content.value, isRejected }));
+        const newContentEntry = await contentService.create(selectedPersona._id, form.content.value, isRejected);
+        dispatch(addContent({ personaId: selectedPersona._id, newContentEntry }));
         resetState();
     }
     
