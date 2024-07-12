@@ -68,7 +68,7 @@ export default class UserController {
                 res.status(404).json({ errors: ['user with matching externalId not found'] });
                 return;
             }
-            const personas: IPersona[] = user?.personas || [];
+            const personas: IPersona[] = user.personas.filter(p => !p.deleted);
             res.status(200).json({ result: personas });
         } catch (error) {
             this.handleGeneralError(res, error);
