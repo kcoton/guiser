@@ -74,12 +74,12 @@ export default function PersonaCardCarousel({ personas, selectedPersona, onSelec
                     <span>Select a persona</span>
                     <Slider {...settings}>
                         {personas.map((p, idx) => (
-                            <div key={p.id}>
+                            <div key={p._id}>
                                 <Card 
-                                    key={p.id}
+                                    key={p._id}
                                     className='generate-page-persona-card'
                                     onClick={() => onSelectPersonaClick(p)}
-                                    style={{border: selectedPersona?.id === p.id ? '2px solid blue' : '1px solid #ccc'}}
+                                    style={{border: selectedPersona?._id === p._id ? '2px solid blue' : '1px solid #ccc'}}
                                 >
                                     <CardContent>
                                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
