@@ -1,6 +1,9 @@
+import axios from 'axios';
+
 export default class ContentService {
     constructor(userId) {
-        this.userId = userId;
+        this.baseUrl = `${import.meta.env.VITE_BASEURL_BACK}/user`;
+        this.userId = '668c7ce0fc7c063ca7021e5b';
         this.mockContent = [
             {'id': 1, 'personaId': 1, 'userId': '106396242553744029996', 'timestamp': '2024-02-15 13:45:05', 'text': "Wow Costco never raised the price of the hotdog during COVID! #CostcoCares", 'posted': 0x7, 'isRejected': false},
             {'id': 2, 'personaId': 1, 'userId': '106396242553744029996', 'timestamp': '2024-03-17 17:16:47', 'text': "I hate it when people don't return their carts and leave them wherever in the parking lot. #Animals", 'posted': 0x3, 'isRejected': false},
@@ -14,9 +17,43 @@ export default class ContentService {
             .filter(content => content.userId === this.userId && selection(content))
             .map(content => projection(content));
     }
+    
+    async create(personaId, text, isRejected) {
+        if (!personaId) {
+            console.error('personaId is required');
+            return;
+        }
 
-    create() {
-        console.log('TODO: implement ContentService.create');
+        if (!text) {
+            console.error('text is required');
+            return;
+        }
+
+        if (typeof isRejected != 'boolean') {
+            console.error('isRejected is required');
+            return;
+        }
+
+        const url = `${this.baseUrl}/${this.userId}/persona/${personaId}/content`
+        let response;
+        try {
+            response = await axios.post(url, { text, isRejected });
+        } catch (error) {
+            console.error(error);
+            return;
+        }
+
+        if (!response.data) {
+            console.error('malformed response does not contain data');
+            return;
+        }
+
+        if (!response.data.result) {
+            console.error('response does not contain result');
+            return;
+        }
+
+        return response.data.result;
     }
 
     update(socialId) {
