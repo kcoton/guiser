@@ -3,6 +3,26 @@
 + guiserteam@gmail.com
 ** Testers
 + guiser.user.az@gmail.com
+  + threads
+** Platforms
++ Goog: guiserteam@gmail.com on [[console.cloud.google.com/apis/dashboard]]
++ Meta: guiserteam@gmail.com on [[developers.facebook.com/apps]]  
+* Steps to set up for local dev
++ create .env file in root directory
++ in /etc/hosts, add line:
+  127.0.0.1 guiser.server
++ install mkcert (brew install mkcert)
++ in terminal:
+  > mkcert install
+  > cd [backend project root dir]
+  > mkcert guiser.server
+  > npm install
+  > npm run build
+  > npm run start
+  > cd [frontend project root dir]
+  > npm install
+  > npm run dev
+
 * Meeting Minutes
 ** Post-PR2
 *** Changes to existing pages/functionality
@@ -60,11 +80,12 @@
   * [ ] Hook up Facebook for hard-coded post
   * [ ] Auth -> express endpoint connected w/ DB
     + Hookup to DB for connection w/ Google
-+ Shumin / Kiara:
-  * [ ] Hamburger/Drawer
++ Shumin 
+  * [X] Hamburger/Drawer
     + Should auto-collapse when click outside of it
-    + Page content should shift over when drawer expands
-  * [ ] Personas/Connect
+    + Page content should shift over when drawer expands 
+      (change the way to click the drawer, it will automatically close)
+  * [X] Personas/Connect
     + Eliminate connect page
     + On personas page, clicking persona tile pops open modal dialog
     + Modal dialog has pre-populated form with persona name, character text, update button
@@ -83,4 +104,3 @@
   * [ ] posts/content -> express endpoint connected w/ DB  
 + Kiara:
   * [ ] Personas -> express endpoint connected w/ DB
-    

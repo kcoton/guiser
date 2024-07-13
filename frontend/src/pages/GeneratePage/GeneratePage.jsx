@@ -1,50 +1,26 @@
 import { useState } from "react";
-import PersonaCardGrid from './PersonaCardGrid';
-import PersonaContentModal from './PersonaContentModal';
-import PostContentModal from './PostContentModal';
-import ErrorModal from './ErrorModal';
-import CircularIndeterminate from "./CircularIndeterminate";
 import { useDispatch, useSelector } from 'react-redux';
-import { addPost } from '../../redux/userSlice.js';
-import PostService from "../../services/PostService";
+import PersonaCardCarousel from './PersonaCardCarousel';
+import ErrorModal from './ErrorModal';
+import LoadingOverlay from "./LoadingOverlay";
+import ContentService from "../../services/ContentService";
+import GenerateContentForm from './GenerateContentForm';
+import ProcessContentForm from './ProcessContentForm';
+import { addContent } from "../../redux/personaSlice";
 
 export default function GeneratePage() {
     const dispatch = useDispatch();
-    const personas = useSelector(s => s.user.user.personas);
-    const postService = new PostService(useSelector(s => s.user.user.uid));
-    const [showLoading, setShowLoading] = useState(false);
-    const [showPersonaContentModal, setShowPersonaContentModal] = useState(false);
-    const [showGenerateContentModal, setShowGenerateContentModal] = useState(false);
-    const [showGeneratedContentModal, setShowGeneratedContentModal] = useState(false);
+    const personas = useSelector((state) => state.personas);
+    const contentService = new ContentService();
+    const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [selectedPersona, setSelectedPersona] = useState(undefined);
     const [generatedContent, setGeneratedContent] = useState(undefined);
 
-    function handleShowPersonaContentClick(persona) {
-        setSelectedPersona(persona);
-        setShowPersonaContentModal(true);
-    }
-
-    function handleClosePersonaContentClick() {
-        setShowPersonaContentModal(false);
-        setSelectedPersona(undefined);
-    }
-
     function handleSelectPersonaClick(persona) {
-        setSelectedPersona(persona);
-        setShowGenerateContentModal(true);
-    }
-
-    function handleCancelGenerateContentClick() {
-        setShowGenerateContentModal(false);
-        setSelectedPersona(undefined);
-    }
-
-    function resetState() {
-        setShowErrorModal(false);
-        setShowGeneratedContentModal(false);
-        setSelectedPersona(undefined);
-        setGeneratedContent(undefined);
+        if (!generatedContent) {
+            setSelectedPersona(persona);
+        }
     }
 
     async function handleGenerateContentClick(e) {
@@ -55,72 +31,71 @@ export default function GeneratePage() {
             return;
         }
 
-        setShowGenerateContentModal(false);
-        setShowLoading(true);
+        setShowLoadingOverlay(true);
         try {
-            const content = await postService.generateText(selectedPersona, form.context.value);
+            const content = await contentService.generateText(selectedPersona, form.context.value);
             setGeneratedContent(content);
-            setShowGeneratedContentModal(true);
         }
         catch (ex) {
             setShowErrorModal(true);
         }
         finally {
-            setShowLoading(false);
+            setShowLoadingOverlay(false);
         }
     }
 
-    function handleAcceptContentClick(e) {
+    function resetState() {
+        setShowErrorModal(false);
+        setSelectedPersona(undefined);
+        setGeneratedContent(undefined);
+    }
+
+    async function handleProcessContentSubmit(e, form, isRejected) {
         e.preventDefault();
-        const form = e.target;
         if (!form.checkValidity()) {
             form.reportValidity();
             return;
         }
-        dispatch(addPost({personaId: selectedPersona.id, content: generatedContent, isRejected: false}));
+        const newContentEntry = await contentService.create(selectedPersona._id, form.content.value, isRejected);
+        dispatch(addContent({ personaId: selectedPersona._id, newContentEntry }));
         resetState();
     }
-
-    function handleRejectContentClick() {
-        dispatch(addPost({personaId: selectedPersona.id, content: generatedContent, isRejected: true}));
-        resetState();
+    
+    function handleAcceptContentClick(e) {
+        e.preventDefault();
+        const form = e.target.closest('form');
+        handleProcessContentSubmit(e, form, false);
     }
+    
+    function handleRejectContentClick(e) {
+        e.preventDefault();
+        const form = e.target.closest('form');
+        handleProcessContentSubmit(e, form, true);
+    }    
 
     return (
         <div className="page-container">
-            {showLoading && <CircularIndeterminate />}
-            <PersonaCardGrid
+            <LoadingOverlay showLoadingOverlay={showLoadingOverlay} />
+            <PersonaCardCarousel
                 personas={personas}
-                onShowPersonaContentClick={handleShowPersonaContentClick}
+                selectedPersona={selectedPersona}
+                generatedContent={generatedContent}
                 onSelectPersonaClick={handleSelectPersonaClick}
+            /> 
+            <div className='generate-page-pane-separator'></div>
+            <GenerateContentForm
+                onSubmit={handleGenerateContentClick}
+                generatedContent={generatedContent}
+                selectedPersona={selectedPersona}
             />
-            <PersonaContentModal
-                open={showPersonaContentModal}
-                onClose={handleClosePersonaContentClick}
-                persona={selectedPersona}
-            />
-            <PostContentModal
-                open={showGenerateContentModal}
-                proceedBtnText={'Generate'}
-                onProceed={handleGenerateContentClick}
-                rejectBtnText={'Cancel'}
-                onReject={handleCancelGenerateContentClick}
-                content={null}
-                persona={selectedPersona}
-            />
-            <PostContentModal
-                open={showGeneratedContentModal}
-                proceedBtnText={'Accept'}
-                onProceed={handleAcceptContentClick}
-                rejectBtnText={'Reject'}
+            <div className='generate-page-pane-separator'></div>
+            <ProcessContentForm
+                onSubmit={handleProcessContentSubmit}
+                onAccept={handleAcceptContentClick}
                 onReject={handleRejectContentClick}
-                content={generatedContent}
-                persona={selectedPersona}
+                generatedContent={generatedContent}
             />
-            <ErrorModal 
-                open={showErrorModal}
-                onClose={resetState}
-            />
+            <ErrorModal open={showErrorModal} onClose={resetState} />
         </div>
     );
 }

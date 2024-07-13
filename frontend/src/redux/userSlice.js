@@ -1,45 +1,49 @@
 import { createSlice } from '@reduxjs/toolkit';
 import PersonaService from '../services/PersonaService';
-import PostService from '../services/PostService';
+import ContentService from '../services/ContentService';
 
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: null
+    user: null,
+    sid: null
   },
   reducers: {
-    login: (state, action) => {
-      state.user = action.payload;
+    sync: (state, action) => {
+      state.user = action.payload.user;
+      state.sid = action.payload.sid;
     },
     init: (state) => {
       const userId = state.user.uid;
-      const personaService = new PersonaService(userId);
-      const postService = new PostService(userId);
-      state.user.nextPostId = postService.get().length + 1;
-      const personas = personaService.get().map(persona => ({
+      const personaService = new PersonaService(userId, '668c7ce0fc7c063ca7021e5b');
+      const contentService = new ContentService(userId);
+      state.user.nextContentId = contentService.get().length + 1;
+      // TODO: replace mock call
+      const personas = personaService.getMock().map(persona => ({
         ...persona,
-        posts: postService.get(post => post.personaId === persona.id),
+        content: contentService.get(contentEntry => contentEntry.personaId === persona.id),
       }));
       state.user.personas = personas;
     },
-    addPost: (state, action) => {
-      const {personaId, content, isRejected} = action.payload;
+    addContent: (state, action) => {
+      const {personaId, text, isRejected} = action.payload;
       const persona = state.user.personas.find(p => p.id === personaId);
-      const post = {
-        id: state.user.nextPostId++,
+      const content = {
+        id: state.user.nextContentId++,
         userId: state.user.uid,
         timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19),
-        content: content,
+        text: text,
         posted: 0,
         isRejected: isRejected
       };
-      persona.posts.push(post);
+      persona.content.push(content);
     },
     logout: (state) => {
       state.user = null;
+      state.sid = null;
     }
   }
 });
 
-export const { login, init, logout, addPost } = userSlice.actions;
+export const { sync, init, logout, addContent } = userSlice.actions;
 export default userSlice.reducer;

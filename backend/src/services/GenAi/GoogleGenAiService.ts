@@ -1,43 +1,34 @@
-import IPersona from "../../models/IPersona";
+import IPersonaStub from "./IPersonaStub";
 import GenAiServiceError from "./GenAiServiceError";
 import IGenAiService from "./IGenAiService";
+import * as util from './utils';
 import { GenerativeModel, GoogleGenerativeAI } from "@google/generative-ai";
 
 export default class GoogleGenAiService implements IGenAiService {
     private readonly apiKey: string;
     private readonly modelType: string
     private readonly model: GenerativeModel;
-
+    
     constructor() {
-        this.apiKey = 'AIzaSyCMzK0fPFxr-o4A370MXGKc8kMOUZLhIwI'; // TODO: move to secret store once implemented
+        this.apiKey = "" + process.env.GOOGLE_AI_API_KEY;
+	    if (this.apiKey === "undefined") { 
+            console.error("Missing Google AI API key") 
+        };
         this.modelType = 'gemini-1.5-flash';
-        this.model = new GoogleGenerativeAI(this.apiKey).getGenerativeModel({ model: this.modelType});
+        this.model = new GoogleGenerativeAI(this.apiKey).getGenerativeModel({ model: this.modelType});	
     }
     
-    private makePrompt(persona: IPersona, promptContext: string): string {
-        const errMsg = (fieldName: string) => `${fieldName} is required to make a prompt.`; 
-        if (!persona.name) {
-            throw new GenAiServiceError(errMsg('persona.name'));
-        }
-        if (!persona.content) {
-            throw new GenAiServiceError(errMsg('persona.content'));
-        }
-        if (!promptContext) {
-            throw new GenAiServiceError(errMsg('promptContext'));
-        }
-        return `Pretend your name is ${persona.name} and you are ${persona.content}: ${promptContext}`;
-    }
 
-    public async getContent(persona: IPersona, promptContext: string): Promise<string> {
-        const prompt = this.makePrompt(persona, promptContext);
+    public async getTextContent(personaStub: IPersonaStub, promptContext: string): Promise<string> {
+        const prompt = util.makePrompt(personaStub, promptContext);	
         let content;
-        try {
-            content = (await this.model.generateContent(prompt))?.response?.text();
+        try {	    
+            content = (await this.model.generateContent(prompt)).response.text();	    
         }
-        catch {
+        catch (error) {
+	        console.error(error); // one we want to see
             throw new GenAiServiceError(`Failure to get text response from GoogleGenerativeAI model ${this.modelType}`);
         }
-
         return content;
     }
 }

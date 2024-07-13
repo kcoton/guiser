@@ -1,75 +1,76 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import SwitchAccountRoundedIcon from '@mui/icons-material/SwitchAccountRounded';
-import ShareRoundedIcon from '@mui/icons-material/ShareRounded';
-import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
-import EditNoteRoundedIcon from '@mui/icons-material/EditNoteRounded';
-import SettingsApplicationsRoundedIcon from '@mui/icons-material/SettingsApplicationsRounded';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import * as React from "react";
+import { Link } from "react-router-dom";
+import { styled, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import SwitchAccountRoundedIcon from "@mui/icons-material/SwitchAccountRounded";
+import ShareRoundedIcon from "@mui/icons-material/ShareRounded";
+import AddBoxRoundedIcon from "@mui/icons-material/AddBoxRounded";
+import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
+import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { ClickAwayListener } from "@mui/material";
 
 const drawerWidth = 240;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
+    transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: `-${drawerWidth}px`,
     ...(open && {
-      transition: theme.transitions.create('margin', {
+      transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
       marginLeft: 0,
     }),
-  }),
+  })
 );
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
+  transition: theme.transitions.create(["margin", "width"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
 }));
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+  justifyContent: "flex-end",
 }));
 
 export default function NavigationBar() {
@@ -85,98 +86,101 @@ export default function NavigationBar() {
   };
 
   const iconMap = {
-    'Home': <HomeRoundedIcon />,
-    'Personas': <SwitchAccountRoundedIcon />,
-    'Connect': <ShareRoundedIcon />,
-    'Generate': <AddBoxRoundedIcon />,
-    'Posts': <EditNoteRoundedIcon />,
-    'Settings': <SettingsApplicationsRoundedIcon />,
-    'Logout': <LogoutRoundedIcon />,
-  }
+    Home: <HomeRoundedIcon />,
+    Personas: <SwitchAccountRoundedIcon />,
+    // Connect: <ShareRoundedIcon />,
+    Generate: <AddBoxRoundedIcon />,
+    Content: <EditNoteRoundedIcon />,
+    Settings: <SettingsApplicationsRoundedIcon />,
+    Logout: <LogoutRoundedIcon />,
+  };
 
   const routesMap = {
-    'Home': '/dashboard',
-    'Personas': '/personas',
-    'Connect': '/connect',
-    'Generate': '/generate',
-    'Posts': '/posts',
-    'Settings': '/settings',
-    'Logout': '/logout',
-  }
-  
+    Home: "/dashboard",
+    Personas: "/personas",
+    // Connect: "/connect",
+    Generate: "/generate",
+    Content: "/content",
+    Settings: "/settings",
+    Logout: "/logout",
+  };
+
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Guiser
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+    <ClickAwayListener onClickAway={handleDrawerClose}>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(open && { display: "none" }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              Guiser
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
 
-        <List>
-        {['Home', 'Personas', 'Connect', 'Generate', 'Posts'].map((text) => (
-            <ListItem key={text} disablePadding>
-                <Link to={routesMap[text]}>
-                    <ListItemButton>
-                        <ListItemIcon>
-                          {iconMap[text]}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
+          <List>
+            {["Home", "Personas",  "Generate", "Content"].map(
+              (text) => (
+                <ListItem key={text} disablePadding>
+                  <Link to={routesMap[text]}>
+                    <ListItemButton onClick={handleDrawerClose}>
+                      <ListItemIcon>{iconMap[text]}</ListItemIcon>
+                      <ListItemText primary={text} />
                     </ListItemButton>
-                </Link>
-            </ListItem>
-        ))}
-        </List>
-        <Divider />
-        <List>
-        {['Settings', 'Logout'].map((text) => (
-            <ListItem key={text} disablePadding>
+                  </Link>
+                </ListItem>
+              )
+            )}
+          </List>
+          <Divider />
+          <List>
+            {["Settings", "Logout"].map((text) => (
+              <ListItem key={text} disablePadding>
                 <Link to={routesMap[text]}>
-                    <ListItemButton>
-                        <ListItemIcon>
-                          {iconMap[text]}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItemButton>
+                  <ListItemButton>
+                    <ListItemIcon>{iconMap[text]}</ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
                 </Link>
-            </ListItem>
-        ))}
-        </List>
-
-      </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
-      </Main>
-    </Box>
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        <Main open={open}>
+          <DrawerHeader />
+        </Main>
+      </Box>
+    </ClickAwayListener>
   );
 }

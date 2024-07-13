@@ -1,22 +1,22 @@
 import { expect } from 'chai';
 import GoogleGenAiService from '../../../src/services/GenAi/GoogleGenAiService';
-import IPersona from '../../../src/models/IPersona';
+import IPersonaStub from '../../../src/services/GenAi/IPersonaStub';
 import GenAiServiceError from '../../../src/services/GenAi/GenAiServiceError';
 
 describe('GoogleGenAiService', () => {
     let googleGenAiService: GoogleGenAiService;
-    let persona: IPersona;
+    let personaStub: IPersonaStub;
 
     beforeEach(() => {
         googleGenAiService = new GoogleGenAiService();
-        persona = { id: '1', name: 'Test Persona', content: 'a helpful assistant' };
+        personaStub = { name: 'Test Persona', text: 'a helpful assistant' };
     });
 
-    describe('getContent', () => {
+    describe('getTextContent', () => {
         it('should throw if persona.name is missing', async () => {
-            persona.name = '';
+            personaStub.name = '';
             try {
-                await googleGenAiService.getContent(persona, 'Test context');
+                await googleGenAiService.getTextContent(personaStub, 'Test context');
                 throw new Error('Expected method to reject.');
             } catch (err) {
                 expect(err).to.be.instanceOf(GenAiServiceError);
@@ -24,20 +24,20 @@ describe('GoogleGenAiService', () => {
             }
         });
 
-        it('should throw if persona.content is missing', async () => {
-            persona.content = '';
+        it('should throw if persona.text is missing', async () => {
+            personaStub.text = '';
             try {
-                await googleGenAiService.getContent(persona, 'Test context');
+                await googleGenAiService.getTextContent(personaStub, 'Test context');
                 throw new Error('Expected method to reject.');
             } catch (err) {
                 expect(err).to.be.instanceOf(GenAiServiceError);
-                expect((err as Error).message).to.equal('persona.content is required to make a prompt.');
+                expect((err as Error).message).to.equal('persona.text is required to make a prompt.');
             }
         });
 
         it('should throw if promptContext is missing', async () => {
             try {
-                await googleGenAiService.getContent(persona, '');
+                await googleGenAiService.getTextContent(personaStub, '');
                 throw new Error('Expected method to reject.');
             } catch (err) {
                 expect(err).to.be.instanceOf(GenAiServiceError);
@@ -50,7 +50,7 @@ describe('GoogleGenAiService', () => {
             let error: Error | undefined;
 
             try {
-                content = await googleGenAiService.getContent(persona, 'Test context');
+                content = await googleGenAiService.getTextContent(personaStub, 'Test context');
             } catch (err) {
                 error = err as Error;
             }

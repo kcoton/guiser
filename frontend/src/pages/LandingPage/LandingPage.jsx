@@ -15,7 +15,7 @@ const LandingPage = () => {
                     <h1>Guiser</h1>
                     <p>Manage your social media with ease</p>
                     <p></p>
-		            <GoogleSignIn continuation={() => navigate('/dashboard')}/>
+                    <GoogleSignIn continuation={() => navigate('/dashboard')}/>
                 </div>
                 <div className="social-media-icons">
                     <SocialMediaIcon

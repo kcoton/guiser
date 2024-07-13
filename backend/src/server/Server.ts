@@ -4,32 +4,51 @@
  * 
  * https://github.com/bshapka/insight-ubc/commit/1c0c9f621d4307a6baa5f8aa221f518896c3b9ee
  */
-
 import express, {Application, Request, Response} from "express";
+import * as https from "https";
 import * as http from "http";
 import cors from "cors";
-import AuthRouter from "../routes/AuthRouter";
+import AuthRouter from "../routers/AuthRouter";
 import cookieParser from "cookie-parser";
-import postRouter from "../routes/PostRouter";
+import contentRouter from "../routers/ContentRouter";
+import PubRouter from "../routers/PubRouter";
+import socialAppRouter from "../routers/SocialAppRouter";
+import userRouter from "../routers/UserRouter";
+import fs from 'fs';
+import mongoose from "mongoose";
 
 export default class Server {
     private readonly port: number;
+    private readonly httpsCertPath: string;
+    private readonly httpsKeyPath: string;
     private express: Application;
-    private server: http.Server | undefined;
+    private server: https.Server | http.Server | undefined;
 
-    constructor(port: number) {
+    constructor(port: number, httpsCertPath: string = '', httpsKeyPath: string = '') {
         this.port = port;
+	    this.httpsCertPath = httpsCertPath;
+	    this.httpsKeyPath = httpsKeyPath;
         this.express = express();
         this.registerMiddleware();
-        this.registerRoutes();
+	    this.registerRoutes();
+        this.connectToDatabase();
     }
 
     public start(): Promise<void> {
         return new Promise((resolve, reject) => {
             if (this.server !== undefined) {
                 reject();
-            } else {
+            } else if (!this.httpsCertPath || !this.httpsKeyPath) {
                 this.server = this.express.listen(this.port, () => {
+                    resolve();
+                }).on("error", (err: Error) => {
+                    reject(err);
+                });
+            } else {
+                const certBuf: Buffer = fs.readFileSync(this.httpsCertPath);
+                const keyBuf: Buffer = fs.readFileSync(this.httpsKeyPath);
+                const httpsParams = {key: keyBuf, cert: certBuf};
+                this.server = https.createServer(httpsParams, this.express).listen(this.port, () => {
                     resolve();
                 }).on("error", (err: Error) => {
                     reject(err);
@@ -60,8 +79,17 @@ export default class Server {
     private registerRoutes() {
         this.express.get("/echo/:msg", Server.echo);
         this.express.use("/auth", AuthRouter);
-        this.express.use("/post", postRouter);
-        // Add more routing modules here
+        this.express.use("/content", contentRouter);
+	    this.express.use("/pub", PubRouter);
+        this.express.use("/social-app", socialAppRouter);
+        this.express.use("/user", userRouter);
+    }
+
+    private connectToDatabase() {
+        const mongoDbUri: string = process.env.MONGO_DB_URI ?? '';
+        mongoose.connect(mongoDbUri).catch(
+            (err) => console.error('Error connecting to MongoDB', err)
+        );
     }
 
     private static echo(req: Request, res: Response) {

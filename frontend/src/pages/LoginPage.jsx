@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login, init } from '../redux/userSlice.js';
+import { sync, init } from '../redux/userSlice.js';
+import { fetchPersonas } from '../redux/personaSlice';
+
 import axios from 'axios';
 
 const LoginPage = () => {
@@ -9,15 +11,13 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     
-    const requestUser = async () => {        
-        const query = new URLSearchParams(window.location.search);
-        const token = query.get('token');
-        // TODO - find better way to manage protocol and host
-        const baseURL = "http://localhost:3001";        
-        const endpoint = baseURL + "/auth/uid";        
+    const requestSession = async () => {
+	const reqID = sessionStorage.getItem("reqID");	
+        const baseURL = import.meta.env.VITE_BASEURL_BACK;
+        const endpoint = baseURL + "/auth/login";        
         try {
             const res = await axios.get(endpoint, {
-                headers: { token: token }
+                headers: { token: reqID }
             });
             return res.data;
         } catch (error) {
@@ -25,19 +25,17 @@ const LoginPage = () => {
             throw error;
         }
     }
-
-    // TODO - add state handling for sessionID
-    
     
     useEffect(() => {
         const thunk = async () => {
-            const user = await requestUser();
-            dispatch(login(user));
+            const session = await requestSession();
+            dispatch(sync(session));
             dispatch(init());
+            dispatch(fetchPersonas());
             navigate('/dashboard');
-        }
+            }
         thunk();        
-    }, [])
+    }, [dispatch, navigate])
 
     return ( <div> Logged in. </div> );
 }
