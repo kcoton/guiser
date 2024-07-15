@@ -45,6 +45,7 @@ Time permitting, Guiser may also support:
 - Responsive Web Design: Design the interface to be simple and functional on both desktop and mobile devices
 - Content Storage: Store generated content so that it can be used to generate follow-up content
 - Content Editing: Allow users to modify generated content before it is posted to social media websites
+- Soft Delete: Implement soft delete on all MongoDB collections in our DB
 
 ### Stretch Requirements
 - Extended Content Generation and Distribution: Enable the generation of image content tailored to personas and posting on an appropriate site
