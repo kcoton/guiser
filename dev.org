@@ -77,9 +77,6 @@
 + Deletes: personas
 *** Task Breakdown:
 + Ewan:
-  * [ ] Hook up Facebook for hard-coded post
-  * [ ] Auth -> express endpoint connected w/ DB
-    + Hookup to DB for connection w/ Google
 + Shumin 
   * [X] Hamburger/Drawer
     + Should auto-collapse when click outside of it
@@ -92,15 +89,40 @@
     + Modal dialog has links/icons to connect to platform accounts    
   * [ ] hook up to Twitter for hard-coded posts
 + Brant:
-  * [ ] DB Setup
+  * [X] DB Setup
     + setup Atlas hosting w/ guiserteam@gmail.com account
     + basic DB model
     + Node/Express connection for DB
-  * [ ] Generate
+  * [X] Generate
     + Scrollable horizontal list with "tiles" for each persona at top
     + Clicking tile highlights/outlines selected persona tile
     + "Generate Post" workflow / form appears under the top scroller list (incrementally)
     + Instead of "Accept", shows "Post to..." button(s), "Save to Drafts" button, and "Reject"/garbage can icon
-  * [ ] posts/content -> express endpoint connected w/ DB  
+  * [X] posts/content -> express endpoint connected w/ DB  
 + Kiara:
-  * [ ] Personas -> express endpoint connected w/ DB
+  * [X] Personas -> express endpoint connected w/ DB
+** Post-PR4
+*** Task Breadown:
++ Ewan
+  * [ ] Auth -> express endpoint connected w/ DB
+    + Hookup to DB for connection w/ Google
+  * [ ] Figure out session validation w/ DB id after Kiara done
+  * [ ] user registration on first sign-in
+  * [ ] front-end threads integration
++ Kiara
+  * [ ] Restructure redux store
+  * [ ] 3 sentence "pitch" of project
+  * [ ] carousel for personas page (from generate)
++ Shumin
+  * [ ] Twitter authorization flow
+  * [ ] Twitter link/post UI integration
++ Brant
+  1. [ ] Git Actions
+  2. [ ] Workflow Status badge     
+  3. [ ] LinkedIn authorization flow
+  4. [ ] Revisit rubric
+  5. [ ] Content editing at review stage
++ All (for later): dashboard features?
+*** Final iteration
++ Polish up UI
++ Test responsiveness
