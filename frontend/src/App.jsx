@@ -14,6 +14,7 @@ import LogoutPage from './pages/LogoutPage';
 import store from './redux/store';
 import './App.css'
 import ResolverPage from './pages/ResolverPage';
+import LinkedInAuthHandler from './pages/LinkedInAuthHandler';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function MainApp() {
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/logout" element={<LogoutPage />} />
         <Route path="/resolver" element={<ResolverPage />} />
+        <Route path="/linkedinauthhandler" element={<LinkedInAuthHandler />} />
       </Routes>
     </div>
   );
