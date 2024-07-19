@@ -6,6 +6,7 @@ import { IContent } from "../models/Content";
 import { validationResult, matchedData } from "express-validator";
 import { IAuthToken } from "../models/AuthToken";
 import axios from 'axios';
+import QueryString from "qs";
 
 export default class UserController {
     public getUser = async (req: Request, res: Response): Promise<void> => {
@@ -171,12 +172,18 @@ export default class UserController {
             
             try {
                 response = await axios.post(
-                    tokenUrl, { 
+                    tokenUrl, 
+                    QueryString.stringify({
                         grant_type: 'authorization_code',
                         code: reqData.code,
                         redirect_uri: process.env.LINKED_IN_REDIRECT_URI,
                         client_id: process.env.LINKED_IN_CLIENT_ID,
                         client_secret: process.env.LINKED_IN_SECRET
+                    }), 
+                    {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
                     }
                 );
             } catch (err) {
@@ -184,20 +191,20 @@ export default class UserController {
                 return;
             }
 
-            if (!response?.data?.accessToken) {
-                res.status(200).json({ errors: ['failed to get token in endpoint response'] });
+            if (!response?.data?.access_token) {
+                res.status(400).json({ errors: ['failed to get token in endpoint response'] });
                 return;
             }
 
-            if (!response?.data?.expiry) {
-                res.status(200).json({ errors: ['failed to get expiry in endpoint response'] });
+            if (!response?.data?.expires_in) {
+                res.status(400).json({ errors: ['failed to get expiry in endpoint response'] });
                 return;
             }
             
             let newAuthToken: IAuthToken = { 
                 platform: 'LinkedIn', 
-                token: response.data.accessToken, 
-                expiry: response.data.expiry
+                token: response.data.access_token,
+                expiry: response.data.expires_in
             } as IAuthToken;
             persona.authTokens.push(newAuthToken);
             newAuthToken = persona.authTokens[persona.authTokens.length - 1];
