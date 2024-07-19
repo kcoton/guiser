@@ -15,6 +15,20 @@ const userSlice = createSlice({
     storeDbUser: (state, action) => {
       state.db = action.payload;
     },
+    storeUser: (state, action) => {
+      state.user = action.payload.user;
+      state.db = action.payload.db;
+      state.sid = action.payload.sid;
+    },
+    addAuthToken: (state, action) => {
+      const { personaId, authToken } = action.payload;
+      const persona = state.db.personas.find(p => p._id == personaId);
+      if (!persona) {
+        console.error('persona not found');
+        return;
+      }
+      persona.authTokens.push(authToken);
+    },
     logout: (state) => {
       state.user = null;
       state.sid = null;
@@ -22,5 +36,5 @@ const userSlice = createSlice({
   }
 });
 
-export const { sync, storeDbUser, logout } = userSlice.actions;
+export const { sync, storeDbUser, storeUser, addAuthToken, logout } = userSlice.actions;
 export default userSlice.reducer;
