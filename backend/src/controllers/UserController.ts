@@ -180,7 +180,7 @@ export default class UserController {
                     }
                 );
             } catch (err) {
-                res.status(200).json({ errors: ['failed to resolve OAuth code to token'] });
+                res.status(400).json({ errors: ['failed to resolve OAuth code to token'] });
                 return;
             }
 
