@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { IContent } from "../models/Content";
 import { validationResult, matchedData } from "express-validator";
 import { IAuthToken } from "../models/AuthToken";
+import axios from 'axios';
 
 export default class UserController {
     public getUser = async (req: Request, res: Response): Promise<void> => {
@@ -15,7 +16,7 @@ export default class UserController {
                 return;
             }
 
-            const reqData = matchedData(req);
+            const reqData: Record<string, any> = matchedData(req);
 
             const user: IUser | null = await User.findOne({ externalId: reqData.externalId })
                 .lean()
@@ -40,13 +41,13 @@ export default class UserController {
                 return;
             }
 
-            const reqData = matchedData(req);
+            const reqData: Record<string, any> = matchedData(req);
 
             const user: IUser = (await User.create({ externalId: reqData.externalId })).toJSON();
             res.status(200).json({ result: user });
         } catch (error) {
             if ((error as any)?.code === 11000) {
-                res.status(409).json({ error: 'user with externalId already exists' });
+                res.status(409).json({ errors: ['user with externalId already exists'] });
             } else {
                 this.handleGeneralError(res, error);
             }
@@ -60,7 +61,7 @@ export default class UserController {
                 res.status(400).json({ errors: errors.array() });
                 return;
             }
-            const reqData = matchedData(req);
+            const reqData: Record<string, any> = matchedData(req);
             const user: IUser | null = await User.findOne({ externalId: reqData.externalId })
                 .lean()
                 .exec();
@@ -84,7 +85,7 @@ export default class UserController {
                 return;
             }
 
-            const reqData = matchedData(req);
+            const reqData: Record<string, any> = matchedData(req);
 
             const user: IUser | null = await this.findUserById(reqData.userId, res);
             if (!user) { return; }
@@ -107,7 +108,7 @@ export default class UserController {
                 return;
             }
 
-            const reqData = matchedData(req);
+            const reqData: Record<string, any> = matchedData(req);
 
             const user = await this.findUserById(reqData.userId, res);
             if (!user) { return; }
@@ -133,7 +134,7 @@ export default class UserController {
                 return;
             }
 
-            const reqData = matchedData(req);
+            const reqData: Record<string, any> = matchedData(req);
 
             const user: IUser | null = await this.findUserById(reqData.userId, res);
             if (!user) { return; }
@@ -149,7 +150,7 @@ export default class UserController {
         }
     }
 
-    public createAuthToken = async (req: Request, res: Response): Promise<void> => {
+    public createLinkedInAuthToken = async (req: Request, res: Response): Promise<void> => {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -157,7 +158,7 @@ export default class UserController {
                 return;
             }
 
-            const reqData = matchedData(req);
+            const reqData: Record<string, any> = matchedData(req);
 
             const user: IUser | null = await this.findUserById(reqData.userId, res);
             if (!user) { return; }
@@ -165,8 +166,38 @@ export default class UserController {
             const persona: IPersona | null = this.findPersonaById(reqData.personaId, user.personas, res);
             if (!persona) { return; }
 
+            const tokenUrl: string = 'https://www.linkedin.com/oauth/v2/accessToken';
+            let response: axios.AxiosResponse;
+            
+            try {
+                response = await axios.post(
+                    tokenUrl, { 
+                        grant_type: 'authorization_code',
+                        code: reqData.code,
+                        redirect_uri: process.env.LINKED_IN_REDIRECT_URI,
+                        client_id: process.env.LINKED_IN_CLIENT_ID,
+                        client_secret: process.env.LINKED_IN_SECRET
+                    }
+                );
+            } catch (err) {
+                res.status(200).json({ errors: ['failed to resolve OAuth code to token'] });
+                return;
+            }
+
+            if (!response?.data?.accessToken) {
+                res.status(200).json({ errors: ['failed to get token in endpoint response'] });
+                return;
+            }
+
+            if (!response?.data?.expiry) {
+                res.status(200).json({ errors: ['failed to get expiry in endpoint response'] });
+                return;
+            }
+            
             let newAuthToken: IAuthToken = { 
-                platform: reqData.platform, token: reqData.token, expiry: reqData.expiry 
+                platform: 'LinkedIn', 
+                token: response.data.accessToken, 
+                expiry: response.data.expiry
             } as IAuthToken;
             persona.authTokens.push(newAuthToken);
             newAuthToken = persona.authTokens[persona.authTokens.length - 1];
@@ -185,7 +216,7 @@ export default class UserController {
                 return;
             }
 
-            const reqData = matchedData(req);
+            const reqData: Record<string, any> = matchedData(req);
 
             const user: IUser | null = await this.findUserById(reqData.userId, res);
             if (!user) { return; }
@@ -205,13 +236,13 @@ export default class UserController {
 
     private async findUserById(userId: string, res: Response): Promise<IUser | null> {
         if (!mongoose.Types.ObjectId.isValid(userId)) {
-            res.status(400).json({ error: 'userId is invalid' });
+            res.status(400).json({ errors: ['userId is invalid'] });
             return null;
         }
 
         const user: IUser | null = await User.findById(userId);
         if (!user) {
-            res.status(404).json({ error: 'user with matching id not found' });
+            res.status(404).json({ errors: ['user with matching id not found'] });
             return null;
         }
 
@@ -223,7 +254,7 @@ export default class UserController {
             p._id == personaId && !p.deleted
         );
         if (!persona) {
-            res.status(404).json({ error: 'persona with matching id not found' });
+            res.status(404).json({ errors: ['persona with matching id not found'] });
             return null;
         }
 
@@ -232,6 +263,6 @@ export default class UserController {
 
     private handleGeneralError(res: Response, error: unknown): void {
         const errorMessage = (error as Error)?.message ?? 'An unexpected error occurred';
-        res.status(500).json({ error: errorMessage });
+        res.status(500).json({ errors: [errorMessage] });
     }
 }
