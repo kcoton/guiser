@@ -43,7 +43,7 @@ export default function PersonaModal({
     });
   
     const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`;
-    sessionStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
     window.location.href = linkedInAuthUrl;
   }
   
