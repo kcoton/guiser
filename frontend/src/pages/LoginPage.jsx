@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { sync, init } from '../redux/userSlice.js';
+import { sync, storeDbUser } from '../redux/userSlice.js';
 import { fetchPersonas } from '../redux/personaSlice';
+import { getUser, createUser } from '../services/UserService.js'
 
 import axios from 'axios';
 
@@ -12,7 +13,7 @@ const LoginPage = () => {
     const dispatch = useDispatch();
     
     const requestSession = async () => {
-	const reqID = sessionStorage.getItem("reqID");	
+    	const reqID = sessionStorage.getItem("reqID");	
         const baseURL = import.meta.env.VITE_BASEURL_BACK;
         const endpoint = baseURL + "/auth/login";        
         try {
@@ -25,12 +26,22 @@ const LoginPage = () => {
             throw error;
         }
     }
-    
+
+    const getDbUser = async (externalId) => {
+        try {
+            return await getUser(externalId) ?? await createUser(externalId);
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
     useEffect(() => {
         const thunk = async () => {
             const session = await requestSession();
+            const dbUser = await getDbUser(session.user.uid);
             dispatch(sync(session));
-            dispatch(init());
+            dispatch(storeDbUser(dbUser));
             dispatch(fetchPersonas());
             navigate('/dashboard');
             }
