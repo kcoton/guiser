@@ -79,6 +79,20 @@ class UserRouter {
             ],
             this.userController.deletePersona
         );
+        const supportedPlatforms = ['Threads', 'Twitter', 'LinkedIn']
+        this.router.post(
+            '/:userId/persona/:personaId/authtoken',
+            [
+                param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                body('platform').isString().notEmpty().withMessage('is required').isIn(supportedPlatforms)
+                    .withMessage(`must be one of the following: ${supportedPlatforms.join(', ')}`),
+                body('token').isString().notEmpty().withMessage('is required'),
+                body('expiry').isISO8601().toDate().withMessage('must be a datetime')
+                    .notEmpty().withMessage('is required')
+            ],
+            this.userController.createAuthToken
+        );
         this.router.post(
             '/:userId/persona/:personaId/content', 
             [

@@ -4,6 +4,7 @@ import { IPersona } from "../models/Persona";
 import mongoose from "mongoose";
 import { IContent } from "../models/Content";
 import { validationResult, matchedData } from "express-validator";
+import { IAuthToken } from "../models/AuthToken";
 
 export default class UserController {
     public getUser = async (req: Request, res: Response): Promise<void> => {
@@ -143,6 +144,34 @@ export default class UserController {
             persona.delete();
             await user.save();
             res.status(200).json({ result: reqData.personaId });
+        } catch (error) {
+            this.handleGeneralError(res, error);
+        }
+    }
+
+    public createAuthToken = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(400).json({ errors: errors.array() });
+                return;
+            }
+
+            const reqData = matchedData(req);
+
+            const user: IUser | null = await this.findUserById(reqData.userId, res);
+            if (!user) { return; }
+
+            const persona: IPersona | null = this.findPersonaById(reqData.personaId, user.personas, res);
+            if (!persona) { return; }
+
+            let newAuthToken: IAuthToken = { 
+                platform: reqData.platform, token: reqData.token, expiry: reqData.expiry 
+            } as IAuthToken;
+            persona.authTokens.push(newAuthToken);
+            newAuthToken = persona.authTokens[persona.authTokens.length - 1];
+            await user.save();
+            res.status(200).json({ result: newAuthToken });
         } catch (error) {
             this.handleGeneralError(res, error);
         }
