@@ -7,81 +7,71 @@ import axios from 'axios';
 export default function LinkedInAuthHandler() {
     const dispatch = useDispatch();
     const location = useLocation();
-    const [message, setMessage] = useState(
-        "Sorry, we were unable to connect your LinkedIn account. Please retry later."
-    );
+    const [message, setMessage] = useState('');
 
-    function userIdValid(user) {
+    function handleReportedError(error) {
+        if (error === 'user_cancelled_login' || error === 'user_cancelled_authorize') {
+            setMessage("As requested, your connection to LinkedIn has been cancelled.");
+        } else {
+            throw new Error("Auth code acquisition failed for reason other than user cancellation");
+        }
+    };
+
+    function restoreUserFromLocalStorage() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        localStorage.removeItem('user');
         if (!user) {
-            console.error('No user to recover from local storage');
-            return false;
+            throw new Error('Unable to retrieve user from local storage');
         }
-
-        if (!user.db) {
-            console.error('Recovered user does not have db prop');
-            return false;
+        dispatch(storeUser(user));
+        const userId = user.db._id;
+        if (!userId) {
+            throw new Error('Retrieved user does not contain id prop');
         }
+        return user.db._id;
+    };
 
-        if (!user.db._id) {
-            console.error('Recovered user does not have Mongo id');
-            return false;
+    function getRedirectParams(urlParams) {
+        const code = urlParams.get('code');
+        const personaId = urlParams.get('state');
+        if (!code || !personaId) {
+            throw new Error('Expected redirect params not present');
         }
+        return { code, personaId };
+    };
 
-        return true;
-    }
+    async function resolveCodeToToken(userId, personaId, code) {
+        const baseUrl = import.meta.env.VITE_BASEURL_BACK;
 
-    function responseIsValid(response) {
-        if (!response.data) {
-            console.error('Malformed response does not contain data key');
-            return false;
+        const response = await axios.post(
+            `${baseUrl}/user/${userId}/persona/${personaId}/authtoken/linkedin`,
+            { code }
+        );
+        if (!response?.data?.result) {
+            throw new Error('Malformed backend response');
         }
-
-        if (!response.data.result) {
-            console.error('Malformed data in response does not contain result key');
-            return false;
-        }
-
-        return true;
-    }
+        return response.data.result;
+    };
 
     useEffect(() => {
         const handleLinkedInAuth = async () => {
-            const user = JSON.parse(localStorage.getItem('user'));
-            localStorage.removeItem('user');
-
-            if (!userIdValid(user)) { return; }
-            dispatch(storeUser(user));
-
-            const urlParams = new URLSearchParams(location.search);
-            const code = urlParams.get('code');
-            const personaId = urlParams.get('state');
-
-            const baseUrl = import.meta.env.VITE_BASEURL_BACK;
-            const url = `${baseUrl}/user/${user.db._id}/persona/${personaId}/authtoken/linkedin`;
-
-            let response;
             try {
-                response = await axios.post(
-                    url, 
-                    { code }
-                );
+                const urlParams = new URLSearchParams(location.search);
+                const error = urlParams.get('error');
+                if (error) {
+                    handleReportedError(error);
+                    return;
+                }
+                
+                const userId = restoreUserFromLocalStorage();
+                const { code, personaId } = getRedirectParams(urlParams);
+                const authToken = await resolveCodeToToken(userId, personaId, code);
+                dispatch(addAuthToken({ personaId, authToken }));
+                setMessage("Your LinkedIn account has been successfully connected!");
             } catch (err) {
-                console.error('Error registering LinkedIn token on backend');
-                return;
+                console.error(err);
+                setMessage("Sorry, we were unable to connect your LinkedIn account. Please retry later.");
             }
-
-            if (!responseIsValid(response)) { return; }
-
-            try {
-                dispatch(addAuthToken({
-                    personaId, 
-                    authToken: response.data.result
-                }));
-            } catch (err) {
-                console.error('Error storing auth token in Redux');
-            }
-            
-            setMessage("Your LinkedIn account has been successfully connected!");
         };
 
         handleLinkedInAuth();
