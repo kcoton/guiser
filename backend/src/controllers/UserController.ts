@@ -7,6 +7,7 @@ import { validationResult, matchedData } from "express-validator";
 import { IAuthToken } from "../models/AuthToken";
 import axios from 'axios';
 import QueryString from "qs";
+import { addSeconds } from "date-fns";
 
 export default class UserController {
     public getUser = async (req: Request, res: Response): Promise<void> => {
@@ -167,36 +168,15 @@ export default class UserController {
             const persona: IPersona | null = this.findPersonaById(reqData.personaId, user.personas, res);
             if (!persona) { return; }
 
-            const tokenUrl: string = 'https://www.linkedin.com/oauth/v2/accessToken';
-            let response: axios.AxiosResponse;
-            
-            try {
-                response = await axios.post(
-                    tokenUrl, 
-                    QueryString.stringify({
-                        grant_type: 'authorization_code',
-                        code: reqData.code,
-                        redirect_uri: process.env.LINKED_IN_REDIRECT_URI,
-                        client_id: process.env.LINKED_IN_CLIENT_ID,
-                        client_secret: process.env.LINKED_IN_SECRET
-                    }), 
-                    {
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        }
-                    }
-                );
-            } catch (err) {
-                res.status(400).json({ errors: ['failed to resolve OAuth code to token'] });
-                return;
-            }
+            const response: axios.AxiosResponse | undefined = await this.getLinkedInToken(res, reqData.code);
+            if (!response) { return; }
 
-            if (!response?.data?.access_token) {
+            if (!response.data?.access_token) {
                 res.status(400).json({ errors: ['failed to get token in endpoint response'] });
                 return;
             }
 
-            if (!response?.data?.expires_in) {
+            if (!response.data?.expires_in) {
                 res.status(400).json({ errors: ['failed to get expiry in endpoint response'] });
                 return;
             }
@@ -204,10 +184,10 @@ export default class UserController {
             let newAuthToken: IAuthToken = { 
                 platform: 'LinkedIn', 
                 token: response.data.access_token,
-                expiry: response.data.expires_in
+                expiry: this.getTokenExpiryDate(response.data.expires_in)
             } as IAuthToken;
-            persona.authTokens.push(newAuthToken);
-            newAuthToken = persona.authTokens[persona.authTokens.length - 1];
+
+            newAuthToken = this.upsertAuthToken(persona, newAuthToken);
             await user.save();
             res.status(200).json({ result: newAuthToken });
         } catch (error) {
@@ -266,6 +246,51 @@ export default class UserController {
         }
 
         return persona;
+    }
+
+    private async getLinkedInToken(res: Response, code: string) : Promise<axios.AxiosResponse | undefined> {
+        try {
+            return await axios.post(
+                'https://www.linkedin.com/oauth/v2/accessToken', 
+                QueryString.stringify({
+                    grant_type: 'authorization_code',
+                    code: code,
+                    redirect_uri: process.env.LINKED_IN_REDIRECT_URI,
+                    client_id: process.env.LINKED_IN_CLIENT_ID,
+                    client_secret: process.env.LINKED_IN_SECRET
+                }), {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            );
+        } catch (err) {
+            res.status(400).json({ errors: ['failed to resolve OAuth code to token'] });
+            return;
+        }
+    }
+
+    private upsertAuthToken(persona: IPersona, newAuthToken: IAuthToken): IAuthToken {
+        const matchingPlatformTokenIndex = persona.authTokens.findIndex(token => 
+            token.platform === newAuthToken.platform
+        );
+
+        if (matchingPlatformTokenIndex > -1) {
+            persona.authTokens[matchingPlatformTokenIndex] = newAuthToken;
+        } else {
+            persona.authTokens.push(newAuthToken);
+        }
+
+        return persona.authTokens[
+            matchingPlatformTokenIndex > -1 ?
+            matchingPlatformTokenIndex :
+            persona.authTokens.length - 1
+        ];
+    }
+
+    private getTokenExpiryDate(expires_in: number): Date {
+        const currentDatetime: Date = new Date();
+        return addSeconds(currentDatetime, expires_in);
     }
 
     private handleGeneralError(res: Response, error: unknown): void {
