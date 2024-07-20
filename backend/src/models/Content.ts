@@ -1,17 +1,16 @@
 import { Schema } from 'mongoose';
 import MongooseDelete, { SoftDeleteDocument } from 'mongoose-delete';
-import { IPost, PostSchema } from './Post';
 
 export interface IContent extends SoftDeleteDocument {
     text: string;
     isRejected: boolean;
-    posts: IPost[];
+    posted: number;
 }
 
 export const ContentSchema: Schema = new Schema<IContent>({
     text: { type: String, required: true },
     isRejected: { type: Boolean, required: true },
-    posts: [PostSchema]
+    posted: { type: Number, required: true, default: 0, min: 0, max: 7 }
 }, {
     timestamps: true
 });
