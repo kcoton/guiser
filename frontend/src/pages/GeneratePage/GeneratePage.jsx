@@ -6,7 +6,7 @@ import LoadingOverlay from "./LoadingOverlay";
 import { createContent, generateText } from "../../services/ContentService";
 import GenerateContentForm from './GenerateContentForm';
 import ProcessContentForm from './ProcessContentForm';
-import { addContent } from "../../redux/personaSlice";
+import { addContent } from "../../redux/userSlice";
 
 export default function GeneratePage() {
     const dispatch = useDispatch();
