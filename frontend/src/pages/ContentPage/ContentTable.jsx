@@ -1,5 +1,4 @@
 import { DataGrid } from '@mui/x-data-grid';
-import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -10,7 +9,6 @@ import { useSelector } from 'react-redux';
 function getIcon(website) {
     const iconMap = {
         'Twitter': <TwitterIcon />,
-        'Facebook': <FacebookIcon />,
         'LinkedIn': <LinkedInIcon />,
         'Instagram': <InstagramIcon />
     }
