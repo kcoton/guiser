@@ -10,7 +10,7 @@ import { addContent } from "../../redux/personaSlice";
 
 export default function GeneratePage() {
     const dispatch = useDispatch();
-    const personas = useSelector((state) => state.personas);
+    const personas = useSelector((state) => state.user.db?.personas);
     const contentService = new ContentService();
     const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
