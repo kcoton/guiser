@@ -22,11 +22,14 @@ const userSlice = createSlice({
     },
     addAuthToken: (state, action) => {
       const { personaId, authToken } = action.payload;
-      const persona = state?.db?.personas?.find(p => p._id == personaId);
+      const persona = state.db.personas.find(p => p._id == personaId);
       if (!persona) {
         console.error('persona not found');
         return;
       }
+      persona.authTokens = persona.authTokens.filter(t => 
+        t.platform !== authToken.platform
+      );
       persona.authTokens.push(authToken);
     },
     logout: (state) => {
