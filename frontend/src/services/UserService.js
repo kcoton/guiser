@@ -11,11 +11,10 @@ async function getUser(externalId) {
         throw new Error('baseUrl is required');
     }
 
-    const url = `${baseUrl}/user`;
     let response;
     try {
         response = await axios.get(
-            url, {
+            `${baseUrl}/user`, {
                 params: {
                     externalId: externalId
                 }
@@ -48,10 +47,8 @@ async function createUser(externalId) {
         throw new Error('baseUrl is required');
     }
 
-    const url = `${baseUrl}/user`;
-    let response;
-    response = await axios.post(
-        url,
+    const response = await axios.post(
+        `${baseUrl}/user`,
         { externalId }
     );
 
