@@ -4,34 +4,28 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
-import SocialSiteService from '../../services/SocialSiteService';
 import React from 'react';
 
-export default function ContentCards({ selectedContent }) {
-    const socialSites = new SocialSiteService().get();
+export default function ContentCards({ socialApps, selectedContent }) {
 
     return (
         <Grid container spacing={4} style={{ marginTop: 10 }}>
-            {socialSites.map(site => {
-                const isPostedToSite = selectedContent.posted & (2 ** (site.id - 1));
+            {socialApps.map(app => {
+                const isPostedToSite = selectedContent.posted & (2 ** (app.seqNo - 1));
                 return (
-                    <Grid item xs={12} sm={6} md={4} key={site.id}>
+                    <Grid item xs={12} sm={6} md={4} key={app.seqNo}>
                         <Card sx={{ minWidth: 20 }}>
                             <CardContent>
                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                     {isPostedToSite ? '' : 'Not'} Posted
                                 </Typography>
                                 <Typography variant="h5" component="div">
-                                    {site.website}
+                                    {app.name}
                                 </Typography>
                             </CardContent>
                             <CardActions>
                                 {!isPostedToSite ?
                                     <Button size="small" onClick={() => console.log('posted...')}>Post</Button> : ''}
-                                {isPostedToSite ?
-                                    <Button size="small" onClick={() => console.log('updated...')}>Update</Button> : ''}
-                                {isPostedToSite ?
-                                    <Button size="small" onClick={() => console.log('deleted...')}>Delete</Button> : ''}
                             </CardActions>
                         </Card>
                     </Grid>
