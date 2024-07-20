@@ -54,3 +54,5 @@ async function generateText(persona, promptContext) {
     }
     return data['result'];
 }
+
+export { createContent, generateText };
