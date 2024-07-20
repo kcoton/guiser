@@ -24,7 +24,7 @@ async function createContent(userId, personaId, text, isRejected) {
     }
 
     const response = await axios.post(
-        `${baseUrl}/${userId}/persona/${personaId}/content`,
+        `${baseUrl}/user/${userId}/persona/${personaId}/content`,
         { text, isRejected }
     );
 
