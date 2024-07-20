@@ -56,8 +56,9 @@ export default function ContentTable({ onRowClick }) {
     ];
 
     return (
-        <div style={{ height: 400, width: '100%' }}>
-            { content ?
+        <>
+        { content?.length ?
+            <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
                     rows={content}
                     columns={columns}
@@ -69,9 +70,10 @@ export default function ContentTable({ onRowClick }) {
                     pageSizeOptions={[5, 10]}
                     onRowClick={onRowClick}
                     disableSelectionOnClick={true}
-                /> :
-                ''
-            }
-        </div>
+                /> 
+            </div> :
+            <span>Generate some content first to see it here!</span>
+        }
+    </>
     );
 }
