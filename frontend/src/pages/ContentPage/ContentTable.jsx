@@ -19,7 +19,7 @@ function getIcon(website) {
 }
 
 export default function ContentTable({ onRowClick }) {
-    const content = useSelector((state) => state.personas)
+    const content = useSelector((state) => state.user.db?.personas)
         .reduce((acc, persona) => {
             const personaName = persona.name;
             persona.content.forEach(contentEntry => {
@@ -57,18 +57,21 @@ export default function ContentTable({ onRowClick }) {
 
     return (
         <div style={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={content}
-                columns={columns}
-                initialState={{
-                        pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                }}
-                pageSizeOptions={[5, 10]}
-                onRowClick={onRowClick}
-                disableSelectionOnClick={true}
-            />
+            { content ?
+                <DataGrid
+                    rows={content}
+                    columns={columns}
+                    initialState={{
+                            pagination: {
+                            paginationModel: { page: 0, pageSize: 5 },
+                        },
+                    }}
+                    pageSizeOptions={[5, 10]}
+                    onRowClick={onRowClick}
+                    disableSelectionOnClick={true}
+                /> :
+                ''
+            }
         </div>
     );
 }
