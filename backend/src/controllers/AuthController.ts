@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, response, Response } from 'express';
 import * as AuthService from '../services/AuthService';
 import axios from 'axios';
 import fs from 'fs';
@@ -76,6 +76,34 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
     } catch (error) {
 	console.error(error);
         res.status(500).json({ error: 'Internal server error.' });	
+    }
+}
+
+export async function getTwitterAuthCode(req: Request, res: Response) {
+    const url = 'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=' + process.env.TWITTER_CLIENT_ID + '&redirect_uri=' + process.env.TWITTER_REDIRECT_URI + '&scope=tweet.read%20tweet.write%20users.read&state=state&code_challenge=challenge&code_challenge_method=plain';
+    res.redirect(url);
+}
+
+export async function processTwitterAuthCode(req: Request, res: Response) {
+    const authCode = req.query.code;
+    console.log("AuthCode: " + authCode);
+    
+    const url = 'https://api.twitter.com/2/oauth2/token?grant_type=authorization_code&client_id=' + process.env.TWITTER_CLIENT_ID + '&redirect_uri=' + process.env.TWITTER_REDIRECT_URI + '&code=' + authCode + '&code_verifier=challenge' ;
+    const basicSecret = Buffer.from(`${process.env.TWITTER_CLIENT_ID}:${process.env.TWITTER_SECRET}`).toString('base64');
+    console.log("BasicAuth: " + basicSecret);
+    console.log(url);
+    const headers = {
+        'Authorization': `Basic ${basicSecret}`
+    };
+      
+    try {
+        const response = await axios.post(url, null, { headers: headers });
+        const token = response.data.access_token as string;
+        console.log("Token: " + token);
+        res.redirect("/");
+    } catch (error) {
+        console.error(error);
+        res.json(error);
     }
 }
 
