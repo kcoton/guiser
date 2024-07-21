@@ -35,16 +35,6 @@ export const personaSlice = createSlice({
     deletePersona: (state, action) => {
       const id = action.payload;
       return state.filter((persona) => persona._id !== id);
-    },
-    addContent: (state, action) => {
-      const { personaId, newContentEntry } = action.payload;
-      
-      const persona = state.find((persona) => persona._id === personaId);
-      if (!persona) {
-        console.error('Persona not found');
-      }
-
-      persona.content.push(newContentEntry);
     }
   },
   extraReducers: (builder) => {

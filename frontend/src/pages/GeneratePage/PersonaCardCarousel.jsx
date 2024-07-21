@@ -69,7 +69,7 @@ export default function PersonaCardCarousel({ personas, selectedPersona, onSelec
 
     return (
         <Box className='generate-page-pane'>
-            {personas ?
+            {personas?.length ?
                 <>
                     <span>Select a persona</span>
                     <Slider {...settings}>

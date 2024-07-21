@@ -3,6 +3,7 @@ import { Modal, Box, TextField, Button, Stack } from '@mui/material';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import ForumIcon from '@mui/icons-material/Forum'; // Change icon to ForumIcon for Threads
+import { useSelector } from 'react-redux';
 
 const style = {
   position: 'absolute',
@@ -30,6 +31,22 @@ export default function PersonaModal({
   handleUpdatePersona,
   handleDeletePersona,
 }) {
+  const user = useSelector((state) => state.user);
+
+  async function handleLinkedInClick(personaId) {
+    const params = new URLSearchParams({
+      response_type: 'code',
+      client_id: import.meta.env.VITE_LINKED_IN_CLIENT_ID,
+      redirect_uri: import.meta.env.VITE_LINKED_IN_REDIRECT_URI,
+      state: personaId,
+      scope: 'w_member_social profile openid'
+    });
+  
+    const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`;
+    localStorage.setItem('user', JSON.stringify(user));
+    window.location.href = linkedInAuthUrl;
+  }
+  
   return (
     <Modal
       open={open}
@@ -75,7 +92,8 @@ export default function PersonaModal({
               variant="outlined"
               startIcon={<LinkedInIcon />}
               style={buttonStyle}
-              disabled={persona.connections?.linkedin} 
+              disabled={persona.connections?.linkedin}
+              onClick={() => handleLinkedInClick(persona._id)}
             >
               {persona.connections?.linkedin ? 'Connected LinkedIn' : 'Connect LinkedIn'}
             </Button>

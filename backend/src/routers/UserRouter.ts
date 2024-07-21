@@ -80,6 +80,15 @@ class UserRouter {
             this.userController.deletePersona
         );
         this.router.post(
+            '/:userId/persona/:personaId/authtoken/linkedin',
+            [
+                param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                body('code').isString().notEmpty().withMessage('is required')
+            ],
+            this.userController.createLinkedInAuthToken
+        );
+        this.router.post(
             '/:userId/persona/:personaId/content', 
             [
                 param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
@@ -88,6 +97,15 @@ class UserRouter {
                 body('isRejected').isBoolean().notEmpty().withMessage('is required')
             ],
             this.userController.createContent
+        );
+        this.router.patch(
+            '/:userId/persona/:personaId/content/:contentId/3', 
+            [
+                param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required')
+            ],
+            this.userController.postToLinkedIn
         );
     }
 }
