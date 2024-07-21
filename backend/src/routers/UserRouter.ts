@@ -98,6 +98,16 @@ class UserRouter {
             ],
             this.userController.createContent
         );
+        // ET adapted to this endpoint
+        this.router.patch(
+            '/:userId/persona/:personaId/content/:contentId/2', 
+            [
+                param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required')
+            ],
+            this.userController.postToThreads
+        );
         this.router.patch(
             '/:userId/persona/:personaId/content/:contentId/3', 
             [

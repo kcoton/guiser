@@ -4,6 +4,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import ForumIcon from '@mui/icons-material/Forum'; // Change icon to ForumIcon for Threads
 import { useSelector } from 'react-redux';
+import LinkToThreads from './LinkToThreads';
 
 const style = {
   position: 'absolute',
@@ -97,14 +98,14 @@ export default function PersonaModal({
             >
               {persona.connections?.linkedin ? 'Connected LinkedIn' : 'Connect LinkedIn'}
             </Button>
-            <Button
+            <LinkToThreads
+	      personaID={persona._id}
               variant="outlined"
               startIcon={<ForumIcon />}
               style={buttonStyle}
-              disabled={persona.connections?.threads} 
-            >
-              {persona.connections?.threads ? 'Connected Threads' : 'Connect Threads'}
-            </Button>
+              disabled={persona.connections?.threads}
+	      displayText={persona.connections?.threads ? 'Connected Threads' : 'Connect Threads'}
+            />
           </Stack>
         </Stack>
       </Box>
