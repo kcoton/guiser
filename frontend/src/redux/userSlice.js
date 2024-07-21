@@ -41,6 +41,20 @@ const userSlice = createSlice({
       }
       persona.content.push(newContentEntry);
     },
+    updatePosted: (state, action) => {
+      const { personaId, contentId, posted } = action.payload;
+      const persona = state.db?.personas?.find((p) => p._id === personaId);
+      if (!persona) {
+        console.error('persona not found');
+        return;
+      }
+      const content = persona.content?.find((c) => c._id === contentId);
+      if (!content) {
+        console.error('content not found');
+        return;
+      }
+      content.posted = posted;
+    },
     logout: (state) => {
       state.user = null;
       state.sid = null;
@@ -48,5 +62,5 @@ const userSlice = createSlice({
   }
 });
 
-export const { sync, storeDbUser, storeUser, addAuthToken, addContent, logout } = userSlice.actions;
+export const { sync, storeDbUser, storeUser, addAuthToken, addContent, updatePosted, logout } = userSlice.actions;
 export default userSlice.reducer;
