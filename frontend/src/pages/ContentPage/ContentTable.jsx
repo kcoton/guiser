@@ -19,9 +19,10 @@ export default function ContentTable({ socialApps, onRowClick }) {
     const content = useSelector((state) => state.user.db?.personas)
         .reduce((acc, persona) => {
             const personaName = persona.name;
+            const personaId = persona._id;
             persona.content.forEach(contentEntry => {
                 if (!contentEntry.isRejected) {
-                    acc.push({ ...contentEntry, personaName, id: contentEntry._id })
+                    acc.push({ ...contentEntry, personaName, personaId, id: contentEntry._id })
                 }
             });
             return acc;

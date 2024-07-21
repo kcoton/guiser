@@ -1,12 +1,22 @@
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updatePosted } from '../../redux/userSlice';
 
 export default function ContentCards({ socialApps, selectedContent }) {
+    const userId = useSelector((state) => state.user.db?._id);
+
+    async function handlePostButtonClick(userId, personaId, contentId, appSeqNo) {
+        console.log(userId, personaId, contentId, appSeqNo);
+        // const response = await postToApp(userId, personaId, contentId, appSeqNo);
+        // const posted = response.posted;
+        // useDispatch(updatePosted({ personaId, contentId, posted }));
+    }
 
     return (
         <Grid container spacing={4} style={{ marginTop: 10 }}>
@@ -25,7 +35,10 @@ export default function ContentCards({ socialApps, selectedContent }) {
                             </CardContent>
                             <CardActions>
                                 {!isPostedToSite ?
-                                    <Button size="small" onClick={() => console.log('posted...')}>Post</Button> : ''}
+                                    <Button size="small" 
+                                        onClick={() => handlePostButtonClick(
+                                            userId, selectedContent.personaId, selectedContent.id, app.seqNo
+                                        )}>Post</Button> : ''}
                             </CardActions>
                         </Card>
                     </Grid>
