@@ -7,15 +7,20 @@ import Typography from '@mui/material/Typography';
 import { Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePosted } from '../../redux/userSlice';
+import { postToApp } from '../../services/ContentService';
 
-export default function ContentCards({ socialApps, selectedContent }) {
+export default function ContentCards({ socialApps, selectedContent, setSelectedContent }) {
     const userId = useSelector((state) => state.user.db?._id);
+    const dispatch = useDispatch();
 
     async function handlePostButtonClick(userId, personaId, contentId, appSeqNo) {
-        console.log(userId, personaId, contentId, appSeqNo);
-        // const response = await postToApp(userId, personaId, contentId, appSeqNo);
-        // const posted = response.posted;
-        // useDispatch(updatePosted({ personaId, contentId, posted }));
+        const response = await postToApp(userId, personaId, contentId, appSeqNo);
+        setSelectedContent(prev => ({
+            ...prev,
+            posted: response
+        }));
+        selectedContent.posted = response;
+        dispatch(updatePosted({ personaId, contentId, posted: response }));
     }
 
     return (
