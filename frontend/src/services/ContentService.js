@@ -55,4 +55,40 @@ async function generateText(persona, promptContext) {
     return data['result'];
 }
 
+async function postToApp(userId, personaId, contentId, appSeqNo) {
+    if (!baseUrl) {
+        throw new Error('baseUrl is required');
+    }
+
+    if (!userId) {
+        throw new Error('userId is required');
+    }
+
+    if (!personaId) {
+        throw new Error('personaId is required');
+    }
+    
+    if (!contentId) {
+        throw new Error('contentId is required');
+    }
+
+    if (!appSeqNo) {
+        throw new Error('appSeqNo is required');
+    }
+
+    const response = await axios.patch(
+        `${baseUrl}/user/${userId}/persona/${personaId}/content/${appSeqNo}`
+    );
+
+    if (!response.data) {
+        console.error('malformed response does not contain data');
+    }
+
+    if (!response.data.result) {
+        throw new Error('response does not contain result');
+    }
+
+    return response.data.result;    
+}
+
 export { createContent, generateText };
