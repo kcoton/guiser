@@ -221,6 +221,43 @@ export default class UserController {
         }
     }
 
+    public postToLinkedIn = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(400).json({ errors: errors.array() });
+                return;
+            }
+
+            const reqData: Record<string, any> = matchedData(req);
+            
+            const user: IUser | null = await this.findUserById(reqData.userId, res);
+            if (!user) { return; }
+
+            const persona: IPersona | null = this.findPersonaById(reqData.personaId, user.personas, res);
+            if (!persona) { return; }
+
+            const authToken: IAuthToken | null = this.findAuthTokenByPlatform('LinkedIn', persona, res);
+            if (!authToken) { return; }
+
+            const content: IContent | null = this.findContentById(reqData.contentId, persona, res);
+            if (!content) { return; }
+            
+            const personUrn: string | null = await this.getLinkedInPersonUrn(res, authToken.token);
+            if (!personUrn) { return; }
+
+            const postId: string | null = await this.performPostToLinkedin(personUrn, authToken.token, content.text, res);
+            if (!postId) { return; }
+
+            content.posted = content.posted | 0b100;
+
+            await user.save();
+            res.status(200).json({ result: content.posted });
+        } catch (error) {
+            this.handleGeneralError(res, error);
+        }
+    }
+
     private async findUserById(userId: string, res: Response): Promise<IUser | null> {
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             res.status(400).json({ errors: ['userId is invalid'] });
@@ -246,6 +283,28 @@ export default class UserController {
         }
 
         return persona;
+    }
+
+    private findAuthTokenByPlatform(platform: string, persona: IPersona, res: Response): IAuthToken | null {
+        const authToken = persona.authTokens.find(t => t.platform === platform)
+        if (!authToken) {
+            res.status(400).json({ errors: [`no valid ${platform} token has been registered to persona`] });
+            return null;
+        }
+
+        return authToken;
+    }
+
+    private findContentById(contentId: string, persona: IPersona, res: Response): IContent | null {
+        const contentEntry: IContent | undefined = persona.content.find(c => 
+            c._id == contentId && !c.deleted
+        );
+        if (!contentEntry) {
+            res.status(404).json({ errors: ['content with matching id not found'] });
+            return null;
+        }
+
+        return contentEntry;
     }
 
     private async getLinkedInToken(res: Response, code: string) : Promise<axios.AxiosResponse | undefined> {
@@ -291,6 +350,61 @@ export default class UserController {
     private getTokenExpiryDate(expires_in: number): Date {
         const currentDatetime: Date = new Date();
         return addSeconds(currentDatetime, expires_in);
+    }
+
+    private async getLinkedInPersonUrn(res: Response, token: string): Promise<string | null> {
+        try {
+            const userinfo = await axios.get(
+                'https://api.linkedin.com/v2/userinfo', 
+                { headers: {'Authorization': `Bearer ${token}`} }
+            )
+            if (!userinfo?.data?.sub) {
+                throw new Error('response does contain sub')
+            }
+            return userinfo.data.sub;
+        } catch (err) {
+            res.status(400).json({ errors: ['failed to resolve token to person urn'] });
+            return null;
+        }
+    }
+
+    private async performPostToLinkedin(
+        personUrn: string, token: string, text: string, res: Response
+    ): Promise<string | null> {
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            'X-Restli-Protocol-Version': '2.0.0'
+        };
+
+        const body = {
+            "author": `urn:li:person:${personUrn}`,
+            "lifecycleState": "PUBLISHED",
+            "specificContent": {
+                "com.linkedin.ugc.ShareContent": {
+                    "shareCommentary": {
+                        "text": text
+                    },
+                    "shareMediaCategory": "NONE"
+                }
+            },
+            "visibility": {
+                "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+            }
+        };
+
+        try {
+            const response = await axios.post(
+                'https://api.linkedin.com/v2/ugcPosts', 
+                body, 
+                { headers }
+            );
+            return response.data.id;
+        } catch (err) {
+            res.status(400).json({ errors: ['error when posting to LinkedIn'] });
+            return null;
+        }
+
     }
 
     private handleGeneralError(res: Response, error: unknown): void {
