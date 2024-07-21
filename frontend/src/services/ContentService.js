@@ -77,7 +77,7 @@ async function postToApp(userId, personaId, contentId, appSeqNo) {
     }
 
     const response = await axios.patch(
-        `${baseUrl}/user/${userId}/persona/${personaId}/content/${appSeqNo}`
+        `${baseUrl}/user/${userId}/persona/${personaId}/content/${contentId}/${appSeqNo}`
     );
 
     if (!response.data) {
@@ -91,4 +91,4 @@ async function postToApp(userId, personaId, contentId, appSeqNo) {
     return response.data.result;    
 }
 
-export { createContent, generateText };
+export { createContent, generateText, postToApp };
