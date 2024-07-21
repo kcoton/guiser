@@ -39,7 +39,7 @@ export default function PersonaModal({
       client_id: import.meta.env.VITE_LINKED_IN_CLIENT_ID,
       redirect_uri: import.meta.env.VITE_LINKED_IN_REDIRECT_URI,
       state: personaId,
-      scope: 'w_member_social'
+      scope: 'w_member_social profile openid'
     });
   
     const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`;
