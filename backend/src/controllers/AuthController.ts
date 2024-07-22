@@ -1,4 +1,4 @@
-import { Request, response, Response } from 'express';
+import { Request, Response } from 'express';
 import * as AuthService from '../services/AuthService';
 import axios from 'axios';
 import fs from 'fs';
