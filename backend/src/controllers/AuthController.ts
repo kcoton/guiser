@@ -2,8 +2,14 @@ import { Request, Response } from 'express';
 import * as AuthService from '../services/AuthService';
 import axios from 'axios';
 import fs from 'fs';
+import User, { IUser } from "../models/User";
+import { IPersona } from "../models/Persona";
+import { IAuthToken } from "../models/AuthToken";
+import { addSeconds } from "date-fns";
+import mongoose from "mongoose";
 
-const THREADS_TYPE = 'THREADS';
+
+const THREADS_TYPE = 'Threads';
 
 export async function loginGoogleUser(req: Request, res: Response) {
     // Verify CSRF safe
@@ -28,9 +34,9 @@ export async function loginGoogleUser(req: Request, res: Response) {
 }
 
 export async function authorizeThreadsUser(req: Request, res: Response) {
-
+    
     const code = req.query.code;
-    const pid = req.query.state as string;
+    const [uid, pid] = (req.query.state as string).split(":");
     
     // exchange oauth code for short term token
     var url = process.env.THREADS_GRAPH_API_BASE_URL as string;
@@ -60,18 +66,17 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
 	} as any)).toString();
 	response = await axios.get(url + '?' + qstr);
 	token = response.data.access_token as string;
+	const expires = 0 + response.data.expires_in;
 
-	// TODO service method to associate personaID with access_token in DB
-	const assocRecord = {
-	    pid: pid,
-	    type: 'THREADS',
-	    token: token
-	};
-	fs.writeFileSync('associationRecord.json', JSON.stringify(assocRecord), 'utf8');
-
+	// DB interaction
+	const wrappedToken = await wrapPlatformToken(THREADS_TYPE, token, expires);
+	const linked = linkPlatform(uid, pid, wrappedToken);
+	if (!linked) { throw new Error("could not link to Threads")};
+	// Done w/ DB
+	
 	// construct final response
 	const baseURL = process.env.BASEURL_FRONT;
-	const pageURL = baseURL + "/resolver?dest=" + encodeURIComponent('/dashboard'); // TODO-update
+	const pageURL = baseURL + "/resolver?dest=" + encodeURIComponent('/personas'); 
 	res.redirect(pageURL);
     } catch (error) {
 	console.error(error);
@@ -130,3 +135,37 @@ export async function getSessionUser(req: Request, res: Response) {
         res.status(500).json({ error: 'Internal server error.' });
     }
 }
+
+
+const wrapPlatformToken = async (platform: string, access_token: string, expires_in: number) => {
+    const currentDatetime: Date = new Date();
+    const date = addSeconds(currentDatetime, expires_in);
+    const token : IAuthToken = {platform: platform, token: access_token, expiry: date} as IAuthToken;
+    return token;	  
+}
+
+const linkPlatform = async (uid: string, pid: string, token: IAuthToken) => {
+    const user: IUser | null = await User.findOne({ externalId: uid });
+    if (! user ) return null;
+    console.log("linking to user struct: " + JSON.stringify(user));
+    
+    const persona : any = user.personas.find(p => p._id == pid && !p.deleted);
+
+    const matchingPlatformTokenIndex = persona.authTokens.findIndex((tok: IAuthToken) => 
+	tok.platform === token.platform
+    );
+    
+    if (matchingPlatformTokenIndex > -1) {
+	persona.authTokens[matchingPlatformTokenIndex] = token;
+    } else {
+	persona.authTokens.push(token);
+    }
+
+    await user.save();
+    return persona.authTokens[
+            matchingPlatformTokenIndex > -1 ?
+              matchingPlatformTokenIndex :
+              persona.authTokens.length - 1
+    ];    
+}
+
