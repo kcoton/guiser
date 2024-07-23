@@ -54,13 +54,7 @@ export const publishToThreads = async (req: Request, res: Response) => {
 };
 
 export const postToTwitter = async (req: Request, res: Response) => {
-  // const baseurl = process.env.TWITTER_API_BASE_URL as string;
-  // const assocRecord = JSON.parse(fs.readFileSync('associationRecord.json', 'utf8'));
-  // const token = assocRecord.token;
-  // const persona = req.body.pid;
-  // const content = req.body.content;
-
-  // if (persona === assocRecord.pid) {
+  
   const url = "https://api.twitter.com/2/tweets";
   const token =
     "VmlVcUxMMDhQQks2Z09nRERSeEZFb0FNNnNhYlVOMXlhSnhpeGltaWUyV2swOjE3MjE1NDY2OTA5MDU6MToxOmF0OjE";
@@ -81,7 +75,4 @@ export const postToTwitter = async (req: Request, res: Response) => {
     res.json(error);
   }
 };
-//   } else {
-//     console.log("Bad personaID");
-//   }
-// }
+
