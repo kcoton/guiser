@@ -11,7 +11,6 @@ const userSlice = createSlice({
     sync: (state, action) => {
       state.user = action.payload.user;
       state.sid = action.payload.sid;
-      state.db = action.payload.db;
     },
     storeDbUser: (state, action) => {
       state.db = action.payload;
