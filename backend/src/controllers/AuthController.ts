@@ -109,16 +109,6 @@ export async function getTwitterAuthCode(req: Request, res: Response) {
 
 export async function processTwitterAuthCode(req: Request, res: Response) {
   const authCode = req.query.code;
-  const state = req.query.state as string;
-  console.log("State: " + state);
- 
-  const user = req.query as any;
-  console.log("User Object: ", JSON.stringify(user, null, 2));
-  
-  const [uid, pid] = state.split(":");
-
-  console.log("UID: " + uid);
-  console.log("PID: " + pid);
   console.log("AuthCode: " + authCode);
 
   const url =
@@ -148,22 +138,8 @@ export async function processTwitterAuthCode(req: Request, res: Response) {
     const expires = 0 + response.data.expires_in;
     console.log("Expires: " + expires);
 
-    // DB interaction
-    const wrappedToken = await wrapPlatformToken(TWITTER_TYPE, token, expires);
-    const linked = linkPlatform(uid, pid, wrappedToken);
-    
-    if (!linked) {
-      throw new Error("could not link to Twitter");
-    }
+    res.status(200).json({ access_token: token, expires_in: expires });
 
-    console.log("Linked: ", linked);
-
-    // const baseURL = process.env.BASEURL_FRONT;
-    // const pageURL =
-    //   baseURL + "/resolver?dest=" + encodeURIComponent("/personas");
-    // res.redirect(pageURL);
-
-    res.redirect("/");
   } catch (error) {
     console.error(error);
     res.json(error);

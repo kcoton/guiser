@@ -250,6 +250,62 @@ export default class UserController {
     }
   };
 
+  public createTwitterAuthToken = async (
+    req: Request,
+    res: Response
+  ): Promise<void> => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+        return;
+      }
+
+      const reqData: Record<string, any> = matchedData(req);
+
+      const user: IUser | null = await this.findUserById(reqData.userId, res);
+      if (!user) {
+        return;
+      }
+
+      const persona: IPersona | null = this.findPersonaById(
+        reqData.personaId,
+        user.personas,
+        res
+      );
+      if (!persona) {
+        return;
+      }
+
+      const response = await axios.post(
+        "https://guiser.server:3001/auth/twitter/code",
+        { code: reqData.code }
+      );
+      if (!response || !response.data) {
+        res.status(500).json({ errors: ["Failed to get Twitter token"] });
+        return;
+      }
+
+      const { access_token, expires_in } = response.data;
+      if (!access_token || !expires_in) {
+        res.status(400).json({ errors: ["Invalid response from Twitter"] });
+        return;
+      }
+
+      let newAuthToken: IAuthToken = {
+        platform: "Twitter",
+        token: response.data.access_token,
+        expiry: this.getTokenExpiryDate(response.data.expires_in),
+      } as IAuthToken;
+
+      newAuthToken = this.upsertAuthToken(persona, newAuthToken);
+      await user.save();
+      res.status(200).json({ result: newAuthToken });
+    } catch (error) {
+      this.handleGeneralError(res, error);
+    }
+  };
+
   public createContent = async (req: Request, res: Response): Promise<void> => {
     try {
       const errors = validationResult(req);
@@ -439,6 +495,77 @@ export default class UserController {
     }
   };
 
+  public postToTwitter = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        res.status(400).json({ errors: errors.array() });
+        return;
+      }
+
+      const reqData: Record<string, any> = matchedData(req);
+
+      const user: IUser | null = await this.findUserById(reqData.userId, res);
+      if (!user) {
+        return;
+      }
+
+      const persona: IPersona | null = this.findPersonaById(
+        reqData.personaId,
+        user.personas,
+        res
+      );
+      if (!persona) {
+        return;
+      }
+
+      const authToken: IAuthToken | null = this.findAuthTokenByPlatform(
+        "Twitter",
+        persona,
+        res
+      );
+      if (!authToken) {
+        return;
+      }
+
+      const content: IContent | null = this.findContentById(
+        reqData.contentId,
+        persona,
+        res
+      );
+      if (!content) {
+        return;
+      }
+
+      // spliced in logic to fit this monolith
+      const url = "https://api.twitter.com/2/tweets";
+      const token = authToken.token;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      const tweetData = {
+        text: content.text,
+      };
+
+      try {
+        const response = await axios.post(url, tweetData, { headers: headers });
+        const twitterId = response.data.data.id;
+        const twitterText = response.data.data.text;
+
+        content.posted = content.posted | 0b001;
+
+        await user.save();
+        res.status(200).json({ result: content.posted });
+      } catch (error) {
+        console.error(error);
+        res.json(error);
+      }
+    } catch (error) {
+      this.handleGeneralError(res, error);
+    }
+  };
+
   private async findUserById(
     userId: string,
     res: Response
@@ -480,11 +607,9 @@ export default class UserController {
   ): IAuthToken | null {
     const authToken = persona.authTokens.find((t) => t.platform === platform);
     if (!authToken) {
-      res
-        .status(400)
-        .json({
-          errors: [`no valid ${platform} token has been registered to persona`],
-        });
+      res.status(400).json({
+        errors: [`no valid ${platform} token has been registered to persona`],
+      });
       return null;
     }
 
