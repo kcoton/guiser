@@ -7,7 +7,5 @@ AuthRouter.post('/login', controller.loginGoogleUser);
 AuthRouter.get('/login',  controller.getSessionUser);
 
 AuthRouter.get('/threads', controller.authorizeThreadsUser);
-AuthRouter.get('/twitter/token', controller.processTwitterAuthCode);
-AuthRouter.get('/twitter/code', controller.getTwitterAuthCode);
 
 export default AuthRouter;
