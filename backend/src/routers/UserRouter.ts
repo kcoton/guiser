@@ -117,6 +117,15 @@ class UserRouter {
             ],
             this.userController.postToLinkedIn
         );
+        this.router.patch(
+            '/:userId/persona/:personaId/content/:contentId/4', 
+            [
+                param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required')
+            ],
+            this.userController.postToTwitter
+        );
     }
 }
 

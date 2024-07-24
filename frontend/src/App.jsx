@@ -46,7 +46,6 @@ function MainApp() {
         <Route path="/logout" element={<LogoutPage />} />
         <Route path="/resolver" element={<ResolverPage />} />
         <Route path="/linkedinauthhandler" element={<LinkedInAuthHandler />} />
-        <Route path="/twitter/callback" element={<TwitterCallback />} />
       </Routes>
     </div>
   );

@@ -84,7 +84,6 @@ export default class Server {
 	    this.express.use("/pub", PubRouter);
         this.express.use("/social-app", socialAppRouter);
         this.express.use("/user", userRouter);
-        // this.express.use("/auth/twitter", twitterRouter);
     }
 
     private connectToDatabase() {
