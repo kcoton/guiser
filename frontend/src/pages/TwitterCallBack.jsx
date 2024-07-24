@@ -10,78 +10,37 @@ export default function TwitterCallback() {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
 
-  function handleReportedError(error) {
-    if (
-      error === "user_cancelled_login" ||
-      error === "user_cancelled_authorize"
-    ) {
-      setMessage(
-        "As requested, your connection to Twitter has been cancelled."
-      );
-    } else {
-      throw new Error(
-        "Auth code acquisition failed for reason other than user cancellation"
-      );
-    }
-  }
-
-  function restoreUserFromLocalStorage() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    localStorage.removeItem("user");
-    if (!user) {
-      throw new Error("Unable to retrieve user from local storage");
-    }
-    dispatch(storeUser(user));
-    const userId = user.db._id;
-    if (!userId) {
-      throw new Error("Retrieved user does not contain id prop");
-    }
-    return user.db._id;
-  }
-
-  function getRedirectParams(urlParams) {
-    const code = urlParams.get("code");
-    const personaId = urlParams.get("state");
-    if (!code || !personaId) {
-      throw new Error("Expected redirect params not present");
-    }
-    return { code, personaId };
-  }
-
-  async function resolveCodeToToken(userId, personaId, code) {
-    const baseUrl = import.meta.env.VITE_BASEURL_BACK;
-
-    const response = await axios.post(
-      `${baseUrl}/user/${userId}/persona/${personaId}/authtoken/twitter`,
-      { code }
-    );
-    if (!response?.data?.result) {
-      throw new Error("Malformed backend response");
-    }
-    return response.data.result;
-  }
-
   useEffect(() => {
     const handleTwitterAuth = async () => {
       try {
-        const urlParams = new URLSearchParams(location.search);
+        const urlParams = new URLSearchParams(window.location.search);
+        console.log("Window Location Search: ", window.location.search);
+
         const error = urlParams.get("error");
         if (error) {
-          handleReportedError(error);
+          setMessage("Twitter authorization failed");
           return;
         }
 
-        const userId = restoreUserFromLocalStorage();
-        const { code, personaId } = getRedirectParams(urlParams);
-        const authToken = await resolveCodeToToken(userId, personaId, code);
+        const code = urlParams.get("code");
+        const personaId = urlParams.get("state");
+        const userId = localStorage.getItem("userId"); // Retrieve userId from local storage
+
+        if (!code || !personaId || !userId) {
+          throw new Error("Missing code, personaId, or userId");
+        }
+
+        const response = await axios.get(`${import.meta.env.VITE_BASEURL_BACK_ALIAS}/auth/twitter/token`, {
+          params: { code, state: personaId, userId }
+        });
+
+        const authToken = response.data.result;
         dispatch(addAuthToken({ personaId, authToken }));
         setMessage("Your Twitter account has been successfully connected!");
         navigate(`/persona/${personaId}/edit`);
       } catch (err) {
         console.error(err);
-        setMessage(
-          "Sorry, we were unable to connect your Twitter account. Please retry later."
-        );
+        setMessage("Failed to connect Twitter account. Please try again.");
       }
     };
 

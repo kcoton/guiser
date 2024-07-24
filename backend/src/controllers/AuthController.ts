@@ -9,7 +9,6 @@ import { addSeconds } from "date-fns";
 import mongoose from "mongoose";
 
 const THREADS_TYPE = "Threads";
-const TWITTER_TYPE = "Twitter";
 
 export async function loginGoogleUser(req: Request, res: Response) {
   // Verify CSRF safe
@@ -98,27 +97,31 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
 }
 
 export async function getTwitterAuthCode(req: Request, res: Response) {
+  const state = req.query.state as string;
+
   const url =
     "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=" +
     process.env.TWITTER_CLIENT_ID +
     "&redirect_uri=" +
     process.env.TWITTER_REDIRECT_URI +
-    "&scope=tweet.read%20tweet.write%20users.read&state=state&code_challenge=challenge&code_challenge_method=plain";
+    "&scope=tweet.read%20tweet.write%20users.read&state=" +
+    encodeURIComponent(state) +
+    "&code_challenge=challenge&code_challenge_method=plain";
+
   res.redirect(url);
 }
 
 export async function processTwitterAuthCode(req: Request, res: Response) {
-  const authCode = req.query.code;
-  console.log("AuthCode: " + authCode);
+  const authCode = req.query.code as string;
+  const state = req.query.state as string;
+  const [uid, pid] = state.split(":");
 
-  const url =
-    "https://api.twitter.com/2/oauth2/token?grant_type=authorization_code&client_id=" +
-    process.env.TWITTER_CLIENT_ID +
-    "&redirect_uri=" +
-    process.env.TWITTER_REDIRECT_URI +
-    "&code=" +
-    authCode +
-    "&code_verifier=challenge";
+  console.log("AuthCode: " + authCode);
+  console.log("UserId: " + uid);
+  console.log("PersonaId: " + pid);
+
+  const url = `https://api.twitter.com/2/oauth2/token?grant_type=authorization_code&client_id=${process.env.TWITTER_CLIENT_ID}&redirect_uri=${process.env.TWITTER_REDIRECT_URI}&code=${authCode}&code_verifier=challenge`;
+
   const basicSecret = Buffer.from(
     `${process.env.TWITTER_CLIENT_ID}:${process.env.TWITTER_SECRET}`
   ).toString("base64");
@@ -138,11 +141,22 @@ export async function processTwitterAuthCode(req: Request, res: Response) {
     const expires = 0 + response.data.expires_in;
     console.log("Expires: " + expires);
 
-    res.status(200).json({ access_token: token, expires_in: expires });
+    // Fetch t// DB interaction
+    const newAuthToken = await wrapPlatformToken("Twitter", token, expires);
+    const linked = await linkPlatformTwitter(pid, newAuthToken);
+    if (!linked) {
+      console.error("Could not link to Twitter");
+      res.status(500).json({ errors: ["Failed to link Twitter token"] });
+      return;
+    }
 
+    // Done
+    const pageURL = process.env.BASEURL_FRONT as string;
+    res.redirect(pageURL);
+    
   } catch (error) {
     console.error(error);
-    res.json(error);
+    res.status(500).json({ errors: ["Failed to process Twitter auth code"] });
   }
 }
 
@@ -191,6 +205,32 @@ const linkPlatform = async (uid: string, pid: string, token: IAuthToken) => {
   console.log("linking to user struct: " + JSON.stringify(user));
 
   const persona: any = user.personas.find((p) => p._id == pid && !p.deleted);
+
+  const matchingPlatformTokenIndex = persona.authTokens.findIndex(
+    (tok: IAuthToken) => tok.platform === token.platform
+  );
+
+  if (matchingPlatformTokenIndex > -1) {
+    persona.authTokens[matchingPlatformTokenIndex] = token;
+  } else {
+    persona.authTokens.push(token);
+  }
+
+  await user.save();
+  return persona.authTokens[
+    matchingPlatformTokenIndex > -1
+      ? matchingPlatformTokenIndex
+      : persona.authTokens.length - 1
+  ];
+};
+
+const linkPlatformTwitter = async (personaId: string, token: IAuthToken) => {
+  const user: IUser | null = await User.findOne({ "personas._id": personaId });
+  if (!user) return null;
+  console.log("Linking to user struct: " + JSON.stringify(user));
+
+  const persona: any = user.personas.find((p) => p._id == personaId && !p.deleted);
+  if (!persona) return null;
 
   const matchingPlatformTokenIndex = persona.authTokens.findIndex(
     (tok: IAuthToken) => tok.platform === token.platform

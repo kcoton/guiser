@@ -14,6 +14,7 @@ import contentRouter from "../routers/ContentRouter";
 import PubRouter from "../routers/PubRouter";
 import socialAppRouter from "../routers/SocialAppRouter";
 import userRouter from "../routers/UserRouter";
+import twitterRouter from "../routers/TwitterRouter";
 import fs from 'fs';
 import mongoose from "mongoose";
 
@@ -83,6 +84,7 @@ export default class Server {
 	    this.express.use("/pub", PubRouter);
         this.express.use("/social-app", socialAppRouter);
         this.express.use("/user", userRouter);
+        // this.express.use("/auth/twitter", twitterRouter);
     }
 
     private connectToDatabase() {

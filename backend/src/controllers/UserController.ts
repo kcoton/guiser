@@ -278,6 +278,9 @@ export default class UserController {
       }
 
       const authCode = req.query.code as string;
+      console.log("AuthCode: ", authCode);
+      console.log("UserId: ", reqData.userId);
+      console.log("PersonaId: ", reqData.personaId);
 
       const url = `https://api.twitter.com/2/oauth2/token?grant_type=authorization_code&client_id=${process.env.TWITTER_CLIENT_ID}&redirect_uri=${process.env.TWITTER_REDIRECT_URI}&code=${authCode}&code_verifier=challenge`;
 
