@@ -34,55 +34,60 @@ export async function loginGoogleUser(req: Request, res: Response) {
 }
 
 export async function authorizeThreadsUser(req: Request, res: Response) {
-  const code = req.query.code;
-  const [uid, pid] = (req.query.state as string).split(":");
+   
+  const baseURL = process.env.BASEURL_FRONT;
+  const pageURL = baseURL + "/resolver?dest=" + encodeURIComponent('/personas');
+  
+  if (req.query.error) {
+console.error("Threads auth failed.");
+res.redirect(pageURL);
+return;
+  } else {    
+const code = req.query.code;
+const [uid, pid] = (req.query.state as string).split(":");
 
-  // exchange oauth code for short term token
-  var url = process.env.THREADS_GRAPH_API_BASE_URL as string;
-  url += "/oauth/access_token";
-  var qstr = new URLSearchParams({
+// exchange oauth code for short term token
+var url = process.env.THREADS_GRAPH_API_BASE_URL as string;
+url += '/oauth/access_token';
+var qstr = (new URLSearchParams({
     client_id: process.env.THREADS_APP_ID,
     client_secret: process.env.THREADS_SECRET,
-    grant_type: "authorization_code",
+    grant_type: 'authorization_code',
     redirect_uri: process.env.THREADS_REDIRECT_URI,
-    code,
-  } as any).toString();
-  try {
+    code
+} as any)).toString();
+try {
     var response = await axios.post(url, qstr, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+  headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+  },
     });
     var token = response.data.access_token as string;
-
+    
     // exchange short term token for long term
     url = process.env.THREADS_GRAPH_API_BASE_URL as string;
-    url += "/access_token";
-    qstr = new URLSearchParams({
-      client_secret: process.env.THREADS_SECRET,
-      grant_type: "th_exchange_token",
-      access_token: token,
-    } as any).toString();
-    response = await axios.get(url + "?" + qstr);
+    url += '/access_token';
+    qstr = (new URLSearchParams({
+  client_secret: process.env.THREADS_SECRET,
+  grant_type: 'th_exchange_token',
+  access_token: token,
+    } as any)).toString();
+    response = await axios.get(url + '?' + qstr);
     token = response.data.access_token as string;
     const expires = 0 + response.data.expires_in;
-
+    
     // DB interaction
-    const wrappedToken = await wrapPlatformToken(TWITTER_TYPE, token, expires);
+    const wrappedToken = await wrapPlatformToken(THREADS_TYPE, token, expires);
     const linked = linkPlatform(uid, pid, wrappedToken);
-    if (!linked) {
-      throw new Error("could not link to Threads");
-    }
+    if (!linked) { console.error("could not link to Threads"); }
     // Done w/ DB
-
-    // construct final response
-    const baseURL = process.env.BASEURL_FRONT;
-    const pageURL =
-      baseURL + "/resolver?dest=" + encodeURIComponent("/personas");
+    
+    const pageURL = baseURL + "/resolver?dest=" + encodeURIComponent('/personas'); 
     res.redirect(pageURL);
-  } catch (error) {
+} catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error." });
+          res.status(500).json({ error: 'Internal server error.' });	
+}
   }
 }
 
@@ -186,11 +191,11 @@ const wrapPlatformToken = async (
 };
 
 const linkPlatform = async (uid: string, pid: string, token: IAuthToken) => {
-  const user: IUser | null = await User.findOne({ externalId: uid });
-  if (!user) return null;
-  console.log("linking to user struct: " + JSON.stringify(user));
-
-  const persona: any = user.personas.find((p) => p._id == pid && !p.deleted);
+    const user: IUser | null = await User.findOne({ externalId: uid });
+    if (! user ) return null;
+    console.log("linking to user struct: " + JSON.stringify(user));
+    
+    const persona : any = user.personas.find(p => p._id == pid && !p.deleted);
 
   const matchingPlatformTokenIndex = persona.authTokens.findIndex(
     (tok: IAuthToken) => tok.platform === token.platform
@@ -202,10 +207,10 @@ const linkPlatform = async (uid: string, pid: string, token: IAuthToken) => {
     persona.authTokens.push(token);
   }
 
-  await user.save();
-  return persona.authTokens[
-    matchingPlatformTokenIndex > -1
-      ? matchingPlatformTokenIndex
-      : persona.authTokens.length - 1
-  ];
-};
+    await user.save();
+    return persona.authTokens[
+            matchingPlatformTokenIndex > -1 ?
+              matchingPlatformTokenIndex :
+              persona.authTokens.length - 1
+    ];    
+}
