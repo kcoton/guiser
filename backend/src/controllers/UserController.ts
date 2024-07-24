@@ -277,10 +277,19 @@ export default class UserController {
         return;
       }
 
-      const response = await axios.post(
-        "https://guiser.server:3001/auth/twitter/code",
-        { code: reqData.code }
-      );
+      const authCode = req.query.code as string;
+
+      const url = `https://api.twitter.com/2/oauth2/token?grant_type=authorization_code&client_id=${process.env.TWITTER_CLIENT_ID}&redirect_uri=${process.env.TWITTER_REDIRECT_URI}&code=${authCode}&code_verifier=challenge`;
+
+      const basicSecret = Buffer.from(
+        `${process.env.TWITTER_CLIENT_ID}:${process.env.TWITTER_SECRET}`
+      ).toString("base64");
+
+      const headers = {
+        Authorization: `Basic ${basicSecret}`,
+      };
+
+      const response = await axios.post(url, null, { headers: headers });
       if (!response || !response.data) {
         res.status(500).json({ errors: ["Failed to get Twitter token"] });
         return;

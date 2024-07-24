@@ -15,6 +15,8 @@ import store from './redux/store';
 import './App.css'
 import ResolverPage from './pages/ResolverPage';
 import LinkedInAuthHandler from './pages/LinkedInAuthHandler';
+import TwitterCallback from './pages/TwitterCallBack';
+
 
 function App() {
   return (
@@ -44,6 +46,7 @@ function MainApp() {
         <Route path="/logout" element={<LogoutPage />} />
         <Route path="/resolver" element={<ResolverPage />} />
         <Route path="/linkedinauthhandler" element={<LinkedInAuthHandler />} />
+        <Route path="/twitter/callback" element={<TwitterCallback />} />
       </Routes>
     </div>
   );
