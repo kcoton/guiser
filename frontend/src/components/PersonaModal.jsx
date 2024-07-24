@@ -65,7 +65,8 @@ export default function PersonaModal({
 
     const twitterAuthUrl = `https://twitter.com/i/oauth2/authorize?${params.toString()}`;
     localStorage.setItem("user", JSON.stringify(user));
-    window.location.href = twitterAuthUrl;
+    // window.location.href = twitterAuthUrl;
+    window.open(twitterAuthUrl, '_blank');
   }
 
   return (
