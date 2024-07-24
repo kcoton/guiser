@@ -34,60 +34,66 @@ export async function loginGoogleUser(req: Request, res: Response) {
 }
 
 export async function authorizeThreadsUser(req: Request, res: Response) {
-   
   const baseURL = process.env.BASEURL_FRONT;
-  const pageURL = baseURL + "/resolver?dest=" + encodeURIComponent('/personas');
-  
-  if (req.query.error) {
-console.error("Threads auth failed.");
-res.redirect(pageURL);
-return;
-  } else {    
-const code = req.query.code;
-const [uid, pid] = (req.query.state as string).split(":");
+  const pageURL = baseURL + "/resolver?dest=" + encodeURIComponent("/personas");
 
-// exchange oauth code for short term token
-var url = process.env.THREADS_GRAPH_API_BASE_URL as string;
-url += '/oauth/access_token';
-var qstr = (new URLSearchParams({
-    client_id: process.env.THREADS_APP_ID,
-    client_secret: process.env.THREADS_SECRET,
-    grant_type: 'authorization_code',
-    redirect_uri: process.env.THREADS_REDIRECT_URI,
-    code
-} as any)).toString();
-try {
-    var response = await axios.post(url, qstr, {
-  headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-  },
-    });
-    var token = response.data.access_token as string;
-    
-    // exchange short term token for long term
-    url = process.env.THREADS_GRAPH_API_BASE_URL as string;
-    url += '/access_token';
-    qstr = (new URLSearchParams({
-  client_secret: process.env.THREADS_SECRET,
-  grant_type: 'th_exchange_token',
-  access_token: token,
-    } as any)).toString();
-    response = await axios.get(url + '?' + qstr);
-    token = response.data.access_token as string;
-    const expires = 0 + response.data.expires_in;
-    
-    // DB interaction
-    const wrappedToken = await wrapPlatformToken(THREADS_TYPE, token, expires);
-    const linked = linkPlatform(uid, pid, wrappedToken);
-    if (!linked) { console.error("could not link to Threads"); }
-    // Done w/ DB
-    
-    const pageURL = baseURL + "/resolver?dest=" + encodeURIComponent('/personas'); 
+  if (req.query.error) {
+    console.error("Threads auth failed.");
     res.redirect(pageURL);
-} catch (error) {
-    console.error(error);
-          res.status(500).json({ error: 'Internal server error.' });	
-}
+    return;
+  } else {
+    const code = req.query.code;
+    const [uid, pid] = (req.query.state as string).split(":");
+
+    // exchange oauth code for short term token
+    var url = process.env.THREADS_GRAPH_API_BASE_URL as string;
+    url += "/oauth/access_token";
+    var qstr = new URLSearchParams({
+      client_id: process.env.THREADS_APP_ID,
+      client_secret: process.env.THREADS_SECRET,
+      grant_type: "authorization_code",
+      redirect_uri: process.env.THREADS_REDIRECT_URI,
+      code,
+    } as any).toString();
+    try {
+      var response = await axios.post(url, qstr, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+      var token = response.data.access_token as string;
+
+      // exchange short term token for long term
+      url = process.env.THREADS_GRAPH_API_BASE_URL as string;
+      url += "/access_token";
+      qstr = new URLSearchParams({
+        client_secret: process.env.THREADS_SECRET,
+        grant_type: "th_exchange_token",
+        access_token: token,
+      } as any).toString();
+      response = await axios.get(url + "?" + qstr);
+      token = response.data.access_token as string;
+      const expires = 0 + response.data.expires_in;
+
+      // DB interaction
+      const wrappedToken = await wrapPlatformToken(
+        THREADS_TYPE,
+        token,
+        expires
+      );
+      const linked = linkPlatform(uid, pid, wrappedToken);
+      if (!linked) {
+        console.error("could not link to Threads");
+      }
+      // Done w/ DB
+
+      const pageURL =
+        baseURL + "/resolver?dest=" + encodeURIComponent("/personas");
+      res.redirect(pageURL);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error." });
+    }
   }
 }
 
@@ -103,7 +109,14 @@ export async function getTwitterAuthCode(req: Request, res: Response) {
 
 export async function processTwitterAuthCode(req: Request, res: Response) {
   const authCode = req.query.code;
-  const [uid, pid] = (req.query.state as string).split(":");
+  const state = req.query.state as string;
+  console.log("State: " + state);
+ 
+  const user = req.query as any;
+  console.log("User Object: ", JSON.stringify(user, null, 2));
+  
+  const [uid, pid] = state.split(":");
+
   console.log("UID: " + uid);
   console.log("PID: " + pid);
   console.log("AuthCode: " + authCode);
@@ -127,17 +140,24 @@ export async function processTwitterAuthCode(req: Request, res: Response) {
 
   try {
     const response = await axios.post(url, null, { headers: headers });
+
+    console.log("Response: ", JSON.stringify(response.data, null, 2));
+
     const token = response.data.access_token as string;
     console.log("Token: " + token);
     const expires = 0 + response.data.expires_in;
     console.log("Expires: " + expires);
+
     // DB interaction
-    const wrappedToken = await wrapPlatformToken(THREADS_TYPE, token, expires);
+    const wrappedToken = await wrapPlatformToken(TWITTER_TYPE, token, expires);
     const linked = linkPlatform(uid, pid, wrappedToken);
+    
     if (!linked) {
       throw new Error("could not link to Twitter");
     }
-    
+
+    console.log("Linked: ", linked);
+
     // const baseURL = process.env.BASEURL_FRONT;
     // const pageURL =
     //   baseURL + "/resolver?dest=" + encodeURIComponent("/personas");
@@ -149,7 +169,6 @@ export async function processTwitterAuthCode(req: Request, res: Response) {
     res.json(error);
   }
 }
-
 
 // function to be called once to exchange initial requestID for generated sessionID
 export async function getSessionID(req: Request, res: Response) {
@@ -191,11 +210,11 @@ const wrapPlatformToken = async (
 };
 
 const linkPlatform = async (uid: string, pid: string, token: IAuthToken) => {
-    const user: IUser | null = await User.findOne({ externalId: uid });
-    if (! user ) return null;
-    console.log("linking to user struct: " + JSON.stringify(user));
-    
-    const persona : any = user.personas.find(p => p._id == pid && !p.deleted);
+  const user: IUser | null = await User.findOne({ externalId: uid });
+  if (!user) return null;
+  console.log("linking to user struct: " + JSON.stringify(user));
+
+  const persona: any = user.personas.find((p) => p._id == pid && !p.deleted);
 
   const matchingPlatformTokenIndex = persona.authTokens.findIndex(
     (tok: IAuthToken) => tok.platform === token.platform
@@ -207,10 +226,10 @@ const linkPlatform = async (uid: string, pid: string, token: IAuthToken) => {
     persona.authTokens.push(token);
   }
 
-    await user.save();
-    return persona.authTokens[
-            matchingPlatformTokenIndex > -1 ?
-              matchingPlatformTokenIndex :
-              persona.authTokens.length - 1
-    ];    
-}
+  await user.save();
+  return persona.authTokens[
+    matchingPlatformTokenIndex > -1
+      ? matchingPlatformTokenIndex
+      : persona.authTokens.length - 1
+  ];
+};

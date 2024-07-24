@@ -54,25 +54,29 @@ export const publishToThreads = async (req: Request, res: Response) => {
 };
 
 export const postToTwitter = async (req: Request, res: Response) => {
-  
+  const test = req.body;
+  console.log("test:", JSON.stringify(test, null, 2));
+
   const url = "https://api.twitter.com/2/tweets";
   const token =
-    "VmlVcUxMMDhQQks2Z09nRERSeEZFb0FNNnNhYlVOMXlhSnhpeGltaWUyV2swOjE3MjE1NDY2OTA5MDU6MToxOmF0OjE";
+    "ZWdlNE9PYlF6UFhuTnJVUFZfX0RPZHk4WUJMcFpDMjQ5b3JaWXc1cTRjRGNZOjE3MjE4MDA2MjQ1Njk6MToxOmF0OjE";
   const headers = {
     Authorization: `Bearer ${token}`,
   };
 
   const tweetData = {
-    text: "Hello World!",
+    text: "Hello World2!",
   };
   try {
     const response = await axios.post(url, tweetData, { headers: headers });
-    // const token = response.data.access_token as string;
-    console.log(response);
-    res.redirect("/");
+    
+    const twitterId = response.data.data.id;
+    const twitterText = response.data.data.text;
+
+    res.json({ twitterId: twitterId, twitterText: twitterText });
+
   } catch (error) {
     console.error(error);
     res.json(error);
   }
 };
-
