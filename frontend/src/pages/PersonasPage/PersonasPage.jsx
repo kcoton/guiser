@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Avatar, Stack, TextField, Button } from "@mui/material";
 import PersonaModal from "../../components/PersonaModal";
 import ForumIcon from '@mui/icons-material/Forum'; 
@@ -7,6 +7,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaService from '../../services/PersonaService';
 import { createPersona, updatePersona, deletePersona, EXTERNAL_ID, _ID } from '../../redux/personaSlice';
+import { Platform } from '../../enum/common.enum'
 import "./PersonasPage.css";
 
 export default function PersonasPage() {
@@ -69,11 +70,7 @@ export default function PersonasPage() {
               {persona.name[0]}
             </Avatar>
             <p>{persona.name}</p>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
-              {persona.connections?.twitter && <TwitterIcon style={{ color: 'blue', marginRight: '5px' }} />}
-              {persona.connections?.linkedin && <LinkedInIcon style={{ color: 'blue', marginRight: '5px' }} />}
-              {persona.connections?.threads && <ForumIcon style={{ color: 'blue' }} />}
-            </div>
+            <SocialMediaIcons persona={persona} />
           </div>
         ))}
       </Stack>
@@ -110,4 +107,28 @@ export default function PersonasPage() {
       />}
     </div>
   );
+}
+
+const SocialMediaIcons = ({ persona }) => {
+  const isTokenValid = (date) => {
+    const expiryDate = new Date(date);
+    const currentDate = new Date();
+    return expiryDate > currentDate;
+  }
+
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
+    {persona.authTokens?.map((authToken, index) => (
+      <Fragment key={index}>
+        {isTokenValid(authToken?.expiry) && (
+          <>
+            {authToken.platform === Platform.TWITTER && <TwitterIcon style={{ color: 'blue', marginRight: '5px' }} />}
+            {authToken.platform === Platform.LINKEDIN && <LinkedInIcon style={{ color: 'blue', marginRight: '5px' }} />}
+            {authToken.platform === Platform.THREADS && <ForumIcon style={{ color: 'blue' }} />}
+          </>
+        )}
+      </Fragment>
+    ))}
+  </div>
+  )
 }
