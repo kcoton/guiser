@@ -33,6 +33,7 @@ export default function PersonaModal({
   handleDeletePersona,
 }) {
   const user = useSelector((state) => state.user);
+  console.log("user", user.user.uid);
 
   const isPlatformConnected = (platform) => {
     return persona.authTokens?.some((token) => token.platform === platform);
@@ -53,20 +54,15 @@ export default function PersonaModal({
   }
 
   async function handleTwitterClick(personaId) {
-    const params = new URLSearchParams({
-      response_type: "code",
-      client_id: import.meta.env.VITE_TWITTER_CLIENT_ID,
-      redirect_uri: import.meta.env.VITE_TWITTER_REDIRECT_URI,
-      scope: "tweet.read tweet.write users.read",
-      state: personaId,
-      code_challenge: "challenge",
-      code_challenge_method: "plain",
-    });
-
-    const twitterAuthUrl = `https://twitter.com/i/oauth2/authorize?${params.toString()}`;
-    localStorage.setItem("user", JSON.stringify(user));
-    // window.location.href = twitterAuthUrl;
-    window.open(twitterAuthUrl, '_blank');
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const state = `${user.user.uid}:${personaId}`;
+      const url = `https://guiser.server:3001/auth/twitter/code?state=${state}`;
+      // window.location.href = url;
+      window.open(url, '_blank');
+    } catch (error) {
+      console.error("Error fetching Twitter auth code:", error);
+    }
   }
 
   return (
