@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { Avatar, Stack, TextField, Button } from "@mui/material";
 import PersonaModal from "../../components/PersonaModal";
 import ForumIcon from '@mui/icons-material/Forum'; 
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PersonaService from '../../services/PersonaService';
 import { createPersona, updatePersona, deletePersona, EXTERNAL_ID, _ID } from '../../redux/personaSlice';
 import { Platform } from '../../enum/common.enum'
+import { isPlatformConnected } from "./Common";
 import "./PersonasPage.css";
 
 export default function PersonasPage() {
@@ -110,25 +111,11 @@ export default function PersonasPage() {
 }
 
 const SocialMediaIcons = ({ persona }) => {
-  const isTokenValid = (date) => {
-    const expiryDate = new Date(date);
-    const currentDate = new Date();
-    return expiryDate > currentDate;
-  }
-
   return (
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
-    {persona.authTokens?.map((authToken, index) => (
-      <Fragment key={index}>
-        {isTokenValid(authToken?.expiry) && (
-          <>
-            {authToken.platform === Platform.TWITTER && <TwitterIcon style={{ color: 'blue', marginRight: '5px' }} />}
-            {authToken.platform === Platform.LINKEDIN && <LinkedInIcon style={{ color: 'blue', marginRight: '5px' }} />}
-            {authToken.platform === Platform.THREADS && <ForumIcon style={{ color: 'blue' }} />}
-          </>
-        )}
-      </Fragment>
-    ))}
+      {isPlatformConnected(persona, Platform.TWITTER) && <TwitterIcon style={{ color: 'blue', marginRight: '5px' }} />}
+      {isPlatformConnected(persona, Platform.LINKEDIN) && <LinkedInIcon style={{ color: 'blue', marginRight: '5px' }} />}
+      {isPlatformConnected(persona, Platform.THREADS) && <ForumIcon style={{ color: 'blue' }} />}
   </div>
   )
 }
