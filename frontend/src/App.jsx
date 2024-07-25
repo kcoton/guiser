@@ -15,7 +15,6 @@ import store from './redux/store';
 import './App.css'
 import ResolverPage from './pages/ResolverPage';
 import LinkedInAuthHandler from './pages/LinkedInAuthHandler';
-import TwitterCallback from './pages/TwitterCallBack';
 
 
 function App() {

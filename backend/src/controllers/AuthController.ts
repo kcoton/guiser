@@ -150,10 +150,10 @@ export async function processTwitterAuthCode(req: Request, res: Response) {
       return;
     }
 
-    // Done
+    //Done
     const pageURL = process.env.BASEURL_FRONT as string;
     res.redirect(pageURL);
-    
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ errors: ["Failed to process Twitter auth code"] });

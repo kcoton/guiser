@@ -14,7 +14,6 @@ import contentRouter from "../routers/ContentRouter";
 import PubRouter from "../routers/PubRouter";
 import socialAppRouter from "../routers/SocialAppRouter";
 import userRouter from "../routers/UserRouter";
-import twitterRouter from "../routers/TwitterRouter";
 import fs from 'fs';
 import mongoose from "mongoose";
 
