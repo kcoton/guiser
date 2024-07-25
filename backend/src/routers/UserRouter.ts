@@ -98,6 +98,15 @@ class UserRouter {
             ],
             this.userController.createContent
         );
+        this.router.patch(
+            '/:userId/persona/:personaId/content/:contentId/1', 
+            [
+                param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
+                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required')
+            ],
+            this.userController.postToTwitter
+        );
         // ET adapted to this endpoint
         this.router.patch(
             '/:userId/persona/:personaId/content/:contentId/2', 
@@ -116,15 +125,6 @@ class UserRouter {
                 param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required')
             ],
             this.userController.postToLinkedIn
-        );
-        this.router.patch(
-            '/:userId/persona/:personaId/content/:contentId/4', 
-            [
-                param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
-                param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
-                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required')
-            ],
-            this.userController.postToTwitter
         );
     }
 }
