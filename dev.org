@@ -113,8 +113,9 @@
   * [ ] Restructure redux store
   * [ ] 3 sentence "pitch" of project
   * [ ] carousel for personas page (from generate)
+  * [X] show linked social media accounts on personas page
 + Shumin
-  * [ ] Twitter authorization flow
+  * [ ] Twitter authorization flows
   * [ ] Twitter link/post UI integration
 + Brant
   1. [ ] Git Actions

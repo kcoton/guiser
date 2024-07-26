@@ -7,6 +7,8 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaService from '../../services/PersonaService';
 import { createPersona, updatePersona, deletePersona, EXTERNAL_ID, _ID } from '../../redux/personaSlice';
+import { Platform } from '../../enum/common.enum'
+import { isPlatformConnected } from "./Common";
 import "./PersonasPage.css";
 
 export default function PersonasPage() {
@@ -69,11 +71,7 @@ export default function PersonasPage() {
               {persona.name[0]}
             </Avatar>
             <p>{persona.name}</p>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
-              {persona.connections?.twitter && <TwitterIcon style={{ color: 'blue', marginRight: '5px' }} />}
-              {persona.connections?.linkedin && <LinkedInIcon style={{ color: 'blue', marginRight: '5px' }} />}
-              {persona.connections?.threads && <ForumIcon style={{ color: 'blue' }} />}
-            </div>
+            <SocialMediaIcons persona={persona} />
           </div>
         ))}
       </Stack>
@@ -110,4 +108,14 @@ export default function PersonasPage() {
       />}
     </div>
   );
+}
+
+const SocialMediaIcons = ({ persona }) => {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
+      {isPlatformConnected(persona, Platform.TWITTER) && <TwitterIcon style={{ color: 'blue', marginRight: '5px' }} />}
+      {isPlatformConnected(persona, Platform.LINKEDIN) && <LinkedInIcon style={{ color: 'blue', marginRight: '5px' }} />}
+      {isPlatformConnected(persona, Platform.THREADS) && <ForumIcon style={{ color: 'blue' }} />}
+  </div>
+  )
 }

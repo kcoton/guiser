@@ -1,10 +1,11 @@
-import React from "react";
 import { Modal, Box, TextField, Button, Stack } from "@mui/material";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import ForumIcon from "@mui/icons-material/Forum"; // Change icon to ForumIcon for Threads
 import { useSelector } from "react-redux";
 import LinkToThreads from "./LinkToThreads";
+import { Platform } from "../enum/common.enum";
+import { isPlatformConnected } from "../pages/PersonasPage/Common";
 
 const style = {
   position: "absolute",
@@ -34,10 +35,6 @@ export default function PersonaModal({
 }) {
   const user = useSelector((state) => state.user);
   console.log("user", user.user.uid);
-
-  const isPlatformConnected = (platform) => {
-    return persona.authTokens?.some((token) => token.platform === platform);
-  };
 
   async function handleLinkedInClick(personaId) {
     const params = new URLSearchParams({
@@ -115,10 +112,10 @@ export default function PersonaModal({
               variant="outlined"
               startIcon={<TwitterIcon />}
               style={buttonStyle}
-              disabled={isPlatformConnected("twitter")}
+              disabled={isPlatformConnected(persona, Platform.TWITTER)}
               onClick={() => handleTwitterClick(persona._id)}
             >
-              {isPlatformConnected("twitter")
+              {isPlatformConnected(Platform.TWITTER)
                 ? "Connected Twitter"
                 : "Connect Twitter"}
             </Button>
@@ -126,10 +123,10 @@ export default function PersonaModal({
               variant="outlined"
               startIcon={<LinkedInIcon />}
               style={buttonStyle}
-              disabled={isPlatformConnected("linkedin")}
+              disabled={isPlatformConnected(persona, Platform.LINKEDIN)}
               onClick={() => handleLinkedInClick(persona._id)}
             >
-              {isPlatformConnected("linkedin")
+              {isPlatformConnected(Platform.LINKEDIN)
                 ? "Connected LinkedIn"
                 : "Connect LinkedIn"}
             </Button>
@@ -138,9 +135,9 @@ export default function PersonaModal({
               variant="outlined"
               startIcon={<ForumIcon />}
               style={buttonStyle}
-              disabled={isPlatformConnected("threads")}
+              disabled={isPlatformConnected(persona, Platform.THREADS)}
               displayText={
-                persona.connections?.threads
+                isPlatformConnected(Platform.THREADS)
                   ? "Connected Threads"
                   : "Connect Threads"
               }

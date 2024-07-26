@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import LandingPage from './pages/LandingPage/LandingPage';
@@ -6,7 +5,6 @@ import LoginPage from './pages/LoginPage';
 import NavigationBar from './components/NavigationBar';
 import HomePage from './pages/HomePage';
 import PersonasPage from './pages/PersonasPage/PersonasPage';
-// import ConnectPage from './pages/ConnectPage';
 import GeneratePage from './pages/GeneratePage/GeneratePage';
 import ContentPage from './pages/ContentPage/ContentPage';
 import SettingsPage from './pages/SettingsPage';
@@ -20,9 +18,9 @@ import LinkedInAuthHandler from './pages/LinkedInAuthHandler';
 function App() {
   return (
       <Provider store={store}>
-	  <Router>
-	      <MainApp />
-	  </Router>
+    <Router>
+        <MainApp />
+    </Router>
       </Provider>
   );
 }
@@ -38,7 +36,6 @@ function MainApp() {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/dashboard' element={<HomePage />} />
         <Route path="/personas" element={<PersonasPage />} />
-        {/* <Route path="/connect" element={<ConnectPage />} /> */}
         <Route path="/generate" element={<GeneratePage />} />
         <Route path="/content" element={<ContentPage />} />
         <Route path="/settings" element={<SettingsPage />} />
