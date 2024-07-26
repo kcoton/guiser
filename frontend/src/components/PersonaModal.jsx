@@ -51,8 +51,8 @@ export default function PersonaModal({
 
   async function handleTwitterClick(personaId) {
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      const state = `${user?.user?.externalId}:${personaId}`;
+      sessionStorage.setItem("resolverData", JSON.stringify(user));
+      const state = `${user.user.externalId}:${personaId}`;
       const url = `https://guiser.server:3001/auth/twitter/code?state=${state}`;
       window.location.href = url;
     } catch (error) {
