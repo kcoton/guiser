@@ -488,6 +488,13 @@ export default class UserController {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       };
+      const tweetContent = content.text;
+
+      if (tweetContent.length > 280) {
+        res.status(400).json({ error: "Tweet content exceeds 280 characters." });
+        return;
+      }
+      
       const tweetData = {
         text: content.text,
       };
