@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ContentTable from './ContentTable';
 import ContentCards from './ContentCards';
 import { getSocialApps } from '../../services/SocialAppService';
