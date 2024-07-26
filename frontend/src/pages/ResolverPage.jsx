@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { sync } from '../redux/userSlice'
+import { sync, storeDbUser } from '../redux/userSlice'
+import { requestSession, getDbUser } from './Common';
 
 const ResolverPage = () => {
   const navigate = useNavigate();
@@ -18,18 +19,25 @@ const ResolverPage = () => {
   }
 
   useEffect(() => {
-    dispatch(sync(state));
-    sessionStorage.removeItem("resolverData");
+    const thunk = async () => {
+      const session = await requestSession();
+      const dbUser = await getDbUser(session.user.uid);
+      sessionStorage.removeItem("resolverData");
+      dispatch(sync(state));
+      dispatch(sync(session));
+      dispatch(storeDbUser(dbUser));
 
-    const qstr = new URLSearchParams(passParams).toString();
-    if (qstr && dest) {
-      navigate(`${dest}?${qstr}`);
-    } else if (dest) {
-      navigate(dest);
-    } else {
-      navigate('/'); 
+      const qstr = new URLSearchParams(passParams).toString();
+      if (qstr && dest) {
+        navigate(`${dest}?${qstr}`);
+      } else if (dest) {
+        navigate(dest);
+      } else {
+        navigate('/'); 
+      }
     }
-  }, []);
+    thunk();
+  }, [dest, dispatch, navigate, passParams, state]);
 
   return ( <div> Resolving. </div> );
 }
