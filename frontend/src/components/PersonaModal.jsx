@@ -55,8 +55,7 @@ export default function PersonaModal({
       const user = JSON.parse(localStorage.getItem("user"));
       const state = `${user.user.uid}:${personaId}`;
       const url = `https://guiser.server:3001/auth/twitter/code?state=${state}`;
-      // window.location.href = url;
-      window.open(url, '_blank');
+      window.location.href = url;
     } catch (error) {
       console.error("Error fetching Twitter auth code:", error);
     }

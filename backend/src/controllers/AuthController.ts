@@ -151,7 +151,9 @@ export async function processTwitterAuthCode(req: Request, res: Response) {
     }
 
     //Done
-    const pageURL = process.env.BASEURL_FRONT as string;
+    const baseURL = process.env.BASEURL_FRONT;
+    const pageURL =
+        baseURL + "/resolver?dest=" + encodeURIComponent("/personas");
     res.redirect(pageURL);
 
   } catch (error) {
