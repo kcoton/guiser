@@ -33,8 +33,7 @@ export default function PersonaModal({
   handleUpdatePersona,
   handleDeletePersona,
 }) {
-  const user = useSelector((state) => state.user);
-  // console.log("user", user.user.uid);
+  const user = useSelector((state) => state?.user);
 
   async function handleLinkedInClick(personaId) {
     const params = new URLSearchParams({
@@ -53,7 +52,7 @@ export default function PersonaModal({
   async function handleTwitterClick(personaId) {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
-      const state = `${user.user.uid}:${personaId}`;
+      const state = `${user?.user?.externalId}:${personaId}`;
       const url = `https://guiser.server:3001/auth/twitter/code?state=${state}`;
       window.location.href = url;
     } catch (error) {
