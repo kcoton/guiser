@@ -12,7 +12,7 @@ const LoginPage = () => {
     useEffect(() => {
         const thunk = async () => {
             const session = await requestSession();
-            const dbUser = await getDbUser(session.user.uid);
+            const dbUser = await getDbUser(session.user.externalId);
             dispatch(sync(session));
             dispatch(storeDbUser(dbUser));
             navigate('/dashboard');

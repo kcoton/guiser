@@ -20,9 +20,9 @@ export async function loginGoogleUser(req: Request, res: Response) {
   }
   // Parse/validate then interpret by redirect into joint session with client
   try {
-    const dtls = await AuthService.parseGoogleID(req.body.credential);
+    const user = await AuthService.parseGoogleID(req.body.credential);
     const reqID = req.body.state;
-    AuthService.newSessionUser(reqID, dtls);
+    AuthService.newSessionUser(reqID, user);
 
     const baseURL = process.env.BASEURL_FRONT;
     const pageURL = baseURL + "/login";
@@ -42,7 +42,7 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
     return;
   } else {
     const code = req.query.code;
-    const [uid, pid] = (req.query.state as string).split(":");
+    const [externalId, pid] = (req.query.state as string).split(":");
 
     // exchange oauth code for short term token
     var url = process.env.THREADS_GRAPH_API_BASE_URL as string;
@@ -80,7 +80,7 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
         token,
         expires
       );
-      const linked = linkPlatform(uid, pid, wrappedToken);
+      const linked = linkPlatform(externalId, pid, wrappedToken);
       if (!linked) {
         console.error("could not link to Threads");
       }
@@ -114,10 +114,10 @@ export async function getTwitterAuthCode(req: Request, res: Response) {
 export async function processTwitterAuthCode(req: Request, res: Response) {
   const authCode = req.query.code as string;
   const state = req.query.state as string;
-  const [uid, pid] = state.split(":");
+  const [externalId, pid] = state.split(":");
 
   console.log("AuthCode: " + authCode);
-  console.log("UserId: " + uid);
+  console.log("ExternalId: " + externalId);
   console.log("PersonaId: " + pid);
 
   const url = `https://api.twitter.com/2/oauth2/token?grant_type=authorization_code&client_id=${process.env.TWITTER_CLIENT_ID}&redirect_uri=${process.env.TWITTER_REDIRECT_URI}&code=${authCode}&code_verifier=challenge`;
@@ -201,8 +201,8 @@ const wrapPlatformToken = async (
   return token;
 };
 
-const linkPlatform = async (uid: string, pid: string, token: IAuthToken) => {
-  const user: IUser | null = await User.findOne({ externalId: uid });
+const linkPlatform = async (externalId: string, pid: string, token: IAuthToken) => {
+  const user: IUser | null = await User.findOne({ externalId: externalId });
   if (!user) return null;
   console.log("linking to user struct: " + JSON.stringify(user));
 

@@ -25,7 +25,7 @@ const LinkToThreads = ({ personaID, variant, startIcon, style, disabled, display
 	url += "&redirect_uri=" + REDIRECT_URI;
 	url += "&scope=" + encodeURIComponent(SCOPES);
 	url += "&response_type=code";
-	url += "&state=" + state.user.uid + ":" + personaID;
+	url += "&state=" + state.user.externalId + ":" + personaID;
 	
 	location.href=url;
     };
