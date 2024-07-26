@@ -1,4 +1,5 @@
 # Group 02 - Guiser
+Transform your content game with Guiser: a revolutionary app that lets you design multiple personas for any niche, generate targeted content, and seamlessly post to social media. Perfect for content creators, social media managers, or anyone looking to effortlessly boost their online presence.
 
 ## How To Run Frontend
 1. `cd` to a frontend location

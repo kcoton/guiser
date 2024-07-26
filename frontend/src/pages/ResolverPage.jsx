@@ -21,7 +21,7 @@ const ResolverPage = () => {
   useEffect(() => {
     const thunk = async () => {
       const session = await requestSession();
-      const dbUser = await getDbUser(session.user.uid);
+      const dbUser = await getDbUser(session.user.externalId);
       sessionStorage.removeItem("resolverData");
       dispatch(sync(state));
       dispatch(sync(session));
