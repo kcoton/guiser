@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, Stack, TextField, Button } from "@mui/material";
 import PersonaModal from "../../components/PersonaModal";
 import ForumIcon from '@mui/icons-material/Forum'; 
@@ -6,20 +6,26 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaService from '../../services/PersonaService';
-import { createPersona, updatePersona, deletePersona, EXTERNAL_ID, _ID } from '../../redux/personaSlice';
+import { addPersona, updatePersona, deletePersona } from '../../redux/userSlice';
 import { Platform } from '../../enum/common.enum'
 import { isPlatformConnected } from "./Common";
 import "./PersonasPage.css";
 
 export default function PersonasPage() {
   const dispatch = useDispatch();
-  const personas = useSelector((state) => state.personas);
+  const userDB = useSelector((state) => state.user?.db);
+  const [personas, setPersonas] = useState([]);
   // TODO: create redux store for PersonaService to use across the same instance of the app
-  const personaService = new PersonaService(EXTERNAL_ID, _ID);
-  const [activePersona, setActivePersona] = useState(personas[0]);
+  const personaService = new PersonaService(userDB?.externalId, userDB?._id);
+  const [activePersona, setActivePersona] = useState();
   const [newPersonaName, setNewPersonaName] = useState("");
   const [newPersonaText, setNewPersonaText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setPersonas(userDB?.personas);
+    setActivePersona(personas?.length > 0 && personas[0]);
+  }, [personas, userDB])
 
   const handlePersonaClick = (persona) => {
     setActivePersona(persona);
@@ -29,7 +35,7 @@ export default function PersonasPage() {
   const handleSavePersona = async () => {
     try {
       const newPersona = await personaService.create(newPersonaName, newPersonaText);
-      dispatch(createPersona(newPersona));
+      dispatch(addPersona(newPersona));
     } catch (e) {
       console.error('Error creating new persona:', e);
     }

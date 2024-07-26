@@ -34,7 +34,7 @@ export default function PersonaModal({
   handleDeletePersona,
 }) {
   const user = useSelector((state) => state.user);
-  console.log("user", user.user.uid);
+  // console.log("user", user.user.uid);
 
   async function handleLinkedInClick(personaId) {
     const params = new URLSearchParams({
