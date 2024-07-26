@@ -111,7 +111,7 @@
   * [ ] front-end threads integration
 + Kiara
   * [X] Restructure redux store
-  * [ ] 3 sentence "pitch" of project
+  * [X] 3 sentence "pitch" of project
   * [ ] carousel for personas page (from generate)
   * [X] show linked social media accounts on personas page
 + Shumin
