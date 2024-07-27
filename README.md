@@ -1,6 +1,8 @@
 # Group 02 - Guiser
 Transform your content game with Guiser: a revolutionary app that lets you design multiple personas for any niche, generate targeted content, and seamlessly post to social media. Perfect for content creators, social media managers, or anyone looking to effortlessly boost their online presence.
 
+![Deployment to Render.com](https://github.com/ubc-cpsc455-2024S/project-02_2s_complement/actions/workflows/ci.yml/badge.svg)
+
 ## How To Run Frontend
 1. `cd` to a frontend location
 2. `npm install` using node version 20
