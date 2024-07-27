@@ -51,9 +51,11 @@ export default function PersonaModal({
 
   async function handleTwitterClick(personaId) {
     try {
+      const baseUrl = import.meta.env.VITE_BASEURL_BACK_ALIAS;
       sessionStorage.setItem("resolverData", JSON.stringify(user));
       const state = `${user.user.externalId}:${personaId}`;
-      const url = `https://guiser.server:3001/auth/twitter/code?state=${state}`;
+
+      const url = `${baseUrl}/auth/twitter/code?state=${state}`
       window.location.href = url;
     } catch (error) {
       console.error("Error fetching Twitter auth code:", error);
