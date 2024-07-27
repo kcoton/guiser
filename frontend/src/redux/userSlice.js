@@ -72,7 +72,7 @@ const userSlice = createSlice({
     },
     deletePersona: (state, action) => {
       const personaId = action.payload;
-      state.db.personas = state.filter((p) => p._id !== personaId);
+      state.db.personas = state.db?.personas?.filter((p) => p._id !== personaId);
     },
     logout: (state) => {
       state.user = null;

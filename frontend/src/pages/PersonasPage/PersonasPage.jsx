@@ -14,16 +14,16 @@ import "./PersonasPage.css";
 export default function PersonasPage() {
   const dispatch = useDispatch();
   const userDB = useSelector((state) => state.user?.db);
-  const [personas, setPersonas] = useState([]);
-  // TODO: create redux store for PersonaService to use across the same instance of the app
   const personaService = new PersonaService(userDB?.externalId, userDB?._id);
+  const [personas, setPersonas] = useState([]);
   const [activePersona, setActivePersona] = useState();
   const [newPersonaName, setNewPersonaName] = useState("");
   const [newPersonaText, setNewPersonaText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    setPersonas(userDB?.personas);
+    const validPersonas = userDB?.personas?.filter(persona => !persona.deleted);
+    setPersonas(validPersonas);
     setActivePersona(personas?.length > 0 && personas[0]);
   }, [personas, userDB])
 
