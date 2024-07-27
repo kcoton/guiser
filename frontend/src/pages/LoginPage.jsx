@@ -11,10 +11,9 @@ const LoginPage = () => {
 
     useEffect(() => {
         const thunk = async () => {
-            // TODO: restore and get commented out code working
-            // const session = await requestSession();
-            const dbUser = await getDbUser('106396242553744029996');
-            // dispatch(sync(session));
+            const session = await requestSession();
+            const dbUser = await getDbUser(session.user.externalId);
+            dispatch(sync(session));
             dispatch(storeDbUser(dbUser));
             navigate('/dashboard');
         }
