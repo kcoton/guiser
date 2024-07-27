@@ -16,7 +16,7 @@ export default function PersonasPage() {
   const userDB = useSelector((state) => state.user?.db);
   const personaService = new PersonaService(userDB?.externalId, userDB?._id);
   const [personas, setPersonas] = useState([]);
-  const [activePersona, setActivePersona] = useState();
+  const [activePersona, setActivePersona] = useState(null);
   const [newPersonaName, setNewPersonaName] = useState("");
   const [newPersonaText, setNewPersonaText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +24,6 @@ export default function PersonasPage() {
   useEffect(() => {
     const validPersonas = userDB?.personas?.filter(persona => !persona.deleted);
     setPersonas(validPersonas);
-    setActivePersona(personas?.length > 0 && personas[0]);
   }, [personas, userDB])
 
   const handlePersonaClick = (persona) => {
@@ -35,6 +34,8 @@ export default function PersonasPage() {
   const handleSavePersona = async () => {
     try {
       const newPersona = await personaService.create(newPersonaName, newPersonaText);
+      setNewPersonaName('');
+      setNewPersonaText('');
       dispatch(addPersona(newPersona));
     } catch (e) {
       console.error('Error creating new persona:', e);
