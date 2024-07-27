@@ -21,8 +21,7 @@
   > npm run start
   > cd [frontend project root dir]
   > npm install
-  > npm run dev
-
+  > npm run dev  
 * Meeting Minutes
 ** Post-PR2
 *** Changes to existing pages/functionality
@@ -104,25 +103,68 @@
 ** Post-PR4
 *** Task Breadown:
 + Ewan
-  * [ ] Auth -> express endpoint connected w/ DB
+  * [X] Auth -> express endpoint connected w/ DB
     + Hookup to DB for connection w/ Google
-  * [ ] Figure out session validation w/ DB id after Kiara done
-  * [ ] user registration on first sign-in
-  * [ ] front-end threads integration
+  * [-] Figure out session validation w/ DB id after Kiara done
+  * [-] user registration on first sign-in
+  * [X] front-end threads integration
 + Kiara
-  * [ ] Restructure redux store
-  * [ ] 3 sentence "pitch" of project
-  * [ ] carousel for personas page (from generate)
+  * [X] Restructure redux store
+  * [X] 3 sentence "pitch" of project
+  * [X] carousel for personas page (from generate)
 + Shumin
-  * [ ] Twitter authorization flow
-  * [ ] Twitter link/post UI integration
+  * [X] Twitter authorization flow
+  * [X] Twitter link/post UI integration
 + Brant
-  1. [ ] Git Actions
-  2. [ ] Workflow Status badge     
-  3. [ ] LinkedIn authorization flow
+  1. [X] Git Actions
+  2. [X] Workflow Status badge     
+  3. [X] LinkedIn authorization flow
   4. [ ] Revisit rubric
   5. [ ] Content editing at review stage
-+ All (for later): dashboard features?
-*** Final iteration
-+ Polish up UI
-+ Test responsiveness
+
+** Post-PR5
+*** Feature code cutoff: 2024-08-02 @ 22:00 => merge to main
+*** Demo planning: 2024-08-03 @ 19:00
+*** Final code cutoff: 2024-08-05 @ 10:00
+*** Demo rehearsal: 2024-08-06 @ 17:00
+*** TODOs - by feature code cutoff
++ Ewan
+  + code cleanup
+  + fix Threads on deployment
+  + Home/Dashboard/About paragraph
+  + Delete Settings link / route / page
+  + Get rid of all session management cruft
+  + Update linkPlatform in AuthController to use only the pid (no need for UID)    
++ Kiara
+  + code cleanup  
+  + UI theming (skins, icons)
+  + Button styling (everywhere)
+  + Uniform (shared) persona selection carousel component for personas and generate page
++ Brant
+  + code cleanup  
+  + add app/content length limits to DB
+  + logic for card deck in ContentCards.jsx (disable post link for over-length content)
+  + fix redirect at end of LinkedIn auth flow (to personas, through resolver)
+  + Redux cleanup
+  + Trigger reload of Redux store from DB on every page
++ Shumin
+  + code cleanup  
+  + check Twitter linking when not logged in to Google (bounces to Twitter site)
+  + update readme to meet rubric:
+    https://www.students.cs.ubc.ca/~cs-455/2024_S/about/rubrics.html#final-project-submission
+    + add "next steps" to readme re: rubric #5
+*** TODOs - by final code cutoff
++ All:
+  + bugfixes
+  + write one "demo ready" persona
+*** "Extras"
++ Edit/Delete content on content page
+*** UI
++ theming
+  + Dark mode default
+  + Examples
+    + https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.freepik.com%2Ffree-psd%2Fgrey-ui-kit_29-20000191.jpg&f=1&nofb=1&ipt=38787634c9e5c857e7092d4263ec4bca2334430f0a28a9050af25ab45dd18cb2&ipo=images
+    + https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F000%2F185%2F201%2Foriginal%2Fvector-dark-black-login-form-design-with-creative-ui.jpg&f=1&nofb=1&ipt=f25b41e0047083958c5269dc8c31e402cb79e1d145048ea83c5cb85560a71431&ipo=images
+    + https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmiro.medium.com%2Fmax%2F1400%2F1*gEVJ1-hOkpt2dzIbVXDNuQ.jpeg&f=1&nofb=1&ipt=feb8cfd71701c855de7249e0d2c6f4b80f6c466473ae1da479c53e4226f61776&ipo=images
+    + https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F54%2F8b%2Fbb%2F548bbb0f9f39efec8231986fd846ff8f.jpg&f=1&nofb=1&ipt=8d0ea9ed2ec242f68ddf581889695bed079dbe47275004622e0044fa6cd74885&ipo=images
+* 
