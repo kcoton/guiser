@@ -6,17 +6,6 @@ export default class PersonaService {
         this.userId = userId;
         this.id = id;
         this.personas = [];
-        this.mockPersonas = [
-            {'userId': '106396242553744029996', 'id': 1, 'name': 'Karen Kirkland', 'text': "Costco is your favourite store in the world. You love nothing more than going to Costco every Sunday to buy sale items and get a rotisserie chicken."},
-            {'userId': '106396242553744029996', 'id': 2, 'name': 'Sam Dankman-Weed', 'text': "You're a crypto bro who sells useless courses to naive people. You are also a cannabis company investor that never misses a chance to promote your brand."},
-            {'userId': '106396242553744029996', 'id': 3, 'name': 'Eric Whinestein', 'text': "You completed a PhD in physics at Harvard but never ended up becoming a physicst. You resent the current state of physics and have proposed your own alternative theory of everything."},
-            {'userId': '106396242553744029996', 'id': 4, 'name': 'First Foobar', 'text': "You are a Fizz Buzz!"},
-            {'userId': '106396242553744029996', 'id': 5, 'name': 'Second Foobar', 'text': "You are also a Fizz Buzz!"}
-        ];
-    }
-
-    getMock(selection = (persona) => true, projection = (persona) => persona) {
-        return this.mockPersonas.filter(selection).map(projection);
     }
 
     async get(selection = (persona) => true, projection = (persona) => persona) {

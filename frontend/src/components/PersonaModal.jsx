@@ -1,26 +1,27 @@
-import React from 'react';
-import { Modal, Box, TextField, Button, Stack } from '@mui/material';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import ForumIcon from '@mui/icons-material/Forum'; // Change icon to ForumIcon for Threads
-import { useSelector } from 'react-redux';
-import LinkToThreads from './LinkToThreads';
+import { Modal, Box, TextField, Button, Stack } from "@mui/material";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import ForumIcon from "@mui/icons-material/Forum"; // Change icon to ForumIcon for Threads
+import { useSelector } from "react-redux";
+import LinkToThreads from "./LinkToThreads";
+import { Platform } from "../enum/common.enum";
+import { isPlatformConnected } from "../pages/PersonasPage/Common";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 600, 
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 600,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  borderRadius: '8px',
+  borderRadius: "8px",
 };
 
 const buttonStyle = {
-  minWidth: '150px', 
+  minWidth: "150px",
 };
 
 export default function PersonaModal({
@@ -32,22 +33,35 @@ export default function PersonaModal({
   handleUpdatePersona,
   handleDeletePersona,
 }) {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state?.user);
 
   async function handleLinkedInClick(personaId) {
     const params = new URLSearchParams({
-      response_type: 'code',
+      response_type: "code",
       client_id: import.meta.env.VITE_LINKED_IN_CLIENT_ID,
       redirect_uri: import.meta.env.VITE_LINKED_IN_REDIRECT_URI,
       state: personaId,
-      scope: 'w_member_social profile openid'
+      scope: "w_member_social profile openid",
     });
-  
+
     const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`;
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
     window.location.href = linkedInAuthUrl;
   }
-  
+
+  async function handleTwitterClick(personaId) {
+    try {
+      const baseUrl = import.meta.env.VITE_BASEURL_BACK_ALIAS;
+      sessionStorage.setItem("resolverData", JSON.stringify(user));
+      const state = `${user.user.externalId}:${personaId}`;
+
+      const url = `${baseUrl}/auth/twitter/code?state=${state}`
+      window.location.href = url;
+    } catch (error) {
+      console.error("Error fetching Twitter auth code:", error);
+    }
+  }
+
   return (
     <Modal
       open={open}
@@ -56,11 +70,20 @@ export default function PersonaModal({
       aria-describedby="modal-description"
     >
       <Box sx={style}>
-        <Stack direction="row" spacing={3} justifyContent="space-between" sx={{ mb: 3 }}>
-        <h2 id="modal-title">Edit Persona</h2>
-        <Button variant="contained" color="error" onClick={handleDeletePersona}>
-          Delete Persona
-        </Button>
+        <Stack
+          direction="row"
+          spacing={3}
+          justifyContent="space-between"
+          sx={{ mb: 3 }}
+        >
+          <h2 id="modal-title">Edit Persona</h2>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleDeletePersona}
+          >
+            Delete Persona
+          </Button>
         </Stack>
         <Stack direction="column" spacing={3}>
           <TextField
@@ -77,34 +100,47 @@ export default function PersonaModal({
             value={persona.text}
             onChange={(e) => setPersonaText(e.target.value)}
           />
-          <Button variant="contained" color="primary" onClick={handleUpdatePersona}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpdatePersona}
+          >
             Update Persona
           </Button>
           <Stack direction="row" spacing={3} justifyContent="center">
-            <Button
+          <Button
               variant="outlined"
               startIcon={<TwitterIcon />}
               style={buttonStyle}
-              disabled={persona.connections?.twitter} 
+              disabled={isPlatformConnected(persona, Platform.TWITTER)}
+              onClick={() => handleTwitterClick(persona._id)}
             >
-              {persona.connections?.twitter ? 'Connected Twitter' : 'Connect Twitter'}
+              {isPlatformConnected(Platform.TWITTER)
+                ? "Connected Twitter"
+                : "Connect Twitter"}
             </Button>
             <Button
               variant="outlined"
               startIcon={<LinkedInIcon />}
               style={buttonStyle}
-              disabled={persona.connections?.linkedin}
+              disabled={isPlatformConnected(persona, Platform.LINKEDIN)}
               onClick={() => handleLinkedInClick(persona._id)}
             >
-              {persona.connections?.linkedin ? 'Connected LinkedIn' : 'Connect LinkedIn'}
+              {isPlatformConnected(Platform.LINKEDIN)
+                ? "Connected LinkedIn"
+                : "Connect LinkedIn"}
             </Button>
             <LinkToThreads
-	      personaID={persona._id}
+              personaID={persona._id}
               variant="outlined"
               startIcon={<ForumIcon />}
               style={buttonStyle}
-              disabled={persona.connections?.threads}
-	      displayText={persona.connections?.threads ? 'Connected Threads' : 'Connect Threads'}
+              disabled={isPlatformConnected(persona, Platform.THREADS)}
+              displayText={
+                isPlatformConnected(Platform.THREADS)
+                  ? "Connected Threads"
+                  : "Connect Threads"
+              }
             />
           </Stack>
         </Stack>

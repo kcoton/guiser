@@ -42,6 +42,20 @@ const userSlice = createSlice({
       }
       persona.content.push(newContentEntry);
     },
+    addPersona: (state, action) => {
+      state.db?.personas?.push(action.payload);
+    },
+    updatePersona: (state, action) => {
+      const updatedPersona = action.payload;
+      const personaId = updatedPersona._id;
+      const persona = state.db?.personas?.find((p) => p._id === personaId);
+      if (!persona) {
+        console.error('persona not found');
+        return;
+      }
+      persona.name = updatedPersona.name;
+      persona.text = updatedPersona.text;
+    },
     updatePosted: (state, action) => {
       const { personaId, contentId, posted } = action.payload;
       const persona = state.db?.personas?.find((p) => p._id === personaId);
@@ -56,6 +70,10 @@ const userSlice = createSlice({
       }
       content.posted = posted;
     },
+    deletePersona: (state, action) => {
+      const personaId = action.payload;
+      state.db.personas = state.db?.personas?.filter((p) => p._id !== personaId);
+    },
     logout: (state) => {
       state.user = null;
       state.sid = null;
@@ -63,5 +81,5 @@ const userSlice = createSlice({
   }
 });
 
-export const { sync, storeDbUser, storeUser, addAuthToken, addContent, updatePosted, logout } = userSlice.actions;
+export const { sync, storeDbUser, storeUser, addAuthToken, addContent, addPersona, updatePersona, updatePosted, deletePersona, logout } = userSlice.actions;
 export default userSlice.reducer;

@@ -10,7 +10,7 @@ import { addContent } from "../../redux/userSlice";
 
 export default function GeneratePage() {
     const dispatch = useDispatch();
-    const personas = useSelector((state) => state.user.db?.personas);
+    const personas = useSelector((state) => state.user.db?.personas?.filter(p => !p.deleted));
     const userId = useSelector((state) => state.user.db?._id);
     const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);

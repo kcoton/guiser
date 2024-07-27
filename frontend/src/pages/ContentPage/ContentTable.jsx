@@ -16,15 +16,17 @@ function getIcon(appName) {
 }
 
 export default function ContentTable({ socialApps, onRowClick }) {
-    const content = useSelector((state) => state.user.db?.personas)
+    const content = useSelector((state) => state.user.db?.personas ?? [])
         .reduce((acc, persona) => {
             const personaName = persona.name;
             const personaId = persona._id;
-            persona.content.forEach(contentEntry => {
-                if (!contentEntry.isRejected) {
-                    acc.push({ ...contentEntry, personaName, personaId, id: contentEntry._id })
-                }
-            });
+            if (!persona.deleted) {
+                persona.content.forEach(contentEntry => {
+                    if (!contentEntry.isRejected) {
+                        acc.push({ ...contentEntry, personaName, personaId, id: contentEntry._id })
+                    }
+                });
+            }
             return acc;
         }, []);
 

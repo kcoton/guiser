@@ -15,32 +15,32 @@ const LinkToThreads = ({ personaID, variant, startIcon, style, disabled, display
     //const user = useSelector(s => s.user.user);
     const state = useSelector((state) => state.user);
 
-    const handleLink = () => {
-	sessionStorage.setItem("resolverData",
-			       JSON.stringify(state));
-			       //JSON.stringify({sid: sessionID, user: user}));
+	const handleLink = () => {
+		sessionStorage.setItem("resolverData",
+			JSON.stringify(state));
+			//JSON.stringify({sid: sessionID, user: user}));
 	
 	var url = AUTH_API_BASEURL + "/oauth/authorize";
 	url += "?client_id=" + APP_ID;
 	url += "&redirect_uri=" + REDIRECT_URI;
 	url += "&scope=" + encodeURIComponent(SCOPES);
 	url += "&response_type=code";
-	url += "&state=" + state.user.uid + ":" + personaID;
+	url += "&state=" + state.user.externalId + ":" + personaID;
 	
 	location.href=url;
     };
 
     return (
         <div>
-	    <Button
+		<Button
 		variant = {variant}
 		startIcon={startIcon}
 		style={style}
 		disabled={disabled}
 		onClick={handleLink}
-	    > {displayText}
-	    </Button>
-	    {/*
+		> {displayText}
+		</Button>
+		{/*
 	    <form onSubmit={(e) => {
 		      e.preventDefault();
 		      publishPost(content);
