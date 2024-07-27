@@ -1,0 +1,26 @@
+on:
+  pull_request:
+  push:
+    branches: 
+      - main
+      - project_5
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy Backend
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/project_5'
+        env:
+          deploy_backend_url: ${{ secrets.RENDER_DEPLOY_HOOK_BACKEND_URL }}
+        run: |
+          curl "$deploy_backend_url"
+
+      - name: Deploy Frontend
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/project_5'
+        env:
+          deploy_frontend_url: ${{ secrets.RENDER_DEPLOY_HOOK_FRONTEND_URL }}
+        run: |
+          curl "$deploy_frontend_url"
