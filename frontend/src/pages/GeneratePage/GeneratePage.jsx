@@ -16,6 +16,7 @@ export default function GeneratePage() {
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [selectedPersona, setSelectedPersona] = useState(undefined);
     const [generatedContent, setGeneratedContent] = useState(undefined);
+    const [contentLength, setContentLength] = useState(0);
 
     function handleSelectPersonaClick(persona) {
         if (!generatedContent) {
@@ -35,6 +36,7 @@ export default function GeneratePage() {
         try {
             const content = await generateText(selectedPersona, form.context.value);
             setGeneratedContent(content);
+            setContentLength(content.length);
         }
         catch (ex) {
             setShowErrorModal(true);
@@ -48,6 +50,7 @@ export default function GeneratePage() {
         setShowErrorModal(false);
         setSelectedPersona(undefined);
         setGeneratedContent(undefined);
+        setContentLength(0);
     }
 
     async function handleProcessContentSubmit(e, form, isRejected) {
@@ -73,7 +76,11 @@ export default function GeneratePage() {
         e.preventDefault();
         const form = e.target.closest('form');
         handleProcessContentSubmit(e, form, true);
-    }    
+    }
+
+    function handleContentChange(e) {
+        setContentLength(e.target.value.length);
+    }
 
     return (
         <div className="page-container">
@@ -95,6 +102,7 @@ export default function GeneratePage() {
                 onSubmit={handleProcessContentSubmit}
                 onAccept={handleAcceptContentClick}
                 onReject={handleRejectContentClick}
+                onContentChange={handleContentChange}
                 generatedContent={generatedContent}
             />
             <ErrorModal open={showErrorModal} onClose={resetState} />
