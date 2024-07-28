@@ -1,20 +1,45 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { sync } from '../redux/userSlice'
+import { sync, storeDbUser } from '../redux/userSlice'
+import { requestSession, getDbUser } from './Common';
 
 const ResolverPage = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const dest = new URLSearchParams(location.search).get('dest');
-    const state = JSON.parse(sessionStorage.getItem("resolverData"));
-    useEffect(() => {
-	dispatch(sync(state));
-	sessionStorage.removeItem("resolverData");
-        navigate(dest);
-    }, [])
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const dest = new URLSearchParams(location.search).get('dest');
+  const state = JSON.parse(sessionStorage.getItem("resolverData"));
+  const params = new URLSearchParams(location.search);
 
-    return ( <div> Resolving. </div> );
+  const passParams = {};
+  for(let [key, value] of params) {
+    if(key !== 'dest') {
+      passParams[key] = value;
+    }
+  }
+
+  useEffect(() => {
+    const thunk = async () => {
+      const session = await requestSession();
+      const dbUser = await getDbUser(session.user.externalId);
+      sessionStorage.removeItem("resolverData");
+      dispatch(sync(state));
+      dispatch(sync(session));
+      dispatch(storeDbUser(dbUser));
+
+      const qstr = new URLSearchParams(passParams).toString();
+      if (qstr && dest) {
+        navigate(`${dest}?${qstr}`);
+      } else if (dest) {
+        navigate(dest);
+      } else {
+        navigate('/'); 
+      }
+    }
+    thunk();
+  }, [dest, dispatch, navigate, passParams, state]);
+
+  return ( <div> Resolving. </div> );
 }
 
 export default ResolverPage;

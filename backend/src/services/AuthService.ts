@@ -20,7 +20,7 @@ export const parseGoogleID = async (credential: string) => {
     });
     const payload = ticket.getPayload();
     return payload && {
-        uid: payload['sub'],
+        externalId: payload['sub'],
         name: payload['name'],
         email: payload['email']
     }
@@ -43,11 +43,11 @@ export const getSessionUser = (sessionID: string) => {
     return JSON.parse(session);
 };
 
-export const newSessionUser = (reqID: string, dtls: any) => {
+export const newSessionUser = (reqID: string, user: any) => {
     const timey = new Date().getTime(); 
     const randy = Math.floor(Math.random() * 1000000);     
     const sessionID = timey.toString() + randy.toString();
-    const session = JSON.stringify({sid: sessionID, user: dtls });
+    const session = JSON.stringify({sid: sessionID, user });
 
     // TODO store session record in DB
     fs.writeFileSync('session.json', session, 'utf8');

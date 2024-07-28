@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, Stack, TextField, Button } from "@mui/material";
 import PersonaModal from "../../components/PersonaModal";
 import ForumIcon from '@mui/icons-material/Forum'; 
@@ -6,18 +6,25 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaService from '../../services/PersonaService';
-import { createPersona, updatePersona, deletePersona, EXTERNAL_ID, _ID } from '../../redux/personaSlice';
+import { addPersona, updatePersona, deletePersona } from '../../redux/userSlice';
+import { Platform } from '../../enum/common.enum'
+import { isPlatformConnected } from "./Common";
 import "./PersonasPage.css";
 
 export default function PersonasPage() {
   const dispatch = useDispatch();
-  const personas = useSelector((state) => state.personas);
-  // TODO: create redux store for PersonaService to use across the same instance of the app
-  const personaService = new PersonaService(EXTERNAL_ID, _ID);
-  const [activePersona, setActivePersona] = useState(personas[0]);
+  const userDB = useSelector((state) => state.user?.db);
+  const personaService = new PersonaService(userDB?.externalId, userDB?._id);
+  const [personas, setPersonas] = useState([]);
+  const [activePersona, setActivePersona] = useState(null);
   const [newPersonaName, setNewPersonaName] = useState("");
   const [newPersonaText, setNewPersonaText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const validPersonas = userDB?.personas?.filter(persona => !persona.deleted);
+    setPersonas(validPersonas);
+  }, [personas, userDB])
 
   const handlePersonaClick = (persona) => {
     setActivePersona(persona);
@@ -27,7 +34,9 @@ export default function PersonasPage() {
   const handleSavePersona = async () => {
     try {
       const newPersona = await personaService.create(newPersonaName, newPersonaText);
-      dispatch(createPersona(newPersona));
+      setNewPersonaName('');
+      setNewPersonaText('');
+      dispatch(addPersona(newPersona));
     } catch (e) {
       console.error('Error creating new persona:', e);
     }
@@ -69,11 +78,7 @@ export default function PersonasPage() {
               {persona.name[0]}
             </Avatar>
             <p>{persona.name}</p>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
-              {persona.connections?.twitter && <TwitterIcon style={{ color: 'blue', marginRight: '5px' }} />}
-              {persona.connections?.linkedin && <LinkedInIcon style={{ color: 'blue', marginRight: '5px' }} />}
-              {persona.connections?.threads && <ForumIcon style={{ color: 'blue' }} />}
-            </div>
+            <SocialMediaIcons persona={persona} />
           </div>
         ))}
       </Stack>
@@ -110,4 +115,14 @@ export default function PersonasPage() {
       />}
     </div>
   );
+}
+
+const SocialMediaIcons = ({ persona }) => {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
+      {isPlatformConnected(persona, Platform.TWITTER) && <TwitterIcon style={{ color: 'blue', marginRight: '5px' }} />}
+      {isPlatformConnected(persona, Platform.LINKEDIN) && <LinkedInIcon style={{ color: 'blue', marginRight: '5px' }} />}
+      {isPlatformConnected(persona, Platform.THREADS) && <ForumIcon style={{ color: 'blue' }} />}
+  </div>
+  )
 }

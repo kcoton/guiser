@@ -10,12 +10,10 @@ import Server from "./server/Server";
 export default class App {
     
     public init(port: number) {
-        return new Server(
-			port,
-			'./guiser.server.pem',
-			'./guiser.server-key.pem'
-		).start();
+        return new Server(port).start();
     }
 }
 
-(async () => await new App().init(3001))();
+const port: number = Number(process.env.PORT || 3001);
+
+(async () => await new App().init(port))();

@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import PersonaCardCarousel from './PersonaCardCarousel';
 import ErrorModal from './ErrorModal';
 import LoadingOverlay from "./LoadingOverlay";
-import ContentService from "../../services/ContentService";
+import { createContent, generateText } from "../../services/ContentService";
 import GenerateContentForm from './GenerateContentForm';
 import ProcessContentForm from './ProcessContentForm';
-import { addContent } from "../../redux/personaSlice";
+import { addContent } from "../../redux/userSlice";
 
 export default function GeneratePage() {
     const dispatch = useDispatch();
-    const personas = useSelector((state) => state.personas);
-    const contentService = new ContentService();
+    const personas = useSelector((state) => state.user.db?.personas?.filter(p => !p.deleted));
+    const userId = useSelector((state) => state.user.db?._id);
     const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [selectedPersona, setSelectedPersona] = useState(undefined);
@@ -33,7 +33,7 @@ export default function GeneratePage() {
 
         setShowLoadingOverlay(true);
         try {
-            const content = await contentService.generateText(selectedPersona, form.context.value);
+            const content = await generateText(selectedPersona, form.context.value);
             setGeneratedContent(content);
         }
         catch (ex) {
@@ -56,7 +56,9 @@ export default function GeneratePage() {
             form.reportValidity();
             return;
         }
-        const newContentEntry = await contentService.create(selectedPersona._id, form.content.value, isRejected);
+        const newContentEntry = await createContent(
+            userId, selectedPersona._id, form.content.value, isRejected
+        );
         dispatch(addContent({ personaId: selectedPersona._id, newContentEntry }));
         resetState();
     }
