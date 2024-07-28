@@ -6,7 +6,7 @@ export default function ProcessContentForm({ onSubmit, onAccept, onReject, onCon
     return (
         generatedContent && (
             <Box className='generate-page-pane'>
-                <span>Edit, keep, or discard the post</span>
+                <span>Edit, keep, or discard the generated content</span>
                 <form>
                     <TextField
                         name='content'
@@ -18,8 +18,8 @@ export default function ProcessContentForm({ onSubmit, onAccept, onReject, onCon
                         defaultValue={generatedContent}
                         onChange={onContentChange}
                     />
-                    <Button type='submit' onClick={onAccept}>Keep Post</Button>
-                    <Button type='submit' onClick={onReject}>Discard Post</Button>
+                    <Button type='submit' onClick={onAccept}>Keep Content</Button>
+                    <Button type='submit' onClick={onReject}>Discard Content</Button>
                 </form>
             </Box>
         )
