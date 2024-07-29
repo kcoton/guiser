@@ -6,7 +6,7 @@ export default function GenerateContentForm({ onSubmit, generatedContent, select
     return (
         selectedPersona && (
             <Box className='generate-page-pane'>
-                <span>Enter the post context</span>
+                <span>Describe the content you want generated</span>
                 <form onSubmit={onSubmit}>
                     <TextField
                         name='context'
@@ -17,7 +17,7 @@ export default function GenerateContentForm({ onSubmit, generatedContent, select
                         required
                         disabled={!!generatedContent}
                     />
-                    {!generatedContent && <Button type='submit'>Generate Post</Button>}
+                    {!generatedContent && <Button type='submit'>Generate Content</Button>}
                 </form>
             </Box>
         )

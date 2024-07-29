@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { body } from 'express-validator';
 import SocialAppController from '../controllers/SocialAppController';
 
 class SocialAppRouter {
@@ -17,7 +18,14 @@ class SocialAppRouter {
 
     private registerRoutes() {
         this.router.get('/', this.socialAppController.getAll);
-        this.router.post('/', this.socialAppController.create);
+        this.router.post(
+            '/', 
+            [
+                body('name').isString().notEmpty().withMessage('is required'),
+                body('maxTextLength').isNumeric().notEmpty().withMessage('is required')
+            ],
+            this.socialAppController.create
+        );
     }
 }
 
