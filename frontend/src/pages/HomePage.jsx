@@ -13,7 +13,7 @@ export default function HomePage() {
 			       <li>
 				   Go to <Link to='/Generate'> Generate</Link>, select a persona and describe a topic and/or style of social media post. We'll create the content.
 			       </li>
-			       <li> Go to <Link to='Content'> Content</Link> to view your library and publish to your personas' associated social media accounts.</li>
+			       <li> Go to <Link to='/Content'> Content</Link> to view your library and publish to your personas' associated social media accounts.</li>
 			   </ul>
 		       </div>
 		      You can click the menu at the top left to jump around or log out. Have fun!
