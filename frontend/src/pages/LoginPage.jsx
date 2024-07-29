@@ -1,20 +1,22 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { sync, storeDbUser } from '../redux/userSlice.js';
-import { requestSession, getDbUser } from './Common.jsx';
+import { sync } from '../redux/userSlice.js';
+import { getDbUser } from './Common.jsx';
 
 const LoginPage = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const location = useLocation();
+    
     useEffect(() => {
         const thunk = async () => {
-            const session = await requestSession();
-            const dbUser = await getDbUser(session.user.externalId);
-            dispatch(sync(session));
-            dispatch(storeDbUser(dbUser));
+	    const params = new URLSearchParams(location.search);
+            const uid = params.get('uid');
+
+	    const dbUser = await getDbUser(uid);
+            dispatch(sync({user: {externalId: uid}, db: dbUser}));
             navigate('/dashboard');
         }
         thunk();        

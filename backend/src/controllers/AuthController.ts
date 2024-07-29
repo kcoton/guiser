@@ -1,12 +1,9 @@
 import { Request, Response } from "express";
 import * as AuthService from "../services/AuthService";
 import axios from "axios";
-import fs from "fs";
 import User, { IUser } from "../models/User";
-import { IPersona } from "../models/Persona";
 import { IAuthToken } from "../models/AuthToken";
 import { addSeconds } from "date-fns";
-import mongoose from "mongoose";
 
 const THREADS_TYPE = "Threads";
 
@@ -22,12 +19,12 @@ export async function loginGoogleUser(req: Request, res: Response) {
   // Parse/validate then interpret by redirect into joint session with client
   try {
     const user = await AuthService.parseGoogleID(req.body.credential);
-    const reqID = req.body.state;
-    AuthService.newSessionUser(reqID, user);
-
     const baseURL = process.env.BASEURL_FRONT;
+    const uid = user?.externalId as string;
+    if (!uid) throw new Error("");
+    const qstr = "?uid=" + encodeURIComponent(uid);
     const pageURL = baseURL + "/login";
-    res.redirect(pageURL);
+    res.redirect(pageURL + qstr);
   } catch (error) {
     res.status(500).json({ error: `Internal server error` });
   }
@@ -43,7 +40,7 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
     return;
   } else {
     const code = req.query.code;
-    const [externalId, pid] = (req.query.state as string).split(":");
+    const pid = (req.query.state as string);
 
     // exchange oauth code for short term token
     var url = process.env.THREADS_GRAPH_API_BASE_URL as string;
@@ -81,7 +78,7 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
         token,
         expires
       );
-      const linked = linkPlatform(externalId, pid, wrappedToken);
+      const linked = linkPlatform(pid, wrappedToken);
       if (!linked) {
         console.error("could not link to Threads");
       }
@@ -144,7 +141,7 @@ export async function processTwitterAuthCode(req: Request, res: Response) {
 
     // Fetch t// DB interaction
     const newAuthToken = await wrapPlatformToken("Twitter", token, expires);
-    const linked = await linkPlatformTwitter(pid, newAuthToken);
+    const linked = await linkPlatform(pid, newAuthToken);
     if (!linked) {
       console.error("Could not link to Twitter");
       res.status(500).json({ errors: ["Failed to link Twitter token"] });
@@ -163,30 +160,6 @@ export async function processTwitterAuthCode(req: Request, res: Response) {
   }
 }
 
-// function to be called once to exchange initial requestID for generated sessionID
-export async function getSessionID(req: Request, res: Response) {
-  try {
-    const dtls = await AuthService.getSessionID(req.headers.token as string);
-    res.set("Content-Type", "application/json");
-    res.json(dtls);
-    res.status(302).send();
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error." });
-  }
-}
-
-// function to be called whenever to exchange sessionID for (up-to-date) user details
-export async function getSessionUser(req: Request, res: Response) {
-  try {
-    const dtls = await AuthService.getSessionUser(req.headers.token as string);
-    res.set("Content-Type", "application/json");
-    res.json(dtls);
-    res.status(302).send();
-  } catch (error) {
-    res.status(500).json({ error: "Internal server error." });
-  }
-}
-
 const wrapPlatformToken = async (
   platform: string,
   access_token: string,
@@ -202,38 +175,11 @@ const wrapPlatformToken = async (
   return token;
 };
 
-const linkPlatform = async (externalId: string, pid: string, token: IAuthToken) => {
-  const user: IUser | null = await User.findOne({ externalId: externalId });
+const linkPlatform = async (pid: string, token: IAuthToken) => {
+  const user: IUser | null = await User.findOne({ "personas._id": pid });
   if (!user) return null;
-  console.log("linking to user struct: " + JSON.stringify(user));
 
   const persona: any = user.personas.find((p) => p._id == pid && !p.deleted);
-
-  const matchingPlatformTokenIndex = persona.authTokens.findIndex(
-    (tok: IAuthToken) => tok.platform === token.platform
-  );
-
-  if (matchingPlatformTokenIndex > -1) {
-    persona.authTokens[matchingPlatformTokenIndex] = token;
-  } else {
-    persona.authTokens.push(token);
-  }
-
-  await user.save();
-  return persona.authTokens[
-    matchingPlatformTokenIndex > -1
-      ? matchingPlatformTokenIndex
-      : persona.authTokens.length - 1
-  ];
-};
-
-const linkPlatformTwitter = async (personaId: string, token: IAuthToken) => {
-  const user: IUser | null = await User.findOne({ "personas._id": personaId });
-  if (!user) return null;
-  console.log("Linking to user struct: " + JSON.stringify(user));
-
-  const persona: any = user.personas.find((p) => p._id == personaId && !p.deleted);
-  if (!persona) return null;
 
   const matchingPlatformTokenIndex = persona.authTokens.findIndex(
     (tok: IAuthToken) => tok.platform === token.platform

@@ -4,7 +4,6 @@ import * as controller from '../controllers/AuthController';
 const AuthRouter = Router();
 
 AuthRouter.post('/login', controller.loginGoogleUser);
-AuthRouter.get('/login',  controller.getSessionUser);
 
 AuthRouter.get('/threads', controller.authorizeThreadsUser);
 AuthRouter.get('/twitter/token', controller.processTwitterAuthCode);
