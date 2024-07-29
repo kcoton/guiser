@@ -111,14 +111,11 @@
 + Kiara
   * [X] Restructure redux store
   * [X] 3 sentence "pitch" of project
-+ Shumin
-  * [X] Twitter authorization flow
-  * [X] Twitter link/post UI integration
   * [ ] carousel for personas page (from generate)
   * [X] show linked social media accounts on personas page
 + Shumin
-  * [ ] Twitter authorization flows
-  * [ ] Twitter link/post UI integration
+  * [X] Twitter authorization flow
+  * [X] Twitter link/post UI integration
 + Brant
   1. [X] Git Actions
   2. [X] Workflow Status badge     
