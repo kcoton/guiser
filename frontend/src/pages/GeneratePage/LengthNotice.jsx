@@ -13,7 +13,7 @@ export default function LengthNotice({ socialApps, contentLength }) {
                         const icon = contentLength <= app.maxTextLength ? 
                             <CheckIcon style={{ color: 'green' }} /> : 
                             <CloseIcon style={{ color: 'red' }} />;
-                        return <li>{app.name}: {app.maxTextLength} {icon}</li>
+                        return <li key={app.seqNo}>{app.name}: {app.maxTextLength} {icon}</li>
                     })}
                 </ul>
             </Box>
