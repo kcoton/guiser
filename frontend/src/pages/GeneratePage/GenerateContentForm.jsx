@@ -17,7 +17,7 @@ export default function GenerateContentForm({ onSubmit, generatedContent, select
                         required
                         disabled={!!generatedContent}
                     />
-                    {!generatedContent && <Button type='submit'>Generate Post</Button>}
+                    {!generatedContent && <Button type='submit'>Generate Content</Button>}
                 </form>
             </Box>
         )

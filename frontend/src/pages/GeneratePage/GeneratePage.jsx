@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaCardCarousel from './PersonaCardCarousel';
 import ErrorModal from './ErrorModal';
@@ -6,7 +6,9 @@ import LoadingOverlay from "./LoadingOverlay";
 import { createContent, generateText } from "../../services/ContentService";
 import GenerateContentForm from './GenerateContentForm';
 import ProcessContentForm from './ProcessContentForm';
+import LengthNotice from './LengthNotice';
 import { addContent } from "../../redux/userSlice";
+import { getSocialApps } from '../../services/SocialAppService';
 
 export default function GeneratePage() {
     const dispatch = useDispatch();
@@ -17,6 +19,15 @@ export default function GeneratePage() {
     const [selectedPersona, setSelectedPersona] = useState(undefined);
     const [generatedContent, setGeneratedContent] = useState(undefined);
     const [contentLength, setContentLength] = useState(0);
+    const [socialApps, setSocialApps] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const apps = await getSocialApps();
+            setSocialApps(apps);
+        }
+        fetchData();
+    }, []);
 
     function handleSelectPersonaClick(persona) {
         if (!generatedContent) {
@@ -104,6 +115,11 @@ export default function GeneratePage() {
                 onReject={handleRejectContentClick}
                 onContentChange={handleContentChange}
                 generatedContent={generatedContent}
+            />
+            <div className='generate-page-pane-separator'></div>
+            <LengthNotice
+                socialApps={socialApps}
+                contentLength={contentLength}
             />
             <ErrorModal open={showErrorModal} onClose={resetState} />
         </div>
