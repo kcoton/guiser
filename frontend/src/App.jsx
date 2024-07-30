@@ -7,7 +7,6 @@ import HomePage from './pages/HomePage';
 import PersonasPage from './pages/PersonasPage/PersonasPage';
 import GeneratePage from './pages/GeneratePage/GeneratePage';
 import ContentPage from './pages/ContentPage/ContentPage';
-import SettingsPage from './pages/SettingsPage';
 import LogoutPage from './pages/LogoutPage';
 import store from './redux/store';
 import './App.css'
@@ -38,7 +37,6 @@ function MainApp() {
         <Route path="/personas" element={<PersonasPage />} />
         <Route path="/generate" element={<GeneratePage />} />
         <Route path="/content" element={<ContentPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
         <Route path="/logout" element={<LogoutPage />} />
         <Route path="/resolver" element={<ResolverPage />} />
         <Route path="/linkedinauthhandler" element={<LinkedInAuthHandler />} />
