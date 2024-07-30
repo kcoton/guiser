@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaCardCarousel from './PersonaCardCarousel';
 import ErrorModal from './ErrorModal';
@@ -6,7 +6,9 @@ import LoadingOverlay from "./LoadingOverlay";
 import { createContent, generateText } from "../../services/ContentService";
 import GenerateContentForm from './GenerateContentForm';
 import ProcessContentForm from './ProcessContentForm';
+import LengthNotice from './LengthNotice';
 import { addContent } from "../../redux/userSlice";
+import { getSocialApps } from '../../services/SocialAppService';
 
 export default function GeneratePage() {
     const dispatch = useDispatch();
@@ -16,6 +18,16 @@ export default function GeneratePage() {
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [selectedPersona, setSelectedPersona] = useState(undefined);
     const [generatedContent, setGeneratedContent] = useState(undefined);
+    const [contentLength, setContentLength] = useState(0);
+    const [socialApps, setSocialApps] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const apps = await getSocialApps();
+            setSocialApps(apps);
+        }
+        fetchData();
+    }, []);
 
     function handleSelectPersonaClick(persona) {
         if (!generatedContent) {
@@ -35,6 +47,7 @@ export default function GeneratePage() {
         try {
             const content = await generateText(selectedPersona, form.context.value);
             setGeneratedContent(content);
+            setContentLength(content.length);
         }
         catch (ex) {
             setShowErrorModal(true);
@@ -48,6 +61,7 @@ export default function GeneratePage() {
         setShowErrorModal(false);
         setSelectedPersona(undefined);
         setGeneratedContent(undefined);
+        setContentLength(0);
     }
 
     async function handleProcessContentSubmit(e, form, isRejected) {
@@ -73,7 +87,11 @@ export default function GeneratePage() {
         e.preventDefault();
         const form = e.target.closest('form');
         handleProcessContentSubmit(e, form, true);
-    }    
+    }
+
+    function handleContentChange(e) {
+        setContentLength(e.target.value.length);
+    }
 
     return (
         <div className="page-container">
@@ -95,7 +113,13 @@ export default function GeneratePage() {
                 onSubmit={handleProcessContentSubmit}
                 onAccept={handleAcceptContentClick}
                 onReject={handleRejectContentClick}
+                onContentChange={handleContentChange}
                 generatedContent={generatedContent}
+            />
+            <div className='generate-page-pane-separator'></div>
+            <LengthNotice
+                socialApps={socialApps}
+                contentLength={contentLength}
             />
             <ErrorModal open={showErrorModal} onClose={resetState} />
         </div>

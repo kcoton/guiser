@@ -9,9 +9,18 @@ import Server from "./server/Server";
 
 export default class App {
     
-    public init(port: number) {
-        return new Server(port).start();
-    }
+  public init(port: number) {
+      const local = process.env.LOCAL;
+      if (local) {
+	  return new Server(
+	      port,
+	      './guiser.server.pem',
+	      './guiser.server-key.pem'
+	  ).start();
+      } else {
+	  return new Server(port).start();
+      }     
+  }
 }
 
 const port: number = Number(process.env.PORT || 3001);

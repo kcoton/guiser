@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import * as util from '../util.js'
 
 const GoogleSignIn = () => {
     const BASEURL_BACK = import.meta.env.VITE_BASEURL_BACK;
     const GOOGLE_CLIENID = import.meta.env.VITE_GOOGLE_CLIENTID;
     const GOOGLE_GSI_SOURCE = import.meta.env.VITE_GOOGLE_GSI_SOURCE;
-    
-    const dispatch = useDispatch();    
     
     useEffect(() => {
         const script = document.createElement('script');
@@ -22,7 +19,7 @@ const GoogleSignIn = () => {
     }, []);
 
     const reqID = util.requestID();
-    sessionStorage.setItem("reqID", reqID);
+    //sessionStorage.setItem("reqID", reqID);
     return (
         <>
             <div id="g_id_onload"

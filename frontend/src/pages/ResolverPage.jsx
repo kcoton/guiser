@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { sync, storeDbUser } from '../redux/userSlice'
-import { requestSession, getDbUser } from './Common';
+import { getDbUser } from './Common';
 
 const ResolverPage = () => {
   const navigate = useNavigate();
@@ -20,11 +20,9 @@ const ResolverPage = () => {
 
   useEffect(() => {
     const thunk = async () => {
-      const session = await requestSession();
-      const dbUser = await getDbUser(session.user.externalId);
+      const dbUser = await getDbUser(state.user.externalId);
       sessionStorage.removeItem("resolverData");
       dispatch(sync(state));
-      dispatch(sync(session));
       dispatch(storeDbUser(dbUser));
 
       const qstr = new URLSearchParams(passParams).toString();

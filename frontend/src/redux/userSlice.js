@@ -4,13 +4,11 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     user: null,
-    db: null,
-    sid: null
+    db: null
   },
   reducers: {
     sync: (state, action) => {
       state.user = action.payload.user;
-      state.sid = action.payload.sid;
       state.db = action.payload.db;
     },
     storeDbUser: (state, action) => {
@@ -19,7 +17,6 @@ const userSlice = createSlice({
     storeUser: (state, action) => {
       state.user = action.payload.user;
       state.db = action.payload.db;
-      state.sid = action.payload.sid;
     },
     addAuthToken: (state, action) => {
       const { personaId, authToken } = action.payload;

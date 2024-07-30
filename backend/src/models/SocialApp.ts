@@ -5,10 +5,12 @@ const autoIncrement = require('mongoose-sequence')(mongoose);
 
 export interface ISocialApp extends SoftDeleteDocument {
     name: string;
+    maxTextLength: number;
 }
 
 const SocialAppSchema: Schema = new Schema<ISocialApp>({
-    name: { type: String, required: true }
+    name: { type: String, required: true },
+    maxTextLength: { type: Number, required: true }
 }, {
     timestamps: true
 });
