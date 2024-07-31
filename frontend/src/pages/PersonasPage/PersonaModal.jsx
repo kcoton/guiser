@@ -1,7 +1,7 @@
 import { Modal, Box, TextField, Button, Stack } from "@mui/material";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import ForumIcon from "@mui/icons-material/Forum"; // Change icon to ForumIcon for Threads
+import ForumIcon from "@mui/icons-material/Forum";
 import { useSelector } from "react-redux";
 import LinkToThreads from "./LinkToThreads";
 import { Platform } from "../../enum/common.enum";
@@ -45,7 +45,7 @@ export default function PersonaModal({
     });
 
     const linkedInAuthUrl = `https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`;
-    localStorage.setItem("user", JSON.stringify(user));
+    sessionStorage.setItem("resolverData", JSON.stringify(user));
     window.location.href = linkedInAuthUrl;
   }
 
