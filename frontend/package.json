@@ -16,6 +16,8 @@
     "@mui/icons-material": "^5.15.19",
     "@mui/x-data-grid": "^7.6.1",
     "@reduxjs/toolkit": "^2.2.5",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.5.0",
     "axios": "^1.7.2",
     "jose": "^5.4.0",
     "react": "^18.2.0",
