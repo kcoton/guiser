@@ -18,7 +18,7 @@ This project uses: Typescript, React, MaterialUI, and Express
 
 ## Project Description
 
-Guiser (pronounced like geyser) is designed for content creators, marketers, and organizations that want to partially automate the creation and publication of social media content.
+Guiser (pronounced like 'geyser') is designed for content creators, marketers, and organizations that want to partially automate the creation and publication of social media content.
 
 Guiser will allow users to: 
 - create profiles with personas linked to social media accounts
