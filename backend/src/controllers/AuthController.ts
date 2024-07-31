@@ -4,6 +4,7 @@ import axios from "axios";
 import User, { IUser } from "../models/User";
 import { IAuthToken } from "../models/AuthToken";
 import { addSeconds } from "date-fns";
+import QueryString from "qs";
 
 const THREADS_TYPE = "Threads";
 
@@ -91,6 +92,46 @@ export async function authorizeThreadsUser(req: Request, res: Response) {
       console.error(error);
       res.status(500).json({ error: "Internal server error." });
     }
+  }
+}
+
+export async function authorizeLinkedInUser(req: Request, res: Response) {
+  try {
+    const baseURL = process.env.BASEURL_FRONT;
+    const pageURL = baseURL + "/resolver?dest=" + encodeURIComponent("/personas");
+
+    if (req.query.error) {
+      console.error("LinkedIn auth failed.");
+      res.redirect(pageURL);
+      return;
+    }
+
+    const code = (req.query.code as string);
+    const pid = (req.query.state as string);
+
+    const response = await getLinkedInToken(res, code);
+    if (!response) {
+      return;
+    }
+
+    const token = response.data.access_token as string;
+    const expires_in = response.data.expires_in as number;
+
+    const wrappedToken = await wrapPlatformToken(
+      "LinkedIn",
+      token,
+      expires_in
+    );
+    
+    const linked = linkPlatform(pid, wrappedToken);
+    if (!linked) {
+      console.error("could not link to LinkedIn");
+    }
+
+    res.redirect(pageURL);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error." });
   }
 }
 
@@ -198,3 +239,28 @@ const linkPlatform = async (pid: string, token: IAuthToken) => {
       : persona.authTokens.length - 1
   ];
 };
+
+const getLinkedInToken = async (res: Response, code: string) => {
+  try {
+    return await axios.post(
+      "https://www.linkedin.com/oauth/v2/accessToken",
+      QueryString.stringify({
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: process.env.LINKED_IN_REDIRECT_URI,
+        client_id: process.env.LINKED_IN_CLIENT_ID,
+        client_secret: process.env.LINKED_IN_SECRET,
+      }),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+  } catch (err) {
+    res
+      .status(500)
+      .json({ errors: ["failed to resolve OAuth code to token"] });
+    return;
+  }
+}

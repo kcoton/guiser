@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import CustomParticles from '../components/CustomParticles';
+// import CustomParticles from '../components/CustomParticles';
 
 export default function HomePage() {
 
     return (
 	<div className="page-container">
-	    <CustomParticles/>
+	    {/* <CustomParticles/> */}
 	    <p className="floatParagraph">Hey! Welcome to Guiser. We help you be anyone, on social media. Here's how you get started:</p>
 		<div>
 		    <ul className="nav">
