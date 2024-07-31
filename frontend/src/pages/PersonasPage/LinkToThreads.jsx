@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 import { Button } from '@mui/material';
 
 const LinkToThreads = ({ personaID, variant, startIcon, style, disabled, displayText }) => {

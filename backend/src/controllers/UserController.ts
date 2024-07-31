@@ -189,67 +189,6 @@ export default class UserController {
     }
   };
 
-  public createLinkedInAuthToken = async (
-    req: Request,
-    res: Response
-  ): Promise<void> => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        res.status(400).json({ errors: errors.array() });
-        return;
-      }
-
-      const reqData: Record<string, any> = matchedData(req);
-
-      const user: IUser | null = await this.findUserById(reqData.userId, res);
-      if (!user) {
-        return;
-      }
-
-      const persona: IPersona | null = this.findPersonaById(
-        reqData.personaId,
-        user.personas,
-        res
-      );
-      if (!persona) {
-        return;
-      }
-
-      const response: axios.AxiosResponse | undefined =
-        await this.getLinkedInToken(res, reqData.code);
-      if (!response) {
-        return;
-      }
-
-      if (!response.data?.access_token) {
-        res
-          .status(400)
-          .json({ errors: ["failed to get token in endpoint response"] });
-        return;
-      }
-
-      if (!response.data?.expires_in) {
-        res
-          .status(400)
-          .json({ errors: ["failed to get expiry in endpoint response"] });
-        return;
-      }
-
-      let newAuthToken: IAuthToken = {
-        platform: "LinkedIn",
-        token: response.data.access_token,
-        expiry: this.getTokenExpiryDate(response.data.expires_in),
-      } as IAuthToken;
-
-      newAuthToken = this.upsertAuthToken(persona, newAuthToken);
-      await user.save();
-      res.status(200).json({ result: newAuthToken });
-    } catch (error) {
-      this.handleGeneralError(res, error);
-    }
-  };
-
   public createContent = async (req: Request, res: Response): Promise<void> => {
     try {
       const errors = validationResult(req);
@@ -581,60 +520,6 @@ export default class UserController {
     }
 
     return contentEntry;
-  }
-
-  private async getLinkedInToken(
-    res: Response,
-    code: string
-  ): Promise<axios.AxiosResponse | undefined> {
-    try {
-      return await axios.post(
-        "https://www.linkedin.com/oauth/v2/accessToken",
-        QueryString.stringify({
-          grant_type: "authorization_code",
-          code: code,
-          redirect_uri: process.env.LINKED_IN_REDIRECT_URI,
-          client_id: process.env.LINKED_IN_CLIENT_ID,
-          client_secret: process.env.LINKED_IN_SECRET,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
-    } catch (err) {
-      res
-        .status(400)
-        .json({ errors: ["failed to resolve OAuth code to token"] });
-      return;
-    }
-  }
-
-  private upsertAuthToken(
-    persona: IPersona,
-    newAuthToken: IAuthToken
-  ): IAuthToken {
-    const matchingPlatformTokenIndex = persona.authTokens.findIndex(
-      (token) => token.platform === newAuthToken.platform
-    );
-
-    if (matchingPlatformTokenIndex > -1) {
-      persona.authTokens[matchingPlatformTokenIndex] = newAuthToken;
-    } else {
-      persona.authTokens.push(newAuthToken);
-    }
-
-    return persona.authTokens[
-      matchingPlatformTokenIndex > -1
-        ? matchingPlatformTokenIndex
-        : persona.authTokens.length - 1
-    ];
-  }
-
-  private getTokenExpiryDate(expires_in: number): Date {
-    const currentDatetime: Date = new Date();
-    return addSeconds(currentDatetime, expires_in);
   }
 
   private async getLinkedInPersonUrn(
