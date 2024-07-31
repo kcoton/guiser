@@ -4,8 +4,8 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import ForumIcon from "@mui/icons-material/Forum"; // Change icon to ForumIcon for Threads
 import { useSelector } from "react-redux";
 import LinkToThreads from "./LinkToThreads";
-import { Platform } from "../enum/common.enum";
-import { isPlatformConnected } from "../pages/PersonasPage/Common";
+import { Platform } from "../../enum/common.enum";
+import { isPlatformConnected } from "./Common";
 
 const style = {
   position: "absolute",
