@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Avatar, Stack, TextField, Button } from "@mui/material";
-import PersonaModal from "../../components/PersonaModal";
+import PersonaModal from "./PersonaModal";
 import ForumIcon from '@mui/icons-material/Forum'; 
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
