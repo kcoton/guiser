@@ -5,7 +5,7 @@ export default function HomePage() {
     return (
         <div className='page-container'>
             <CustomParticles />
-            <p className='floatParagraph'>
+            <p>
                 Hey! Welcome to Guiser. We help you be anyone, on social media. Here's how you get started:
             </p>
             <div>
