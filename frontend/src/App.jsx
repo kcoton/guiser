@@ -27,7 +27,7 @@ function App() {
 
 function ProtectedRoute() {
     const user = useSelector((state) => state.user.user);
-    return user ? <Outlet /> : <Navigate to="/" />;
+    return user ? <Outlet /> : <Navigate to='/' />;
 }
 
 function MainApp() {
