@@ -9,16 +9,16 @@ export default class PersonaService {
     }
 
     async get(selection = (persona) => true, projection = (persona) => persona) {
-            try {
-                const url = `${this.url}/personas?externalId=${this.userId}`;
-                const response = await axios.get(url);
-                this.personas = response.data.result;
-                return this.personas;
-            } catch (error) {
-                console.error('Error fetching personas:', error);
-                return [];
-            }
+        try {
+            const url = `${this.url}/personas?externalId=${this.userId}`;
+            const response = await axios.get(url);
+            this.personas = response.data.result;
+            return this.personas;
+        } catch (error) {
+            console.error('Error fetching personas:', error);
+            return [];
         }
+    }
 
     async create(name, text) {
         try {
@@ -52,5 +52,6 @@ export default class PersonaService {
             return deletedId;
         } catch (error) {
             console.error('Error deleting persona:', error);
-        }    }
+        }
+    }
 }

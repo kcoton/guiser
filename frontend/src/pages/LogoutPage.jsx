@@ -8,11 +8,11 @@ const LogoutPage = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-	dispatch(logout());
-	navigate('/');
+        dispatch(logout());
+        navigate('/');
     }, [navigate]);
 
-  return <div>User should never see this.</div>;
+    return <div>User should never see this.</div>;
 };
 
 export default LogoutPage;
