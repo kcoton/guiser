@@ -13,29 +13,25 @@ const LandingPage = () => {
                 <div className='background-image'></div>
                 <div className='content'>
                     <h1>Guiser</h1>
-                    <p>Manage your social media with ease</p>
+                    <p>Create presence with AI</p>
+		    <div style={{visibility: 'hidden'}}> "It uses AI to bring AI":
+			https://youtu.be/-P-ein58laA?si=X-alIOu4PVlQn0cl</div>
                     <p></p>
                     <GoogleSignIn continuation={() => navigate('/dashboard')} />
                 </div>
                 <div className='social-media-icons'>
-                    <SocialMediaIcon
-                        iconClass='fab fa-instagram'
-                        title='Instagram'
-                        description='Edit and plan photos, reels, carousels, and stories with ease.'
-                        link='https://www.instagram.com/'
-                    />
-                    <SocialMediaIcon
-                        iconClass='fab fa-facebook-f'
-                        title='Facebook'
-                        description='Get more engagement and build your Facebook following.'
-                        link='https://www.facebook.com/'
-                    />
                     <SocialMediaIcon
                         iconClass='fab fa-twitter'
                         title='Twitter'
                         description='Stay connected with your audience through tweets.'
                         link='https://x.com/'
                     />
+                    <SocialMediaIcon
+                        iconClass='fab fa-threads'
+                        title='Threads'
+                        description='Start a conversation and attract new followers.'
+                        link='https://www.threads.net/'
+                    />		    
                     <SocialMediaIcon
                         iconClass='fab fa-linkedin-in'
                         title='LinkedIn'
