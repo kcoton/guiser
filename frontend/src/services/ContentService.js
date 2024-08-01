@@ -23,10 +23,7 @@ async function createContent(userId, personaId, text, isRejected) {
         throw new Error('isRejected is required');
     }
 
-    const response = await axios.post(
-        `${baseUrl}/user/${userId}/persona/${personaId}/content`,
-        { text, isRejected }
-    );
+    const response = await axios.post(`${baseUrl}/user/${userId}/persona/${personaId}/content`, { text, isRejected });
 
     if (!response.data) {
         console.error('malformed response does not contain data');
@@ -44,11 +41,11 @@ async function generateText(persona, promptContext) {
     const response = await fetch(import.meta.env.VITE_BASEURL_BACK + '/content/generate/text', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ personaStub: {name, text}, promptContext })
+        body: JSON.stringify({ personaStub: { name, text }, promptContext }),
     });
-    const data = await response.json();	 
+    const data = await response.json();
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -67,7 +64,7 @@ async function postToApp(userId, personaId, contentId, appSeqNo) {
     if (!personaId) {
         throw new Error('personaId is required');
     }
-    
+
     if (!contentId) {
         throw new Error('contentId is required');
     }
@@ -77,7 +74,7 @@ async function postToApp(userId, personaId, contentId, appSeqNo) {
     }
 
     const response = await axios.patch(
-        `${baseUrl}/user/${userId}/persona/${personaId}/content/${contentId}/${appSeqNo}`
+        `${baseUrl}/user/${userId}/persona/${personaId}/content/${contentId}/${appSeqNo}`,
     );
 
     if (!response.data) {
@@ -88,7 +85,7 @@ async function postToApp(userId, personaId, contentId, appSeqNo) {
         throw new Error('response does not contain result');
     }
 
-    return response.data.result;    
+    return response.data.result;
 }
 
 export { createContent, generateText, postToApp };

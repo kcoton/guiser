@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaCardCarousel from './PersonaCardCarousel';
 import ErrorModal from './ErrorModal';
-import LoadingOverlay from "./LoadingOverlay";
-import { createContent, generateText } from "../../services/ContentService";
+import LoadingOverlay from './LoadingOverlay';
+import { createContent, generateText } from '../../services/ContentService';
 import GenerateContentForm from './GenerateContentForm';
 import ProcessContentForm from './ProcessContentForm';
 import LengthNotice from './LengthNotice';
-import { addContent } from "../../redux/userSlice";
+import { addContent } from '../../redux/userSlice';
 import { getSocialApps } from '../../services/SocialAppService';
 
 export default function GeneratePage() {
     const dispatch = useDispatch();
-    const personas = useSelector((state) => state.user.db?.personas?.filter(p => !p.deleted));
+    const personas = useSelector((state) => state.user.db?.personas?.filter((p) => !p.deleted));
     const userId = useSelector((state) => state.user.db?._id);
     const [showLoadingOverlay, setShowLoadingOverlay] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
@@ -48,11 +48,9 @@ export default function GeneratePage() {
             const content = await generateText(selectedPersona, form.context.value);
             setGeneratedContent(content);
             setContentLength(content.length);
-        }
-        catch (ex) {
+        } catch (ex) {
             setShowErrorModal(true);
-        }
-        finally {
+        } finally {
             setShowLoadingOverlay(false);
         }
     }
@@ -70,19 +68,17 @@ export default function GeneratePage() {
             form.reportValidity();
             return;
         }
-        const newContentEntry = await createContent(
-            userId, selectedPersona._id, form.content.value, isRejected
-        );
+        const newContentEntry = await createContent(userId, selectedPersona._id, form.content.value, isRejected);
         dispatch(addContent({ personaId: selectedPersona._id, newContentEntry }));
         resetState();
     }
-    
+
     function handleAcceptContentClick(e) {
         e.preventDefault();
         const form = e.target.closest('form');
         handleProcessContentSubmit(e, form, false);
     }
-    
+
     function handleRejectContentClick(e) {
         e.preventDefault();
         const form = e.target.closest('form');
@@ -94,14 +90,14 @@ export default function GeneratePage() {
     }
 
     return (
-        <div className="page-container">
+        <div className='page-container'>
             <LoadingOverlay showLoadingOverlay={showLoadingOverlay} />
             <PersonaCardCarousel
                 personas={personas}
                 selectedPersona={selectedPersona}
                 generatedContent={generatedContent}
                 onSelectPersonaClick={handleSelectPersonaClick}
-            /> 
+            />
             <div className='generate-page-pane-separator'></div>
             <GenerateContentForm
                 onSubmit={handleGenerateContentClick}
@@ -117,10 +113,7 @@ export default function GeneratePage() {
                 generatedContent={generatedContent}
             />
             <div className='generate-page-pane-separator'></div>
-            <LengthNotice
-                socialApps={socialApps}
-                contentLength={contentLength}
-            />
+            <LengthNotice socialApps={socialApps} contentLength={contentLength} />
             <ErrorModal open={showErrorModal} onClose={resetState} />
         </div>
     );

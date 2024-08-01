@@ -10,7 +10,7 @@ export default function GenerateContentForm({ onSubmit, generatedContent, select
                 <form onSubmit={onSubmit}>
                     <TextField
                         name='context'
-                        variant="outlined"
+                        variant='outlined'
                         fullWidth
                         multiline
                         rows={5}

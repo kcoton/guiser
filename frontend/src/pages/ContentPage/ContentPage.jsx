@@ -20,13 +20,15 @@ export default function ContentPage() {
     }
 
     return (
-        <div className="page-container">
+        <div className='page-container'>
             <ContentTable socialApps={socialApps} onRowClick={handleRowClick} />
-            {selectedContent && 
-                <ContentCards 
-                    setSelectedContent={setSelectedContent} 
-                    socialApps={socialApps} 
-                    selectedContent={selectedContent} />}
+            {selectedContent && (
+                <ContentCards
+                    setSelectedContent={setSelectedContent}
+                    socialApps={socialApps}
+                    selectedContent={selectedContent}
+                />
+            )}
         </div>
     );
 }

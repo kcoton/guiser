@@ -13,13 +13,11 @@ async function getUser(externalId) {
 
     let response;
     try {
-        response = await axios.get(
-            `${baseUrl}/user`, {
-                params: {
-                    externalId: externalId
-                }
-            }
-        );
+        response = await axios.get(`${baseUrl}/user`, {
+            params: {
+                externalId: externalId,
+            },
+        });
     } catch (error) {
         if (error.response.status === 404) {
             return null;
@@ -47,10 +45,7 @@ async function createUser(externalId) {
         throw new Error('baseUrl is required');
     }
 
-    const response = await axios.post(
-        `${baseUrl}/user`,
-        { externalId }
-    );
+    const response = await axios.post(`${baseUrl}/user`, { externalId });
 
     if (!response.data) {
         throw new Error('malformed response does not contain data');
