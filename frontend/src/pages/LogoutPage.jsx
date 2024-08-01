@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/userSlice.js';
+import { persistor } from '../redux/store';
 
 const LogoutPage = () => {
     const navigate = useNavigate();
@@ -9,6 +10,7 @@ const LogoutPage = () => {
 
     useEffect(() => {
         dispatch(logout());
+        persistor.purge();
         navigate('/');
     }, [navigate]);
 

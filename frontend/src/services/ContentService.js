@@ -26,7 +26,7 @@ async function createContent(userId, personaId, text, isRejected) {
     const response = await axios.post(`${baseUrl}/user/${userId}/persona/${personaId}/content`, { text, isRejected });
 
     if (!response.data) {
-        console.error('malformed response does not contain data');
+        throw new Error('malformed response does not contain data');
     }
 
     if (!response.data.result) {
@@ -37,19 +37,38 @@ async function createContent(userId, personaId, text, isRejected) {
 }
 
 async function generateText(persona, promptContext) {
-    const { name, text } = persona;
-    const response = await fetch(import.meta.env.VITE_BASEURL_BACK + '/content/generate/text', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ personaStub: { name, text }, promptContext }),
-    });
-    const data = await response.json();
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+    if (!baseUrl) {
+        throw new Error('baseUrl is required');
     }
-    return data['result'];
+
+    const { name, text } = persona;
+
+    if (!name) {
+        throw new Error('persona.name is required');
+    }
+
+    if (!text) {
+        throw new Error('persona.text is required');
+    }
+
+    if (!promptContext) {
+        throw new Error('promptContext is required');
+    }
+
+    const response = await axios.post(`${baseUrl}/content/generate/text`, {
+        personaStub: { name, text },
+        promptContext,
+    });
+
+    if (!response.data) {
+        throw new Error('malformed response does not contain data');
+    }
+
+    if (!response.data.result) {
+        throw new Error('response does not contain result');
+    }
+
+    return response.data.result;
 }
 
 async function postToApp(userId, personaId, contentId, appSeqNo) {
@@ -78,7 +97,7 @@ async function postToApp(userId, personaId, contentId, appSeqNo) {
     );
 
     if (!response.data) {
-        console.error('malformed response does not contain data');
+        throw new Error('malformed response does not contain data');
     }
 
     if (!response.data.result) {

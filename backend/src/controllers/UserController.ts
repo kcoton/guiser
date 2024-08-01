@@ -6,8 +6,6 @@ import { IContent } from '../models/Content';
 import { validationResult, matchedData } from 'express-validator';
 import { IAuthToken } from '../models/AuthToken';
 import axios from 'axios';
-import QueryString from 'qs';
-import { addSeconds } from 'date-fns';
 
 export default class UserController {
     public getUser = async (req: Request, res: Response): Promise<void> => {

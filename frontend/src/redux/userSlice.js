@@ -72,6 +72,7 @@ const userSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.sid = null;
+            state.db = null;
         },
     },
 });

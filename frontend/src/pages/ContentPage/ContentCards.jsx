@@ -19,7 +19,6 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
             ...prev,
             posted: response,
         }));
-        selectedContent.posted = response;
         dispatch(updatePosted({ personaId, contentId, posted: response }));
     }
 
