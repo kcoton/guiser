@@ -198,6 +198,7 @@ const wrapPlatformToken = async (platform: string, access_token: string, expires
         token: access_token,
         expiry: date,
     } as IAuthToken;
+
     return token;
 };
 
