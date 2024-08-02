@@ -27,33 +27,27 @@ class UserRouter {
     private registerRoutes() {
         this.router.get(
             '/',
-            [
-                query('externalId').isString().notEmpty().withMessage('is required')
-            ],
-            this.userController.getUser
+            [query('externalId').isString().notEmpty().withMessage('is required')],
+            this.userController.getUser,
         );
         this.router.post(
             '/',
-            [
-                body('externalId').isString().notEmpty().withMessage('is required')
-            ],
-            this.userController.createUser
+            [body('externalId').isString().notEmpty().withMessage('is required')],
+            this.userController.createUser,
         );
         this.router.get(
             '/personas',
-            [
-                query('externalId').isString().notEmpty().withMessage('is required')
-            ],
-            this.userController.getPersonas
+            [query('externalId').isString().notEmpty().withMessage('is required')],
+            this.userController.getPersonas,
         );
         this.router.post(
             '/:userId/persona',
             [
                 param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
                 body('name').isString().notEmpty().withMessage('is required'),
-                body('text').isString().notEmpty().withMessage('is required')
+                body('text').isString().notEmpty().withMessage('is required'),
             ],
-            this.userController.createPersona
+            this.userController.createPersona,
         );
         this.router.patch(
             '/:userId/persona',
@@ -62,60 +56,60 @@ class UserRouter {
                 query('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
                 body('name').isString().optional(),
                 body('text').isString().optional(),
-                body().custom(body => {
+                body().custom((body) => {
                     if (!body.name && !body.text) {
                         throw new Error('at least one is required');
                     }
                     return true;
-                })
+                }),
             ],
-            this.userController.updatePersona
+            this.userController.updatePersona,
         );
         this.router.delete(
             '/:userId/persona',
             [
                 param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
-                query('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required')
+                query('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
             ],
-            this.userController.deletePersona
+            this.userController.deletePersona,
         );
         this.router.post(
-            '/:userId/persona/:personaId/content', 
+            '/:userId/persona/:personaId/content',
             [
                 param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
                 param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
                 body('text').isString().notEmpty().withMessage('is required'),
-                body('isRejected').isBoolean().notEmpty().withMessage('is required')
+                body('isRejected').isBoolean().notEmpty().withMessage('is required'),
             ],
-            this.userController.createContent
+            this.userController.createContent,
         );
         this.router.patch(
-            '/:userId/persona/:personaId/content/:contentId/1', 
+            '/:userId/persona/:personaId/content/:contentId/1',
             [
                 param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
                 param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
-                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required')
+                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
             ],
-            this.userController.postToTwitter
+            this.userController.postToTwitter,
         );
         // ET adapted to this endpoint
         this.router.patch(
-            '/:userId/persona/:personaId/content/:contentId/2', 
+            '/:userId/persona/:personaId/content/:contentId/2',
             [
                 param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
                 param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
-                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required')
+                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
             ],
-            this.userController.postToThreads
+            this.userController.postToThreads,
         );
         this.router.patch(
-            '/:userId/persona/:personaId/content/:contentId/3', 
+            '/:userId/persona/:personaId/content/:contentId/3',
             [
                 param('userId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
                 param('personaId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
-                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required')
+                param('contentId').custom(this.objectIdValidator).notEmpty().withMessage('is required'),
             ],
-            this.userController.postToLinkedIn
+            this.userController.postToLinkedIn,
         );
     }
 }

@@ -10,13 +10,16 @@ export interface IPersona extends SoftDeleteDocument {
     authTokens: IAuthToken[];
 }
 
-export const PersonaSchema: Schema = new Schema<IPersona>({
-    name: { type: String, required: true },
-    text: { type: String, required: true },
-    content: [ContentSchema],
-    authTokens: [AuthTokenSchema]
-}, {
-    timestamps: true
-});
+export const PersonaSchema: Schema = new Schema<IPersona>(
+    {
+        name: { type: String, required: true },
+        text: { type: String, required: true },
+        content: [ContentSchema],
+        authTokens: [AuthTokenSchema],
+    },
+    {
+        timestamps: true,
+    },
+);
 
 PersonaSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });

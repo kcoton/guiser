@@ -10,7 +10,7 @@ export default function ProcessContentForm({ onSubmit, onAccept, onReject, onCon
                 <form>
                     <TextField
                         name='content'
-                        variant="outlined"
+                        variant='outlined'
                         fullWidth
                         multiline
                         rows={5}
@@ -18,8 +18,12 @@ export default function ProcessContentForm({ onSubmit, onAccept, onReject, onCon
                         defaultValue={generatedContent}
                         onChange={onContentChange}
                     />
-                    <Button type='submit' onClick={onAccept}>Keep Content</Button>
-                    <Button type='submit' onClick={onReject}>Discard Content</Button>
+                    <Button type='submit' onClick={onAccept}>
+                        Keep Content
+                    </Button>
+                    <Button type='submit' onClick={onReject}>
+                        Discard Content
+                    </Button>
                 </form>
             </Box>
         )

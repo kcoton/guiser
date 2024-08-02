@@ -15,36 +15,47 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
 
     async function handlePostButtonClick(userId, personaId, contentId, appSeqNo) {
         const response = await postToApp(userId, personaId, contentId, appSeqNo);
-        setSelectedContent(prev => ({
+        setSelectedContent((prev) => ({
             ...prev,
-            posted: response
+            posted: response,
         }));
-        selectedContent.posted = response;
         dispatch(updatePosted({ personaId, contentId, posted: response }));
     }
 
     return (
         <Grid container spacing={4} style={{ marginTop: 10 }}>
-            {socialApps.map(app => {
+            {socialApps.map((app) => {
                 const isPostedToSite = selectedContent.posted & (2 ** (app.seqNo - 1));
                 const contentTooLong = selectedContent.text.length > app.maxTextLength;
                 return (
                     <Grid item xs={12} sm={6} md={4} key={app.seqNo}>
                         <Card sx={{ minWidth: 20 }}>
                             <CardContent>
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
                                     {isPostedToSite ? '' : 'Not'} Posted {contentTooLong ? '- Too Long for App' : ''}
                                 </Typography>
-                                <Typography variant="h5" component="div">
+                                <Typography variant='h5' component='div'>
                                     {app.name}
                                 </Typography>
                             </CardContent>
                             <CardActions>
-                                {!isPostedToSite && !contentTooLong ?
-                                    <Button size="small" 
-                                        onClick={() => handlePostButtonClick(
-                                            userId, selectedContent.personaId, selectedContent.id, app.seqNo
-                                        )}>Post</Button> : ''}
+                                {!isPostedToSite && !contentTooLong ? (
+                                    <Button
+                                        size='small'
+                                        onClick={() =>
+                                            handlePostButtonClick(
+                                                userId,
+                                                selectedContent.personaId,
+                                                selectedContent.id,
+                                                app.seqNo,
+                                            )
+                                        }
+                                    >
+                                        Post
+                                    </Button>
+                                ) : (
+                                    ''
+                                )}
                             </CardActions>
                         </Card>
                     </Grid>
