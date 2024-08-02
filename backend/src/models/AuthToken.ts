@@ -7,12 +7,15 @@ export interface IAuthToken extends SoftDeleteDocument {
     expiry: Date;
 }
 
-export const AuthTokenSchema: Schema = new Schema<IAuthToken>({
-    platform: { type: String, required: true},
-    token: { type: String, required: true },
-    expiry: { type: Date, required: true }
-}, {
-    timestamps: true
-});
+export const AuthTokenSchema: Schema = new Schema<IAuthToken>(
+    {
+        platform: { type: String, required: true },
+        token: { type: String, required: true },
+        expiry: { type: Date, required: true },
+    },
+    {
+        timestamps: true,
+    },
+);
 
 AuthTokenSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' });

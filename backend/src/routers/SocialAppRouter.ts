@@ -19,12 +19,12 @@ class SocialAppRouter {
     private registerRoutes() {
         this.router.get('/', this.socialAppController.getAll);
         this.router.post(
-            '/', 
+            '/',
             [
                 body('name').isString().notEmpty().withMessage('is required'),
-                body('maxTextLength').isNumeric().notEmpty().withMessage('is required')
+                body('maxTextLength').isNumeric().notEmpty().withMessage('is required'),
             ],
-            this.socialAppController.create
+            this.socialAppController.create,
         );
     }
 }

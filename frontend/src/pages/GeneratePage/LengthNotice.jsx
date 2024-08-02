@@ -9,11 +9,18 @@ export default function LengthNotice({ socialApps, contentLength }) {
                 <span>Verify that the length of your content meets platform requirements</span>
                 <ul>
                     <li>Content Length: {contentLength}</li>
-                    {socialApps.map(app => {
-                        const icon = contentLength <= app.maxTextLength ? 
-                            <CheckIcon style={{ color: 'green' }} /> : 
-                            <CloseIcon style={{ color: 'red' }} />;
-                        return <li key={app.seqNo}>{app.name}: {app.maxTextLength} {icon}</li>
+                    {socialApps.map((app) => {
+                        const icon =
+                            contentLength <= app.maxTextLength ? (
+                                <CheckIcon style={{ color: 'green' }} />
+                            ) : (
+                                <CloseIcon style={{ color: 'red' }} />
+                            );
+                        return (
+                            <li key={app.seqNo}>
+                                {app.name}: {app.maxTextLength} {icon}
+                            </li>
+                        );
                     })}
                 </ul>
             </Box>

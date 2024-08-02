@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, Outlet } from 'react-router-dom';
+import { Provider, useSelector } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import LandingPage from './pages/LandingPage/LandingPage';
 import LoginPage from './pages/LoginPage';
 import NavigationBar from './components/NavigationBar';
@@ -7,44 +8,48 @@ import HomePage from './pages/HomePage';
 import PersonasPage from './pages/PersonasPage/PersonasPage';
 import GeneratePage from './pages/GeneratePage/GeneratePage';
 import ContentPage from './pages/ContentPage/ContentPage';
-import SettingsPage from './pages/SettingsPage';
 import LogoutPage from './pages/LogoutPage';
-import store from './redux/store';
-import './App.css'
+import { store, persistor } from './redux/store';
+import './App.css';
 import ResolverPage from './pages/ResolverPage';
-import LinkedInAuthHandler from './pages/LinkedInAuthHandler';
-
 
 function App() {
-  return (
-      <Provider store={store}>
-    <Router>
-        <MainApp />
-    </Router>
-      </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <Router>
+                    <MainApp />
+                </Router>
+            </PersistGate>
+        </Provider>
+    );
+}
+
+function ProtectedRoute() {
+    const user = useSelector((state) => state.user.user);
+    return user ? <Outlet /> : <Navigate to='/' />;
 }
 
 function MainApp() {
-  const location = useLocation();
+    const location = useLocation();
 
-  return (
-    <div className="App">
-      {location.pathname !== '/' && location.pathname !== '/login' && <NavigationBar />}
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/dashboard' element={<HomePage />} />
-        <Route path="/personas" element={<PersonasPage />} />
-        <Route path="/generate" element={<GeneratePage />} />
-        <Route path="/content" element={<ContentPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/logout" element={<LogoutPage />} />
-        <Route path="/resolver" element={<ResolverPage />} />
-        <Route path="/linkedinauthhandler" element={<LinkedInAuthHandler />} />
-      </Routes>
-    </div>
-  );
+    return (
+        <div className='App'>
+            {location.pathname !== '/' && location.pathname !== '/login' && <NavigationBar />}
+            <Routes>
+                <Route path='/' element={<LandingPage />} />
+                <Route path='/login' element={<LoginPage />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route path='/dashboard' element={<HomePage />} />
+                    <Route path='/personas' element={<PersonasPage />} />
+                    <Route path='/generate' element={<GeneratePage />} />
+                    <Route path='/content' element={<ContentPage />} />
+                    <Route path='/logout' element={<LogoutPage />} />
+                    <Route path='/resolver' element={<ResolverPage />} />
+                </Route>
+            </Routes>
+        </div>
+    );
 }
 
 export default App;

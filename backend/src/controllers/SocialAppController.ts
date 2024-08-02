@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import SocialApp, { ISocialApp } from "../models/SocialApp";
-import { matchedData, validationResult } from "express-validator";
+import { Request, Response } from 'express';
+import SocialApp, { ISocialApp } from '../models/SocialApp';
+import { matchedData, validationResult } from 'express-validator';
 
 export default class SocialAppController {
     public getAll = async (req: Request, res: Response): Promise<void> => {
@@ -10,7 +10,7 @@ export default class SocialAppController {
         } catch (error) {
             this.handleError(res, error);
         }
-    }
+    };
 
     public create = async (req: Request, res: Response): Promise<void> => {
         try {
@@ -27,10 +27,10 @@ export default class SocialAppController {
         } catch (error) {
             this.handleError(res, error);
         }
-    }
+    };
 
     private handleError = (res: Response, error: unknown): void => {
         const errorMessage = (error as Error)?.message ?? 'an unexpected error occurred';
         res.status(500).json({ errors: [errorMessage] });
-    }
+    };
 }

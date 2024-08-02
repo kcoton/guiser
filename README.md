@@ -6,6 +6,35 @@ Transform your content game with Guiser: a revolutionary app that lets you desig
 
 ## Project Goals
 
+## How To Run Backend
+1. `cd` to a backend location
+2. `npm install` using node version 20
+3. `npm run build` to compile Typescript
+4. `npm run start` to start the server
+
+This project uses: Typescript, React, MaterialUI, and Express
+
+## Project Description
+
+Guiser (pronounced like 'geyser') is designed for content creators, marketers, and organizations that want to partially automate the creation and publication of social media content.
+
+Guiser will allow users to: 
+- create profiles with personas linked to social media accounts
+- use generative AI to create content under the guises of these personas
+- post this generated content directly to social media platforms
+
+Guiser will need to store (at least) the following data:
+- user credentials (for Guiser and the social media platforms it posts to)
+- personas (as preludes injected into generative AI prompts)
+- generated content (posts of various forms and associated metadata)
+
+Time permitting, Guiser may also support: 
+- scheduled automatic posting of pre-generated content
+- generation of responses to replies on original posts
+- analytics related to engagement and other metrics for each persona
+
+## Project Task Requirements
+
 ### Minimal Requirements
 - User Authentication: Implement authentication mechanisms for both Guiser and the social media sites it posts to
 - Persona Development: Implement persona management and the linking of these personas to social media accounts

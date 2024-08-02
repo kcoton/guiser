@@ -122,7 +122,6 @@
   3. [X] LinkedIn authorization flow
   4. [ ] Revisit rubric
   5. [ ] Content editing at review stage
-
 ** Post-PR5
 *** Feature code cutoff: 2024-08-02 @ 22:00 => merge to main
 *** Demo planning: 2024-08-03 @ 19:00
@@ -130,14 +129,14 @@
 *** Demo rehearsal: 2024-08-06 @ 17:00
 *** TODOs - by feature code cutoff
 + Ewan
-  + code cleanup
-  + fix Threads on deployment
-  + Home/Dashboard/About paragraph
-  + Delete Settings link / route / page
-  + Get rid of all session management cruft
-  + Update linkPlatform in AuthController to use only the pid (no need for UID)    
+  + [X] code cleanup
+  + [X] fix Threads on deployment
+  + [X] Home/Dashboard/About paragraph
+  + [X] Delete Settings link / route / page
+  + [X] Get rid of all session management cruft
+  + [X] Update linkPlatform in AuthController to use only the pid (no need for UID)    
 + Kiara
-  + code cleanup  
+   + code cleanup  
   + UI theming (skins, icons)
   + Button styling (everywhere)
   + Uniform (shared) persona selection carousel component for personas and generate page

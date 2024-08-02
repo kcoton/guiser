@@ -11,29 +11,16 @@ import 'slick-carousel/slick/slick-theme.css';
 import './GeneratePage.css';
 
 export default function PersonaCardCarousel({ personas, selectedPersona, onSelectPersonaClick }) {
-
     function NextArrow(props) {
         const { className, style, onClick } = props;
-        return (
-          <ArrowRight
-            className={className}
-            style={{ ...style, color: "black" }}
-            onClick={onClick}
-          />
-        );
-      }
+        return <ArrowRight className={className} style={{ ...style, color: 'black' }} onClick={onClick} />;
+    }
 
     function PrevArrow(props) {
         const { className, style, onClick } = props;
-        return (
-          <ArrowLeft
-            className={className}
-            style={{ ...style, color: "black" }}
-            onClick={onClick}
-          />
-        );
-      }
-    
+        return <ArrowLeft className={className} style={{ ...style, color: 'black' }} onClick={onClick} />;
+    }
+
     const settings = {
         infinite: false,
         speed: 500,
@@ -47,55 +34,56 @@ export default function PersonaCardCarousel({ personas, selectedPersona, onSelec
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 3,
-                    slidesToScroll: 3
-                }
+                    slidesToScroll: 3,
+                },
             },
             {
                 breakpoint: 600,
                 settings: {
                     slidesToShow: 2,
-                    slidesToScroll: 2
-                }
+                    slidesToScroll: 2,
+                },
             },
             {
                 breakpoint: 480,
                 settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
+                    slidesToScroll: 1,
+                },
+            },
+        ],
     };
 
     return (
         <Box className='generate-page-pane'>
-            {personas?.length ?
+            {personas?.length ? (
                 <>
                     <span>Select a persona</span>
                     <Slider {...settings}>
                         {personas.map((p, idx) => (
                             <div key={p._id}>
-                                <Card 
+                                <Card
                                     key={p._id}
                                     className='generate-page-persona-card'
                                     onClick={() => onSelectPersonaClick(p)}
-                                    style={{border: selectedPersona?._id === p._id ? '2px solid blue' : '1px solid #ccc'}}
+                                    style={{
+                                        border: selectedPersona?._id === p._id ? '2px solid blue' : '1px solid #ccc',
+                                    }}
                                 >
                                     <CardContent>
-                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                        <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
                                             Persona {idx + 1}
                                         </Typography>
-                                        <Typography variant="h6">
-                                            {p.name}
-                                        </Typography>
+                                        <Typography variant='h6'>{p.name}</Typography>
                                     </CardContent>
                                 </Card>
                             </div>
                         ))}
-                    </Slider> 
-                </>:
+                    </Slider>
+                </>
+            ) : (
                 <span>You must add at least one persona to generate content!</span>
-            }
+            )}
         </Box>
     );
 }
