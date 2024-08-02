@@ -14,6 +14,6 @@ export default class TogetherService implements IGenAiService {
             model: 'meta-llama/Llama-3-8b-chat-hf',
             messages: [{ role: 'user', content: content }],
         });
-        return (response as { choices: [{ message: { content: string } }] }).choices[0].message.content;
+        return (response as { choices: [{ message: { content: string } }] }).choices[0].message.content.replace(/^"(.*)"$/, '$1');
     }
 }

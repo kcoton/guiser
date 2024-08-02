@@ -11,7 +11,6 @@ import cors from 'cors';
 import AuthRouter from '../routers/AuthRouter';
 import cookieParser from 'cookie-parser';
 import contentRouter from '../routers/ContentRouter';
-import PubRouter from '../routers/PubRouter';
 import socialAppRouter from '../routers/SocialAppRouter';
 import userRouter from '../routers/UserRouter';
 import fs from 'fs';
@@ -85,7 +84,6 @@ export default class Server {
         this.express.get('/echo/:msg', Server.echo);
         this.express.use('/auth', AuthRouter);
         this.express.use('/content', contentRouter);
-        this.express.use('/pub', PubRouter);
         this.express.use('/social-app', socialAppRouter);
         this.express.use('/user', userRouter);
     }
