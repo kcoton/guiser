@@ -46,11 +46,10 @@ In Unit 5, we focused on release engineering and deploying our application, whic
 
 ## Above and Beyond Functionality
 
-Our project, Guiser, significantly exceeds course requirements with advanced features resembling those of a small start-up. By integrating generative AI and multiple social media APIs, we provide a seamless and intelligent content creation and distribution platform.
+Our project, Guiser, significantly exceeds course requirements with advanced features resembling those of a small start-up. By integrating generative AI, multiple social media APIs, and responsive design, we provide a seamless and intelligent content creation and distribution platform.
 
 We utilized state-of-the-art generative AI services, such as Google Generative AI and Together AI, to dynamically generate high-quality, persona-specific content based on contextual prompts. This ensures authentic, engaging content that enhances the app’s value and uniqueness.
-
-Additionally, we integrated APIs from Twitter, Threads, and LinkedIn, enabling users to authenticate, obtain auth tokens, and post content directly from Guiser. This multi-platform integration streamlines content distribution, enhancing reach and efficiency.
+Additionally, we integrated APIs from Twitter, Threads, and LinkedIn, enabling users to authenticate, obtain auth tokens, and post content directly from Guiser. This multi-platform integration streamlines content distribution, enhancing reach and efficiency. Lastly, we ensured our application is designed responsivelly.
 
 These advanced features significantly improve Guiser’s capabilities. The generative AI models create highly engaging, contextually relevant content, while the multi-platform integration allows effortless management of online presence. These functionalities showcase our ability to implement cutting-edge technologies and complex systems, reflecting professional-level sophistication and technical prowess.
 
