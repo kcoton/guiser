@@ -20,9 +20,9 @@ Transform your content game with Guiser (pronounced like 'geyser'): a revolution
 - ✅ Soft Delete: Implement soft delete on all MongoDB collections in our DB
 
 ### Stretch Requirements
+- ✅ Extended Content Distribution: Automate the posting of generated content to a third social media website
 - Extended Content Generation and Distribution: Enable the generation of image content tailored to personas and posting on an appropriate site
 - Photo capability: Enable users to attach photos to text content for publishing
-- ✅ Extended Content Distribution: Automate the posting of generated content to a third social media website
 - Content Scheduling: Develop a basic scheduling system where users can set dates and times for posts to be automatically published on connected platforms
 - Advanced Analytics: Use machine learning to predict the best times for posting and the potential engagement level of different content types
 
@@ -62,7 +62,8 @@ To further improve Guiser, we plan to enable image content generation and distri
 - Shumin Wang:
 Throughout the project, I developed a visually appealing and functional landing page, implemented Twitter user authentication, and integrated essential features such as Twitter posting. Additionally, I contributed to the development of the PersonaModal front page and addressed critical challenges, including seamless page connectivity, responsive design, and OAuth integration. These efforts ensured a smooth and user-friendly experience, significantly enhancing the app's functionality, usability, and overall user engagement.
 
-- 
+- Brant Shapka:
+I implemented significant parts of the frontend (the Generate and Content pages), created and initialized the backend server, created and designed the MongoDB instance, wrote Mongoose models for the db, and wrote a significant chunk of the backend code responsible for CRUD functionality related to these db models/collections. In addition to this, I implemented LinkedIn user authentication/OAuth integration along with LinkedIn posting, thereby adding support for one of the three supported social media platforms. Lastly, I managed the deployment/hosting of the app and spent extra time testing the app.
 
 -
 
