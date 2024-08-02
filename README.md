@@ -56,7 +56,7 @@ These advanced features significantly improve Guiser’s capabilities. The gener
 In conclusion, Guiser not only meets but exceeds course requirements by incorporating advanced AI and API integrations, positioning it as a powerful and innovative tool for social media management.
 
 ## Next Steps
-To further improve Guiser, we plan to enable image content generation and distribution, and add photo attachment capabilities as listed in our stretch goals. We will also develop a content scheduling system to allow automatic publishing at optimal times. Additionally, incorporating advanced analytics will help optimize post timing and engagement, making Guiser more powerful and user-friendly for content creators and social media managers.
+To further improve Guiser, we could enable image content generation and distribution, and add photo attachment capabilities as listed in our stretch goals. We could also develop a content scheduling system to allow automatic publishing at optimal times. Additionally, incorporating advanced analytics would help optimize post timing and engagement, making Guiser more powerful and user-friendly for content creators and social media managers.
 
 ## List of Contributions (2-3 sentences)
 - Shumin Wang:
