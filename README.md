@@ -29,19 +29,20 @@ Transform your content game with Guiser (pronounced like 'geyser'): a revolution
 ## Technology Utilization
 
 ### Unit 1: HTML, CSS, and JavaScript
-In Unit 1, we learned the basics of HTML, CSS, and JavaScript, which provided the foundation for our web application. We primarily used CSS to style our landing page and personas pages, ensuring they are visually appealing and user-friendly. The fundamental knowledge of JavaScript from this unit helped us understand the syntax and build a solid foundation for more advanced technologies.
+In Unit 1, we learned the basics of HTML, CSS, and JavaScript, which provide the foundation for our web application. HTML is essential for
+displaying the content we want to display to our users. CSS on the other hand styles this content the way we want it to appear to users, ensuring content is visually appealing and user-friendly. The fundamental knowledge of JavaScript from this unit helped us bring our website to life and make it dynamic. Our understanding of JS also provided a solid foundation for more advanced topics.
 
 ### Unit 2: React & Redux
-Unit 2 introduced us to React and Redux, which we utilized extensively for our front-end development. React allowed us to create dynamic and responsive user interfaces, while Redux helped manage the application state efficiently. The integration of 'createSlice' from Redux Toolkit enabled us to handle actions and state updates seamlessly, ensuring a smooth user experience.
+Unit 2 introduced us to React and Redux, which we utilized extensively for our front-end development. React allowed us to create dynamic and responsive user interfaces with significantly less time and effort than using just vanilla HTML/CSS/JS. Redux helped manage the application state efficiently while leveraging React's virtual DOM. The integration of 'createSlice' from Redux Toolkit enabled us to delegate enforcing the immutability of Redux actions and state updates to Redux itself, making it easier to ensuring a smooth user experience.
 
 ### Unit 3: NodeJS & Express
 In Unit 3, we learned about backend development using Node.js and Express, which we implemented to set up our server and handle API requests. Express facilitated the creation of routers and controllers for user authentication, content management, and social media interactions. Compared to other backend frameworks like Django or Ruby on Rails, Express provided a lightweight and flexible solution that perfectly complemented our JavaScript-based front end.
 
 ### Unit4: MongoDB
-Unit 4 covered MongoDB, a NoSQL database, which we used to store and manage our application's data. We designed schemas for users, personas, content, and social media tokens, enabling us to organize and retrieve data efficiently. Compared to SQL databases, MongoDB offered a more flexible schema design, which was particularly useful for handling the dynamic data structures in our application.
+Unit 4 covered MongoDB, a NoSQL database, which we used to store and manage our application's data. We designed schemas for users, personas, content, social media tokens, and social media websites, enabling us to organize and retrieve data efficiently. Compared to SQL databases, MongoDB offered a more flexible schema design, which was particularly useful for handling the dynamic data structures in our application.
 
 ### Unit 5: Release Engineering
-In Unit 5, we focused on release engineering and deploying our application, which we achieved using Render.com and GitHub Actions. This unit taught us the importance of continuous integration and deployment, allowing us to maintain a production-ready application. The automated deployment process ensured that our latest updates were always live, and the workflow status badge in our README file provided real-time deployment status.
+In Unit 5, we focused on release engineering and deploying our application, which we achieved using Render.com and GitHub Actions. This unit taught us the importance of continuous integration and deployment, allowing us to maintain a production-ready application while reducing monotonous manual work and possible errors. The automated deployment process ensured that our latest updates were always live, and the workflow status badge in our README file provided real-time deployment status.
 
 ## Above and Beyond Functionality
 
