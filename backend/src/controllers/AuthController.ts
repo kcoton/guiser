@@ -12,11 +12,10 @@ export async function loginGoogleUser(req: Request, res: Response) {
     // Verify CSRF safe
     const cookieToken = req.cookies.g_csrf_token;
     const bodyToken = req.body.g_csrf_token;
-    // TODO: Restore commented out code later
-    // if (!(cookieToken && bodyToken && cookieToken === bodyToken)) {
-    //   res.status(403).json({ error: "CSRF token validation failed" });
-    //   return;
-    // }
+    if (!(cookieToken && bodyToken && cookieToken === bodyToken)) {
+	res.status(403).json({ error: "CSRF token validation failed" });
+	return;
+    }
     // Parse/validate then interpret by redirect into joint session with client
     try {
         const user = await AuthService.parseGoogleID(req.body.credential);
