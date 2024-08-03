@@ -75,7 +75,7 @@ I implemented significant parts of the frontend (the Generate and Content pages)
 
 | Username                   | Password               | Type                |
 |----------------------------|------------------------|---------------------|
-| guiser.user.za@gmail.com   | projectadmin           | Google              |
+| guiser.user.az@gmail.com   | projectadmin           | Google              |
 | guiser.user.az@gmail.com   | projectadmin           | Threads             |
 | guiserteam@gmail.com       | projectadmin           | LinkedIn            |
 | Alice_guiser               | projectadmin           | Twitter             |
