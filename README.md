@@ -65,7 +65,8 @@ Throughout the project, I developed a visually appealing and functional landing 
 - Brant Shapka:
 I implemented significant parts of the frontend (the Generate and Content pages), created and initialized the backend server, created and designed the MongoDB instance, wrote Mongoose models for the db, and wrote a significant chunk of the backend code responsible for CRUD functionality related to these db models/collections. In addition to this, I implemented LinkedIn user authentication/OAuth integration along with LinkedIn posting, thereby adding support for one of the three supported social media platforms. Lastly, I managed the deployment/hosting of the app and spent extra time testing the app.
 
--
+- Ewan Townshend:
+I implemented Google authentication, Threads OAuth integration, and infrastructure for session management, all spanning front and back end. I also pitched and refined the app idea, made various UI and server-side changes, implemented the (current) LLM integration, and set up / linked admin and tester accounts for platform integrations.
 
 -
 
