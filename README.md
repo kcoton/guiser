@@ -81,6 +81,9 @@ I implemented significant parts of the frontend (the Generate and Content pages)
 | Alice_guiser               | projectadmin           | Twitter             |
 
 
+This is the end of the Final Project Report.
+
+---
 
 ## How To Run Frontend
 1. `cd` to a frontend location
