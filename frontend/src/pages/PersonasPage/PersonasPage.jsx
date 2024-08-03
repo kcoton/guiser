@@ -33,7 +33,6 @@ export default function PersonasPage() {
 
     const handleSavePersona = async () => {
         try {
-            // Validation for empty fields
             if (!newPersonaName) {
                 alert("Persona name is required.");
                 return;
@@ -41,9 +40,8 @@ export default function PersonasPage() {
             if (!newPersonaText) {
                 alert("Persona content is required.");
                 return;
-            }
-            // Limit the length of the persona name
-            const MAX_NAME_LENGTH = 20; // Adjust the length as needed
+            }          
+            const MAX_NAME_LENGTH = 20; 
             if (newPersonaName.length > MAX_NAME_LENGTH) {
                 alert(`Persona name should not exceed ${MAX_NAME_LENGTH} characters.`);
                 return;
