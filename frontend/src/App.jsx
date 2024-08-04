@@ -14,6 +14,7 @@ import './App.css';
 import ResolverPage from './pages/ResolverPage';
 import { ThemeProvider, createTheme } from '@mui/material/';
 import { themeOptions } from './style';
+import CustomParticles from './components/CustomParticles';
 
 const theme = createTheme(themeOptions);
 
@@ -41,6 +42,7 @@ function MainApp() {
 
     return (
         <div className='App'>
+            <CustomParticles />
             {location.pathname !== '/' && location.pathname !== '/login' && <NavigationBar />}
             <Routes>
                 <Route path='/' element={<LandingPage />} />

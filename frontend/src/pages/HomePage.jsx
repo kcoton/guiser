@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import CustomParticles from '../components/CustomParticles';
 import { Card, List, ListItem, ListItemText, Typography, Button } from '@mui/material';
 
 export default function HomePage() {
@@ -11,7 +10,6 @@ export default function HomePage() {
 
     return (
         <Card sx={{ p: 5, m: 8, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
-            <CustomParticles />
             <Typography variant='h5'>
                 Hey! Welcome to Guiser. We help you be anyone, on social media. Here's how to get started:
             </Typography>
