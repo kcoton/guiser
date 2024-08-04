@@ -26,7 +26,7 @@ export default function ContentTable({ socialApps, onRowClick }) {
                 }
             });
         }
-        return acc;
+        return acc.sort((x, y) => new Date(y.createdAt) - new Date(x.createdAt));
     }, []);
 
     const columns = [
