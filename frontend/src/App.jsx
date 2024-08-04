@@ -12,16 +12,22 @@ import LogoutPage from './pages/LogoutPage';
 import { store, persistor } from './redux/store';
 import './App.css';
 import ResolverPage from './pages/ResolverPage';
+import { ThemeProvider, createTheme } from '@mui/material/';
+import { themeOptions } from './style';
+
+const theme = createTheme(themeOptions);
 
 function App() {
     return (
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <Router>
-                    <MainApp />
-                </Router>
-            </PersistGate>
-        </Provider>
+        <ThemeProvider theme={theme}>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <Router>
+                        <MainApp />
+                    </Router>
+                </PersistGate>
+            </Provider>
+        </ThemeProvider>
     );
 }
 

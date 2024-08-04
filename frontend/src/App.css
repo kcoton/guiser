@@ -1,18 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
     background-color: #f0f0f0;
 }
-
-.page-container {
-    padding: 20px;
-    background-color: transparent;
-    font-weight: bold;
-    color: black;
-}
-
-.page-container a {
-    color: black;
-}    
 
 #tsparticles {
     position: absolute;
