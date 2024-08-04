@@ -171,9 +171,9 @@
 ** Demo Planning
 + TODOs
   + clear out content and authtokens
-  + go through app taking screenshot of ever step of flow
+  + go through app taking screenshot of every step of flow
   + Ewan & Shumin: send prompts to Brant for demo
-  + Kiara: send 
+  + Kiara: send persona name and description to Brant
 + Brant drives screen; we talk over top
 + Kiara
   + (1 min) Intro & use cases: content creator; social media marketer
