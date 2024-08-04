@@ -15,9 +15,6 @@ export const themeOptions = {
       primary: '#FFFFFF',
       secondary: '#A688FA',
     },
-    error: {
-      main: '#A688FA',
-    },
     warning: {
       main: '#A688FA',
     },
@@ -67,6 +64,16 @@ export const themeOptions = {
       defaultProps: {
         InputLabelProps: {
           shrink: true,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-disabled': {
+            color: 'rgba(255, 255, 255, 0.1)',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+          },
         },
       },
     },
