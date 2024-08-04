@@ -2,7 +2,7 @@ export const themeOptions = {
   palette: {
     type: 'dark',
     primary: {
-      main: '#282828',
+      main: '#A688FA',
     },
     secondary: {
       main: '#A688FA',
@@ -37,21 +37,6 @@ export const themeOptions = {
       fontWeight: 500,
       lineHeight: 1.45,
     },
-    // h5: {
-    //   fontWeight: 700,
-    //   fontSize: '1.4rem',
-    // },
-    // h6: {
-    //   fontSize: '1.1rem',
-    // },
-    // body1: {
-    //   fontSize: '1rem',
-    //   fontWeight: 700,
-    // },
-    // body2: {
-    //   lineHeight: 1.45,
-    //   fontSize: '0.9rem',
-    // },
   },
   props: {
     MuiList: {
@@ -69,5 +54,21 @@ export const themeOptions = {
   },
   shape: {
     borderRadius: 10,
+  },
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          borderColor: 'rgba(255, 255, 255, 0.6)',
+        },
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        InputLabelProps: {
+          shrink: true,
+        },
+      },
+    },
   },
 };
