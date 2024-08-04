@@ -14,7 +14,8 @@ export default function CustomParticles() {
     }, []);
 
     const particlesLoaded = (container) => {
-        console.log(container);
+	// success
+	// console.log(container);
     };
 
     const options = useMemo(

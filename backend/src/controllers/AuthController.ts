@@ -10,12 +10,14 @@ const THREADS_TYPE = 'Threads';
 
 export async function loginGoogleUser(req: Request, res: Response) {
     // Verify CSRF safe
+    /* CSRF validation fails with onrender.com proxying; restore after migrating
     const cookieToken = req.cookies.g_csrf_token;
-    const bodyToken = req.body.g_csrf_token;
+    const bodyToken = req.body.g_csrf_token;    
     if (!(cookieToken && bodyToken && cookieToken === bodyToken)) {
 	res.status(403).json({ error: "CSRF token validation failed" });
 	return;
     }
+    */
     // Parse/validate then interpret by redirect into joint session with client
     try {
         const user = await AuthService.parseGoogleID(req.body.credential);
@@ -145,31 +147,21 @@ export async function processTwitterAuthCode(req: Request, res: Response) {
     const state = req.query.state as string;
     const [externalId, pid] = state.split(':');
 
-    console.log('AuthCode: ' + authCode);
-    console.log('ExternalId: ' + externalId);
-    console.log('PersonaId: ' + pid);
-
     const url = `https://api.twitter.com/2/oauth2/token?grant_type=authorization_code&client_id=${process.env.TWITTER_CLIENT_ID}&redirect_uri=${process.env.TWITTER_REDIRECT_URI}&code=${authCode}&code_verifier=challenge`;
 
     const basicSecret = Buffer.from(`${process.env.TWITTER_CLIENT_ID}:${process.env.TWITTER_SECRET}`).toString(
         'base64',
     );
-    console.log('BasicAuth: ' + basicSecret);
-    console.log(url);
+    
     const headers = {
         Authorization: `Basic ${basicSecret}`,
     };
 
     try {
         const response = await axios.post(url, null, { headers: headers });
-
-        console.log('Response: ', JSON.stringify(response.data, null, 2));
-
-        const token = response.data.access_token as string;
-        console.log('Token: ' + token);
+        const token = response.data.access_token as string;       
         const expires = 0 + response.data.expires_in;
-        console.log('Expires: ' + expires);
-
+        
         // Fetch t// DB interaction
         const newAuthToken = await wrapPlatformToken('Twitter', token, expires);
         const linked = await linkPlatform(pid, newAuthToken);

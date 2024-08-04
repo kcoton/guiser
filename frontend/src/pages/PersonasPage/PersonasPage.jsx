@@ -33,6 +33,19 @@ export default function PersonasPage() {
 
     const handleSavePersona = async () => {
         try {
+            if (!newPersonaName) {
+                alert("Persona name is required.");
+                return;
+            }
+            if (!newPersonaText) {
+                alert("Persona content is required.");
+                return;
+            }          
+            const MAX_NAME_LENGTH = 20; 
+            if (newPersonaName.length > MAX_NAME_LENGTH) {
+                alert(`Persona name should not exceed ${MAX_NAME_LENGTH} characters.`);
+                return;
+            }
             const newPersona = await personaService.create(newPersonaName, newPersonaText);
             setNewPersonaName('');
             setNewPersonaText('');
@@ -44,6 +57,19 @@ export default function PersonasPage() {
 
     const handleUpdatePersona = async () => {
         try {
+            if (!activePersona.name) {
+                alert("Persona name is required.");
+                return;
+            }
+            if (!activePersona.text) {
+                alert("Persona content is required.");
+                return;
+            }  
+            const MAX_NAME_LENGTH = 20; 
+            if (activePersona.name.length > MAX_NAME_LENGTH) {
+                alert(`Persona name should not exceed ${MAX_NAME_LENGTH} characters.`);
+                return;
+            }
             const updatedPersona = await personaService.update(
                 activePersona._id,
                 activePersona.name,
