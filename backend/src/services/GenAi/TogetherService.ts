@@ -11,7 +11,7 @@ export default class TogetherService implements IGenAiService {
         });
         const content = util.makePrompt(personaStub, promptContext);
         const response = await together.chat.completions.create({
-            model: 'meta-llama/Llama-3-8b-chat-hf',
+            model: process.env.TOGETHER_LLM as string,
             messages: [{ role: 'user', content: content }],
         });
         return (response as { choices: [{ message: { content: string } }] }).choices[0].message.content.replace(/^"(.*)"$/, '$1');
