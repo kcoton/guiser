@@ -23,7 +23,7 @@ export default function CustomParticles() {
             fullScreen: true,
             background: {
                 color: {
-                    value: '#36454F',
+                    value: '#121212',
                 },
             },
             fpsLimit: 50,

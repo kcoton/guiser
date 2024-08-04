@@ -1,32 +1,58 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CustomParticles from '../components/CustomParticles';
+import { Card, List, ListItem, ListItemText, Typography, Button } from '@mui/material';
 
 export default function HomePage() {
+    const navigate = useNavigate();
+
+    const handleButtonClick = (route) => () => {
+      navigate(route);
+    };
+
     return (
-        <div className='page-container'>
+        <Card sx={{ p: 5, m: 8, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
             <CustomParticles />
-            <p>
-                Hey! Welcome to Guiser. We help you be anyone, on social media. Here's how you get started:
-            </p>
-            <div>
-                <ul className='nav'>
-                    <li>
-                        {' '}
-                        Go to <Link to='/Personas'> Personas</Link>, create a persona and link them to social media
-                        accounts. More detail is better here.
-                    </li>
-                    <li>
-                        Go to <Link to='/Generate'> Generate</Link>, select a persona and describe a topic and/or style
-                        of social media post. We'll create the content.
-                    </li>
-                    <li>
-                        {' '}
-                        Go to <Link to='/Content'> Content</Link> to view your library and publish to your personas'
-                        associated social media accounts.
-                    </li>
-                </ul>
-            </div>
-            <p> You can click the menu at the top left to jump around or log out. Have fun!</p>
-        </div>
+            <Typography variant='h5'>
+                Hey! Welcome to Guiser. We help you be anyone, on social media. Here's how to get started:
+            </Typography>
+            <List sx={{ mb: 1 }}>
+            <ListItem>
+                <ListItemText
+                    primary={
+                        <Typography variant='body1' lineHeight={2}>
+                            Go to
+                            <Button color='secondary' variant='outlined' onClick={handleButtonClick('/personas')} sx={{ mx: 1 }}>Personas</Button> 
+                            to create a persona and link them to social media accounts. More detail is better here.
+                        </Typography>
+                    }
+                />
+            </ListItem>
+            <ListItem>
+                <ListItemText
+                    primary={
+                        <Typography variant='body1' lineHeight={2}>
+                            Go to
+                            <Button color='secondary' variant='outlined' onClick={handleButtonClick('/generate')} sx={{ mx: 1 }}>Generate</Button> 
+                            select a persona and describe a topic and/or style of social media post. We'll create the content.
+                        </Typography>
+                    }
+                />
+            </ListItem>
+            <ListItem>
+                <ListItemText
+                    primary={
+                        <Typography variant='body1' lineHeight={2}>
+                            Go to
+                            <Button color='secondary' variant='outlined' onClick={handleButtonClick('/content')} sx={{ mx: 1 }}>Content</Button> 
+                            to view your library and publish to your personas' associated social media accounts.
+                        </Typography>
+                    }
+                />
+            </ListItem>
+        </List>
+        <Typography variant='body1'>
+            You can click the menu at the top left to jump around or log out. Have fun!
+        </Typography>
+        </Card>
     );
 }

@@ -117,8 +117,8 @@ export default function NavigationBar() {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant='h6' noWrap component='div'>
-                            Guiser
+                        <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 1, fontSize: 15 }}>
+                            GUISER
                         </Typography>
                     </Toolbar>
                 </AppBar>
