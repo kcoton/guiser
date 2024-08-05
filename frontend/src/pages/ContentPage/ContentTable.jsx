@@ -38,7 +38,7 @@ export default function ContentTable({ socialApps, onRowClick }) {
             });
         }
         return acc;
-    }, []);
+    }, []).sort((x, y) => new Date(y.createdAt) - new Date(x.createdAt));
 
     const columns = [
         { field: 'personaName', headerName: 'Persona Name', width: 200 },

@@ -47,7 +47,7 @@ export default function GeneratePage() {
         try {
             const content = await generateText(selectedPersona, form.context.value);
             setGeneratedContent(content);
-            setContentLength(content.length);
+            setContentLength(content.normalize("NFC").length);
         } catch (ex) {
             setShowErrorModal(true);
         } finally {
@@ -86,7 +86,7 @@ export default function GeneratePage() {
     }
 
     function handleContentChange(e) {
-        setContentLength(e.target.value.length);
+        setContentLength(e.target.value.normalize("NFC").length);
     }
 
     return (

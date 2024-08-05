@@ -57,6 +57,7 @@ function MainApp() {
                     <Route path='/logout' element={<LogoutPage />} />
                     <Route path='/resolver' element={<ResolverPage />} />
                 </Route>
+                <Route path='*' element={<Navigate to='/' />} />
             </Routes>
         </div>
     );
