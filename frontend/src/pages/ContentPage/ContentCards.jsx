@@ -26,7 +26,7 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
         <Grid container spacing={4} style={{ marginTop: 10 }}>
             {socialApps.map((app) => {
                 const isPostedToSite = selectedContent.posted & (2 ** (app.seqNo - 1));
-                const contentTooLong = selectedContent.text.length > app.maxTextLength;
+                const contentTooLong = selectedContent.text.normalize("NFC").length > app.maxTextLength;
                 return (
                     <Grid item xs={12} sm={6} md={4} key={app.seqNo}>
                         <Card sx={{ minWidth: 20 }}>
