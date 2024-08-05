@@ -84,7 +84,7 @@ export default function PersonasPage() {
 
             <Stack direction='row' sx={{ mx: 10, mb: 1, justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24 }}>
-                    <span style={{ color: '#A688FA' }}>Create</span> New Persona
+                    <span style={{ color: '#A688FA' }}>Create</span> Your New Persona
                 </Typography>
                 <Box>
                     <Button
@@ -98,7 +98,7 @@ export default function PersonasPage() {
                     </Button>
                 </Box>
             </Stack>
-            <Card sx={{ p: 5, mx: 8, mb: 10, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
+            <Box sx={{ mx: 10, mt: 2, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
                 <Stack direction='column' spacing={4}>
                     <TextField
                         required
@@ -126,7 +126,7 @@ export default function PersonasPage() {
                         handleUpdatePersona={handleUpdatePersona}
                         handleDeletePersona={handleDeletePersona} />
                 )}
-            </Card>
+            </Box>
         </>
     );
 }
