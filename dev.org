@@ -213,7 +213,7 @@
 + prompt: Post an apology about your most recent controversy where you licked a donut and yelled at a dog
 ** Twitter (Shumin)
 + persona: Bella Skylar
-+ prompt: TODO
++ prompt: promote upcoming wellness product line on Twitter
 ** Threads (Ewan)
 + persona: Nai Melanc
 + prompt: threads post about wrapping up CPSC 455
