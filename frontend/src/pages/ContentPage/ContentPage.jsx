@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import ContentTable from './ContentTable';
 import ContentCards from './ContentCards';
 import { getSocialApps } from '../../services/SocialAppService';
+import { Box, Typography } from '@mui/material';
 
 export default function ContentPage() {
     const [selectedContent, setSelectedContent] = useState(undefined);
@@ -20,15 +21,19 @@ export default function ContentPage() {
     }
 
     return (
-        <div className='page-container'>
-            <ContentTable socialApps={socialApps} onRowClick={handleRowClick} />
-            {selectedContent && (
-                <ContentCards
-                    setSelectedContent={setSelectedContent}
-                    socialApps={socialApps}
-                    selectedContent={selectedContent}
-                />
-            )}
-        </div>
+        <>
+            <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24, mx: 10 }}>
+                <span style={{ color: '#A688FA' }}>Post</span> To Your Social Media
+            </Typography>
+            <Box sx={{ mx: 10, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
+                <ContentTable socialApps={socialApps} onRowClick={handleRowClick} />
+                {selectedContent && (
+                    <ContentCards
+                        setSelectedContent={setSelectedContent}
+                        socialApps={socialApps}
+                        selectedContent={selectedContent} />
+                )}
+            </Box>
+        </>
     );
 }

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { Stack, TextField, Button, Card, Typography, Box } from '@mui/material';
+import { Stack, TextField, Button, Typography, Box } from '@mui/material';
 import PersonaModal from './PersonaModal';
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaService from '../../services/PersonaService';

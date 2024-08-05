@@ -100,5 +100,23 @@ export const themeOptions = {
         },
       },
     },
+    MuiDataGrid: {
+      styleOverrides: {
+        root: {
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          '& .MuiDataGrid-cell': {
+            color: '#FFFFFF',
+          },
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: '#333333',
+            color: '#FFFFFF',
+          },
+          '& .MuiDataGrid-footerContainer': {
+            backgroundColor: '#333333',
+            color: '#FFFFFF',
+          },
+        },
+      },
+    },
   },
 };

@@ -11,6 +11,8 @@ import ContentPage from './pages/ContentPage/ContentPage';
 import LogoutPage from './pages/LogoutPage';
 import { store, persistor } from './redux/store';
 import './App.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import ResolverPage from './pages/ResolverPage';
 import { ThemeProvider, createTheme } from '@mui/material/';
 import { themeOptions } from './style';
