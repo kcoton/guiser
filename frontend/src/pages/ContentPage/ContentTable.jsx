@@ -8,9 +8,15 @@ import { useSelector } from 'react-redux';
 
 function getIcon(appName) {
     const iconMap = {
-        Twitter: <TwitterIcon />,
-        Threads: <AlternateEmail />,
-        LinkedIn: <LinkedInIcon />,
+        Twitter: <TwitterIcon sx={{ marginLeft: '5px', marginRight: '5px' }} />,
+        Threads: <Box sx={{ display: 'flex', alignItems: 'center' }}>
+		     <i className={'fab fa-threads'}
+			style={{ fontSize: '20px',
+				 marginBottom: '12px',
+				 marginLeft: '5px',
+				 marginRight: '5px' }}></i>
+		 </Box>,
+        LinkedIn: <LinkedInIcon sx={{ marginLeft: '5px', marginRight: '5px' }} />,
     };
     return iconMap[appName];
 }
