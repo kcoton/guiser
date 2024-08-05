@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Card, Typography, Stack } from '@mui/material';
+import { Card, Typography, Stack, Box } from '@mui/material';
 import { Twitter, LinkedIn, AlternateEmail } from '@mui/icons-material';
 import { isPlatformConnected } from '../pages/PersonasPage/Common';
 import { Platform } from '../enum/common.enum';
@@ -28,14 +28,18 @@ export const PersonaCard = ({ persona, selectedPersona, handlePersonaClick }) =>
 
 export const SocialMediaIcons = ({ persona }) => {
     return (
-        <Stack direction='row' sx={{ justifyContent: 'space-evenly' }}>
+        <Stack direction='row' spacing={1} sx={{ justifyContent: 'space-evenly' }}>
             {isPlatformConnected(persona, Platform.TWITTER) && (
                 <Twitter sx={{ color: '#A688FA' }} />
             )}
+            {isPlatformConnected(persona, Platform.THREADS) &&
+	     <Box sx={{ color: '#A688FA', display: 'flex', alignItems: 'center' }}>
+		 <i className={'fab fa-threads'}
+		    style={{ fontSize: '20px' }}></i>
+	     </Box>}
             {isPlatformConnected(persona, Platform.LINKEDIN) && (
                 <LinkedIn sx={{ color: '#A688FA' }} />
             )}
-            {isPlatformConnected(persona, Platform.THREADS) && <AlternateEmail sx={{ color: '#A688FA' }} />}
         </Stack>
     );
 };
