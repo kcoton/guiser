@@ -1,18 +1,29 @@
+/* eslint-disable react/prop-types */
 import { DataGrid } from '@mui/x-data-grid';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import ForumIcon from '@mui/icons-material/Forum';
+import AlternateEmail from '@mui/icons-material/AlternateEmail';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import React from 'react';
+import { Tooltip, Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 function getIcon(appName) {
     const iconMap = {
         Twitter: <TwitterIcon />,
-        Threads: <ForumIcon />,
+        Threads: <AlternateEmail />,
         LinkedIn: <LinkedInIcon />,
     };
-
     return iconMap[appName];
+}
+
+function formatDate(dateString) {
+    const options = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit' 
+    };
+    return new Intl.DateTimeFormat('en-US', options).format(new Date(dateString));
 }
 
 export default function ContentTable({ socialApps, onRowClick }) {
@@ -31,16 +42,58 @@ export default function ContentTable({ socialApps, onRowClick }) {
 
     const columns = [
         { field: 'personaName', headerName: 'Persona Name', width: 200 },
-        { field: 'createdAt', headerName: 'Created Date', width: 200 },
-        { field: 'text', headerName: 'Text', width: 400 },
+        {
+            field: 'createdAt',
+            headerName: 'Created Date',
+            width: 250,
+            renderCell: (params) => formatDate(params.value),
+        },
+        {
+            field: 'text',
+            headerName: 'Text',
+            width: 500,
+            renderCell: (params) => (
+                <Tooltip
+                title={params.value}
+                placement="top"
+                followCursor
+                PopperProps={{
+                    modifiers: [
+                        {
+                            name: 'offset',
+                            options: {
+                                offset: [0, 10],
+                            },
+                        },
+                        {
+                            name: 'preventOverflow',
+                            options: {
+                                boundary: 'viewport',
+                            },
+                        },
+                    ],
+                }}
+            >
+                <span>{params.value}</span>
+            </Tooltip>
+            ),
+        },
         {
             field: 'posted',
             headerName: 'Posted To',
-            width: 400,
-            flex: 1,
+            width: 100,
             renderCell: (params) => {
                 return (
-                    <div>
+                    <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100%',
+                        mt: 0.8,
+                        mx: 1,
+                    }}
+                    >
                         {socialApps.map((app) =>
                             params.row.posted & (2 ** (app.seqNo - 1)) ? (
                                 <span key={app.seqNo}>{getIcon(app.name)}</span>
@@ -48,7 +101,7 @@ export default function ContentTable({ socialApps, onRowClick }) {
                                 ''
                             ),
                         )}
-                    </div>
+                    </Box>
                 );
             },
         },

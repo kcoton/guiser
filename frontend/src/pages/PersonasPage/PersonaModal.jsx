@@ -1,7 +1,10 @@
-import { Modal, Box, TextField, Button, Stack } from '@mui/material';
+/* eslint-disable react/prop-types */
+import { Modal, Box, TextField, Button, Stack, Typography } from '@mui/material';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import ForumIcon from '@mui/icons-material/Forum';
+import Delete from '@mui/icons-material/Delete';
+import Save from '@mui/icons-material/Save';
+import AlternateEmail from '@mui/icons-material/AlternateEmail';
 import { useSelector } from 'react-redux';
 import LinkToThreads from './LinkToThreads';
 import { Platform } from '../../enum/common.enum';
@@ -12,16 +15,18 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 600,
+    width: {
+        xs: '90%',
+        sm: 600,
+    },
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: {
+        xs: 2,
+        sm: 4,
+    },
     borderRadius: '8px',
-};
-
-const buttonStyle = {
-    minWidth: '150px',
 };
 
 export default function PersonaModal({
@@ -65,57 +70,69 @@ export default function PersonaModal({
     return (
         <Modal open={open} onClose={handleClose} aria-labelledby='modal-title' aria-describedby='modal-description'>
             <Box sx={style}>
-                <Stack direction='row' spacing={3} justifyContent='space-between' sx={{ mb: 3 }}>
-                    <h2 id='modal-title'>Edit Persona</h2>
-                    <Button variant='contained' color='error' onClick={handleDeletePersona}>
+                <Stack direction='row' sx={{ mb: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24 }}>
+                        Edit Persona
+                    </Typography>
+                    <Box>
+                        <Button
+                        variant='contained'
+                        color='error'
+                        size='medium'
+                        startIcon={<Delete />}
+                        onClick={handleDeletePersona}
+                        >
                         Delete Persona
-                    </Button>
+                        </Button>
+                    </Box>
                 </Stack>
                 <Stack direction='column' spacing={3}>
                     <TextField
-                        label='Persona Name'
+                        label="What's your persona's name?"
                         variant='outlined'
                         value={persona.name}
                         onChange={(e) => setPersonaName(e.target.value)}
                     />
                     <TextField
-                        label='Describe your persona'
+                        label="What personality does your persona have?"
                         variant='outlined'
                         multiline
                         rows={4}
                         value={persona.text}
                         onChange={(e) => setPersonaText(e.target.value)}
                     />
-                    <Button variant='contained' color='primary' onClick={handleUpdatePersona}>
-                        Update Persona
+                    <Button
+                        variant='contained'
+                        size='large'
+                        startIcon={<Save />}
+                        onClick={handleUpdatePersona}
+                        >
+                        Save Changes
                     </Button>
                     <Stack direction='row' spacing={3} justifyContent='center'>
                         <Button
                             variant='outlined'
                             startIcon={<TwitterIcon />}
-                            style={buttonStyle}
                             disabled={isPlatformConnected(persona, Platform.TWITTER)}
                             onClick={() => handleTwitterClick(persona._id)}
                         >
-                            {isPlatformConnected(Platform.TWITTER) ? 'Connected Twitter' : 'Connect Twitter'}
+                            Connect Twitter
                         </Button>
                         <Button
                             variant='outlined'
                             startIcon={<LinkedInIcon />}
-                            style={buttonStyle}
                             disabled={isPlatformConnected(persona, Platform.LINKEDIN)}
                             onClick={() => handleLinkedInClick(persona._id)}
                         >
-                            {isPlatformConnected(Platform.LINKEDIN) ? 'Connected LinkedIn' : 'Connect LinkedIn'}
+                            Connect LinkedIn
                         </Button>
                         <LinkToThreads
                             personaID={persona._id}
                             variant='outlined'
-                            startIcon={<ForumIcon />}
-                            style={buttonStyle}
+                            startIcon={<AlternateEmail />}
                             disabled={isPlatformConnected(persona, Platform.THREADS)}
                             displayText={
-                                isPlatformConnected(Platform.THREADS) ? 'Connected Threads' : 'Connect Threads'
+                                'Connect Threads'
                             }
                         />
                     </Stack>

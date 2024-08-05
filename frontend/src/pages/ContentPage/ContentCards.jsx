@@ -1,10 +1,8 @@
-import React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
+/* eslint-disable react/prop-types */
+import { Box, Card, Stack, CardContent, Button, Typography, Grid } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import ArrowCircleRight from '@mui/icons-material/ArrowCircleRight';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePosted } from '../../redux/userSlice';
 import { postToApp } from '../../services/ContentService';
@@ -45,7 +43,7 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
     }
 
     return (
-        <Grid container spacing={4} style={{ marginTop: 10 }}>
+        <Grid container spacing={4} sx={{ mt: 1, mb: 10 }}>
             {socialApps.map((app) => {
                 const isPostedToSite = selectedContent.posted & (2 ** (app.seqNo - 1));
                 const contentTooLong = selectedContent.text.normalize("NFC").length > app.maxTextLength;
@@ -53,10 +51,10 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
                 const tokenIsExpired = token && token.expiry && !isTokenValid(token.expiry);
                 return (
                     <Grid item xs={12} sm={6} md={4} key={app.seqNo}>
-                        <Card sx={{ minWidth: 20 }}>
+                        <Card sx={{ p: 1, minWidth: 20, height: 120 }}>
                             <CardContent>
                                 <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
-                                    {isPostedToSite ? 'Posted' : 'Not Posted'}
+                                    {isPostedToSite ? '' : 'Not'} Posted {contentTooLong ? '- Too Long for App' : ''}
                                 </Typography>
                                 <Typography variant='h5' component='div'>
                                     {app.name}

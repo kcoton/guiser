@@ -90,7 +90,7 @@ export default function GeneratePage() {
     }
 
     return (
-        <div className='page-container'>
+        <>
             <LoadingOverlay showLoadingOverlay={showLoadingOverlay} />
             <PersonaCardCarousel
                 personas={personas}
@@ -98,13 +98,11 @@ export default function GeneratePage() {
                 generatedContent={generatedContent}
                 onSelectPersonaClick={handleSelectPersonaClick}
             />
-            <div className='generate-page-pane-separator'></div>
             <GenerateContentForm
                 onSubmit={handleGenerateContentClick}
                 generatedContent={generatedContent}
                 selectedPersona={selectedPersona}
             />
-            <div className='generate-page-pane-separator'></div>
             <ProcessContentForm
                 onSubmit={handleProcessContentSubmit}
                 onAccept={handleAcceptContentClick}
@@ -112,9 +110,8 @@ export default function GeneratePage() {
                 onContentChange={handleContentChange}
                 generatedContent={generatedContent}
             />
-            <div className='generate-page-pane-separator'></div>
             <LengthNotice socialApps={socialApps} contentLength={contentLength} />
             <ErrorModal open={showErrorModal} onClose={resetState} />
-        </div>
+        </>
     );
 }

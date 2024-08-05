@@ -1,24 +1,36 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Stack, ThemeProvider, createTheme, Typography, Box } from '@mui/material';
 import './LandingPage.css';
 import SocialMediaIcon from '../SocialMediaIcon/SocialMediaIcon';
 import GoogleSignIn from '../../components/GoogleSignIn';
+import { themeOptions } from '../../style';
 
 const LandingPage = () => {
+    const theme = createTheme(themeOptions);
     const navigate = useNavigate();
 
     return (
-        <div className='landing-page-container'>
-            <div className='landing-page'>
-                <div className='background-image'></div>
-                <div className='content'>
-                    <h1>Guiser</h1>
-                    <p>Create presence with AI</p>
-		    <div style={{visibility: 'hidden'}}> "It uses AI to bring AI":
-			https://youtu.be/-P-ein58laA?si=X-alIOu4PVlQn0cl</div>
-                    <p></p>
-                    <GoogleSignIn continuation={() => navigate('/dashboard')} />
-                </div>
+        <ThemeProvider theme={theme}>
+            <div className='landing-page-container'>
+                <div className='background-image' />
+                <Stack direction='column'
+                    sx={{
+                        width: '100vw',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        pt: 12,
+                    }}
+                >
+                    <Typography variant='h1' sx={{ letterSpacing: 1 }}>GUISER</Typography>
+                    <Typography variant='h5' sx={{ m: 1, color: '#4B59AF' }}>
+                        Boost your online presence with the power of AI
+                    </Typography>
+                    <Box sx={{ p: 2 }}>
+                        <GoogleSignIn continuation={() => navigate('/dashboard')} />
+                    </Box>
+                </Stack>
                 <div className='social-media-icons'>
                     <SocialMediaIcon
                         iconClass='fab fa-twitter'
@@ -40,7 +52,7 @@ const LandingPage = () => {
                     />
                 </div>
             </div>
-        </div>
+        </ThemeProvider>
     );
 };
 
