@@ -5,140 +5,146 @@ body {
     font-family: 'Inter', Arial, sans-serif;
 }
 
-@media only screen and (max-width: 768px) {
-    /* For mobile phones: */
+@media only screen and (max-width: 600px) {
     .landing-page-container {
-        .landing-page {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+    }
 
-        .background-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('background.png');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-        }
+    .background-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('background.png');
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+    }
 
-        .content {
-            padding: 50px;
-            z-index: 1;
-            padding: 20px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .content {
+        z-index: 1;
+        padding: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .icon-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 100px;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 1px;
-            border-radius: 10px;
-            color: #333;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .social-media-icons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap; /* Ensure items do not wrap */
+        gap: 10px;
+        margin-top: 20px;
+    }
 
-        .icon-container:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-        }
+    .icon-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 70px;
+        background: rgba(255, 255, 255, 0.6);
+        padding: 10px;
+        border-radius: 10px;
+        color: #333;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin: 10px; /* Ensure some space around icons */
+    }
 
-        .icon-container i {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
+    .icon-container:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
 
-        .icon-container .icon-text {
-            text-align: center;
-        }
+    .icon-container i {
+        font-size: 30px;
+        margin-bottom: 8px;
+    }
 
-        .icon-container h3 {
-            margin: 8px 0;
-            font-size: 15px;
-            color: #0f3ed8;
-            font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-        }
+    .icon-container .icon-text {
+        text-align: center;
+    }
 
-        .icon-container p {
-            font-size: 10px;
-            color: #333;
-            line-height: 1.5;
-            margin-bottom: 12px;
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
-        }
+    .icon-container h3 {
+        margin: 8px 0;
+        font-size: 15px;
+        color: #0f3ed8;
+        font-weight: 600;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    }
 
-        .icon-container a {
-            font-size: 10px;
-            color: #1f10ef;
-            text-decoration: none;
-            margin-top: 8px;
-            transition: color 0.3s ease;
-        }
+    .icon-container p {
+        font-size: 10px;
+        color: #333;
+        line-height: 1.5;
+        margin-bottom: 12px;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+    }
 
-        .icon-container a:hover {
-            color: #FF6347;
-            text-decoration: underline;
-        }
+    .icon-container a {
+        font-size: 10px;
+        color: #1f10ef;
+        text-decoration: none;
+        margin-top: 8px;
+        transition: color 0.3s ease;
+    }
 
-        .icon-container .fa-facebook-f {
-            color: #1877F2;
-        }
+    .icon-container a:hover {
+        color: #FF6347;
+        text-decoration: underline;
+    }
 
-        .icon-container .fa-threads {
-            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .icon-container .fa-facebook-f {
+        color: #1877F2;
+    }
 
-        .icon-container .fa-twitter {
-            color: #1DA1F2;
-        }
+    .icon-container .fa-threads {
+        background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-        .icon-container .fa-linkedin-in {
-            color: #0077B5;
-        }
+    .icon-container .fa-twitter {
+        color: #1DA1F2;
+    }
 
-        h1 {
-            position: relative; /* Ensure the h1 is positioned relative to its normal position */
-            font-size: 5em;
-            margin-bottom: 10px;
-            font-weight: 700;
-            background: linear-gradient(45deg, #4B59AF, #91D7F4, #E996C1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
-        }
-        
-        h1::before {
-            content: '';
-            position: absolute;
-            top: -5px; /* Adjust as needed */
-            left: -20px; /* Adjust as needed */
-            right: -20px; /* Adjust as needed */
-            bottom: -5px; /* Adjust as needed */
-            border: 5px solid transparent; /* Adjust border width as needed */
-            border-image: linear-gradient(45deg, #4B59AF, #91D7F4, #E996C1) 1;
-            border-radius: 10px; /* Optional: Add border radius if needed */
-            z-index: -1; /* Ensure the border is behind the text */
-        }
+    .icon-container .fa-linkedin-in {
+        color: #0077B5;
+    }
+
+    .MuiTypography-root.MuiTypography-h1 {
+        position: relative; /* Ensure the h1 is positioned relative to its normal position */
+        font-size: 4em;
+        margin: 10px 20px; /* Add top/bottom and left/right margins */
+        font-weight: 700;
+        background: linear-gradient(45deg, #4B59AF, #91D7F4, #E996C1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+    }
+    
+    .MuiTypography-root.MuiTypography-h1::before {
+        content: '';
+        position: absolute;
+        top: -5px; /* Adjust as needed */
+        left: -20px; /* Adjust as needed */
+        right: -20px; /* Adjust as needed */
+        bottom: -5px; /* Adjust as needed */
+        border: 5px solid transparent; /* Adjust border width as needed */
+        border-image: linear-gradient(45deg, #4B59AF, #91D7F4, #E996C1) 1;
+        border-radius: 10px; /* Optional: Add border radius if needed */
+        z-index: -1; /* Ensure the border is behind the text */
     }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 600px) {
     .landing-page-container {
         .landing-page {
             position: relative;
