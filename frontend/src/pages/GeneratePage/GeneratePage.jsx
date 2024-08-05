@@ -90,7 +90,7 @@ export default function GeneratePage() {
     }
 
     return (
-        <div className='page-container'>
+        <>
             <LoadingOverlay showLoadingOverlay={showLoadingOverlay} />
             <PersonaCardCarousel
                 personas={personas}
@@ -115,6 +115,6 @@ export default function GeneratePage() {
             <div className='generate-page-pane-separator'></div>
             <LengthNotice socialApps={socialApps} contentLength={contentLength} />
             <ErrorModal open={showErrorModal} onClose={resetState} />
-        </div>
+        </>
     );
 }
