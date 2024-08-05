@@ -16,15 +16,14 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import SwitchAccountRoundedIcon from '@mui/icons-material/SwitchAccountRounded';
-import ShareRoundedIcon from '@mui/icons-material/ShareRounded';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import EditNoteRoundedIcon from '@mui/icons-material/EditNoteRounded';
 import SettingsApplicationsRoundedIcon from '@mui/icons-material/SettingsApplicationsRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { ClickAwayListener } from '@mui/material';
+import { navLinkStyle } from '../style';
 
 const drawerWidth = 240;
 
@@ -86,7 +85,6 @@ export default function NavigationBar() {
     const iconMap = {
         Dashboard: <HomeRoundedIcon />,
         Personas: <SwitchAccountRoundedIcon />,
-        // Connect: <ShareRoundedIcon />,
         Generate: <AddBoxRoundedIcon />,
         Content: <EditNoteRoundedIcon />,
         Settings: <SettingsApplicationsRoundedIcon />,
@@ -96,7 +94,6 @@ export default function NavigationBar() {
     const routesMap = {
         Dashboard: '/dashboard',
         Personas: '/personas',
-        // Connect: "/connect",
         Generate: '/generate',
         Content: '/content',
         Logout: '/logout',
@@ -117,8 +114,8 @@ export default function NavigationBar() {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant='h6' noWrap component='div'>
-                            Guiser
+                        <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 1, fontSize: 15 }}>
+                            GUISER
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -143,26 +140,15 @@ export default function NavigationBar() {
                     <Divider />
 
                     <List>
-                        {['Dashboard', 'Personas', 'Generate', 'Content'].map((text) => (
+                        {['Dashboard', 'Personas', 'Generate', 'Content', 'Logout'].map((text) => (
                             <ListItem key={text} disablePadding>
-                                <Link to={routesMap[text]}>
-                                    <ListItemButton onClick={handleDrawerClose}>
-                                        <ListItemIcon>{iconMap[text]}</ListItemIcon>
-                                        <ListItemText primary={text} />
-                                    </ListItemButton>
-                                </Link>
-                            </ListItem>
-                        ))}
-                    </List>
-                    <Divider />
-                    <List>
-                        {['Logout'].map((text) => (
-                            <ListItem key={text} disablePadding>
-                                <Link to={routesMap[text]}>
-                                    <ListItemButton>
-                                        <ListItemIcon>{iconMap[text]}</ListItemIcon>
-                                        <ListItemText primary={text} />
-                                    </ListItemButton>
+                                <Link to={routesMap[text]} style={navLinkStyle}>
+                                <ListItemButton onClick={handleDrawerClose}>
+                                    <ListItemIcon sx={{ ml: 1.5 }}>{iconMap[text]}</ListItemIcon>
+                                    <Typography variant='overline' sx={{ letterSpacing: 1, fontSize: 16 }}>
+                                        {text}
+                                    </Typography>
+                                </ListItemButton>
                                 </Link>
                             </ListItem>
                         ))}

@@ -167,33 +167,34 @@
     + https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F000%2F185%2F201%2Foriginal%2Fvector-dark-black-login-form-design-with-creative-ui.jpg&f=1&nofb=1&ipt=f25b41e0047083958c5269dc8c31e402cb79e1d145048ea83c5cb85560a71431&ipo=images
     + https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmiro.medium.com%2Fmax%2F1400%2F1*gEVJ1-hOkpt2dzIbVXDNuQ.jpeg&f=1&nofb=1&ipt=feb8cfd71701c855de7249e0d2c6f4b80f6c466473ae1da479c53e4226f61776&ipo=images
     + https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F54%2F8b%2Fbb%2F548bbb0f9f39efec8231986fd846ff8f.jpg&f=1&nofb=1&ipt=8d0ea9ed2ec242f68ddf581889695bed079dbe47275004622e0044fa6cd74885&ipo=images
-*** 
 ** Demo Planning
 + TODOs
-  + clear out content and authtokens
-  + go through app taking screenshot of ever step of flow
-  + Ewan & Shumin: send prompts to Brant for demo
-  + Kiara: send 
-+ Brant drives screen; we talk over top
-+ Kiara
-  + (1 min) Intro & use cases: content creator; social media marketer
-  + (1 min) Create Persona -> Create Content -> Viewing Content
-+ Shumin
-  + (1 min) Twitter Flow -> social media marketer (MLM person to be created)
-+ Brant      
-  + (1 min) LinkedIn Flow -> business influencer (Cire Rekatrap)
-+ Ewan
-  + (1 min) Threads Flow -> Ian about wrapping up CPSC 455
-  + (2 min) wrap-up 
-    + Ewan: what's cool
-      + number and kinds of integrations under uniform, clean and professional UI
-      + ideal use-case for LLM's trained on publicly available data (approximating dataset)
-    + main challenge: navigating different integration interfaces
-      + OAuth flows all differ slightly; have to dive deep into the docs (which aren't all great)
-      + Twitter->X accompanied by neglect of API that made Twitter so popular early on
-      + Recent Facebook API limitations forced us to remove FB in favor of Threads
-        + Lucked out: Threads API went live during this course
-    + next steps: stretch goals; see README on next steps
+  + [ ] clear out content and authtokens
+  + [ ] go through app taking screenshots of every step of flow
+  + [ ] Kiara: persona name & persona description & prompt, for demo
+  + [ ] Shumin: persona & prompt for demo
+  + [X] Ewan: persona & prompt for demo
++ Demo Structure
+  + Brant drives screen; we talk over top
+  + Kiara
+    + (1 min) Intro & use cases: content creator; social media marketer
+    + (1 min) Create Persona -> Create Content -> Viewing Content
+  + Shumin
+    + (1 min) Twitter Flow -> social media marketer (MLM person to be created)
+  + Brant      
+    + (1 min) LinkedIn Flow -> business influencer (Cire Rekatrap)
+  + Ewan
+    + (1 min) Threads Flow -> Ian about wrapping up CPSC 455
+    + (2 min) wrap-up 
+      + Ewan: what's cool
+        + number and kinds of integrations under uniform, clean and professional UI
+        + ideal use-case for LLM's trained on publicly available data (approximating dataset)
+      + main challenge: navigating different integration interfaces
+        + OAuth flows all differ slightly; have to dive deep into the docs (which aren't all great)
+        + Twitter->X accompanied by neglect of API that made Twitter so popular early on
+        + Recent Facebook API limitations forced us to remove FB in favor of Threads
+          + Lucked out: Threads API went live during this course
+      + next steps: stretch goals; see README on next steps
 ** Last minute changes
 + Brant
   + Content cards post button when no account linked to persona
@@ -202,9 +203,20 @@
 + Shumin
   + Done!
 + Kiara
-  + UI changes
-  + Theming
-  + Phone responsiveness for PersonaModal
+  + Done!
 + Ewan
   + Done!
-  
+* Demo Inputs
+** Persona/Content (Kiara)
++ persona name: Rae Jefferst
++ persona description: ```You are Rae Jefferst, a high-profile beauty influencer and entrepreneur known for your bold, ever-changing hair colors and flawless makeup artistry. Your larger-than-life personality and unapologetic attitude have earned you a massive following on social media platforms like Instagram, Twitter, and YouTube, where you showcase your luxurious lifestyle, including high-end fashion, luxury cars, and exclusive properties. As the founder of Rae Jefferst Cosmetics, you are celebrated for innovative makeup products, from Velour Liquid Lipsticks to Jawbreaker eyeshadow palettes. Despite numerous controversies and public feuds, your candidness and authenticity keep your fans loyal. Your career began in music and modeling, but you found your true calling in the beauty industry, becoming a dominant force while addressing controversies head-on.```
++ prompt: Post an apology about your most recent controversy where you licked a donut and yelled at a dog
+** Twitter (Shumin)
++ persona: Bella Skylar
++ prompt: promote upcoming wellness product line on Twitter
+** Threads (Ewan)
++ persona: Nai Melanc
++ prompt: threads post about wrapping up CPSC 455
+** LinkedIn (Brant)
++ persona: Cire Rekatrap
++ prompt: post about facilitating a culture of out-of-the-box, goal-oriented, value-added, agile, disruptive synergy powered by the fourth industrial revolution of generative AI

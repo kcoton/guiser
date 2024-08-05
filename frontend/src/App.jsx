@@ -11,17 +11,26 @@ import ContentPage from './pages/ContentPage/ContentPage';
 import LogoutPage from './pages/LogoutPage';
 import { store, persistor } from './redux/store';
 import './App.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import ResolverPage from './pages/ResolverPage';
+import { ThemeProvider, createTheme } from '@mui/material';
+import { themeOptions } from './style';
+import CustomParticles from './components/CustomParticles';
+
+const theme = createTheme(themeOptions);
 
 function App() {
     return (
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <Router>
-                    <MainApp />
-                </Router>
-            </PersistGate>
-        </Provider>
+        <ThemeProvider theme={theme}>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <Router>
+                        <MainApp />
+                    </Router>
+                </PersistGate>
+            </Provider>
+        </ThemeProvider>
     );
 }
 
@@ -35,6 +44,7 @@ function MainApp() {
 
     return (
         <div className='App'>
+            <CustomParticles />
             {location.pathname !== '/' && location.pathname !== '/login' && <NavigationBar />}
             <Routes>
                 <Route path='/' element={<LandingPage />} />
@@ -47,6 +57,7 @@ function MainApp() {
                     <Route path='/logout' element={<LogoutPage />} />
                     <Route path='/resolver' element={<ResolverPage />} />
                 </Route>
+                <Route path='*' element={<Navigate to='/' />} />
             </Routes>
         </div>
     );

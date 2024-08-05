@@ -1,15 +1,15 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { Avatar, Stack, TextField, Button } from '@mui/material';
+import { Stack, TextField, Button, Typography, Box } from '@mui/material';
 import PersonaModal from './PersonaModal';
-import ForumIcon from '@mui/icons-material/Forum';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaService from '../../services/PersonaService';
 import { addPersona, updatePersona, deletePersona } from '../../redux/userSlice';
-import { Platform } from '../../enum/common.enum';
-import { isPlatformConnected } from './Common';
-import './PersonasPage.css';
+import '../../App.css';
+import Save from '@mui/icons-material/Save';
+import Slider from "react-slick";
+import { sliderSettings } from '../Common';
+import { PersonaCard } from '../../components/PersonaComponent';
 
 export default function PersonasPage() {
     const dispatch = useDispatch();
@@ -93,70 +93,66 @@ export default function PersonasPage() {
     };
 
     return (
-        <div className='page-container'>
-            <Stack direction='row' spacing={5}>
-                {personas?.map((persona, index) => (
-                    <div
-                        key={index}
-                        className={`persona-tile ${persona === activePersona ? 'active' : ''}`}
-                        onClick={() => handlePersonaClick(persona)}
+        <>
+            <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24, mx: 10 }}>
+                <span style={{ color: '#A688FA' }}>View</span> Your Personas
+            </Typography>
+
+            <Box sx={{ mx: 8, mb: 4 }}>
+                <Slider {...sliderSettings}>
+                    {personas?.map((persona, index) => (
+                        <div key={index}>
+                            <PersonaCard persona={persona} selectedPersona={activePersona} handlePersonaClick={handlePersonaClick} />
+                        </div>
+                    ))}
+                </Slider>
+            </Box>
+
+            <Stack direction='row' sx={{ mx: 10, mb: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24 }}>
+                    <span style={{ color: '#A688FA' }}>Create</span> Your New Persona
+                </Typography>
+                <Box>
+                    <Button
+                    variant='contained'
+                    color='primary'
+                    size='large'
+                    startIcon={<Save />}
+                    onClick={handleSavePersona}
                     >
-                        <Avatar
-                            variant='rounded'
-                            className={`persona-avatar ${persona === activePersona ? 'active' : ''}`}
-                        >
-                            {persona.name[0]}
-                        </Avatar>
-                        <p>{persona.name}</p>
-                        <SocialMediaIcons persona={persona} />
-                    </div>
-                ))}
+                    Create Persona
+                    </Button>
+                </Box>
             </Stack>
-            <h2>Create a new persona</h2>
-            <Stack direction='column' spacing={3}>
-                <TextField
-                    label='Persona Name'
-                    variant='outlined'
-                    value={newPersonaName}
-                    onChange={(e) => setNewPersonaName(e.target.value)}
-                />
-                <TextField
-                    label='Describe your new persona'
-                    variant='outlined'
-                    multiline
-                    rows={4}
-                    value={newPersonaText}
-                    onChange={(e) => setNewPersonaText(e.target.value)}
-                />
-                <Button variant='contained' color='primary' onClick={handleSavePersona}>
-                    Save Persona
-                </Button>
-            </Stack>
-            {activePersona && (
-                <PersonaModal
-                    open={isModalOpen}
-                    handleClose={() => setIsModalOpen(false)}
-                    persona={activePersona}
-                    setPersonaName={(name) => setActivePersona({ ...activePersona, name })}
-                    setPersonaText={(text) => setActivePersona({ ...activePersona, text })}
-                    handleUpdatePersona={handleUpdatePersona}
-                    handleDeletePersona={handleDeletePersona}
-                />
-            )}
-        </div>
+            <Box sx={{ mx: 10, mt: 2, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
+                <Stack direction='column' spacing={4}>
+                    <TextField
+                        required
+                        variant='outlined'
+                        label="What's your persona's name?"
+                        value={newPersonaName}
+                        onChange={(e) => setNewPersonaName(e.target.value)} 
+                    />
+                    <TextField
+                        required
+                        label='What personality does your persona have?'
+                        variant='outlined'
+                        multiline
+                        rows={4}
+                        value={newPersonaText}
+                        onChange={(e) => setNewPersonaText(e.target.value)} />
+                </Stack>
+                {activePersona && (
+                    <PersonaModal
+                        open={isModalOpen}
+                        handleClose={() => setIsModalOpen(false)}
+                        persona={activePersona}
+                        setPersonaName={(name) => setActivePersona({ ...activePersona, name })}
+                        setPersonaText={(text) => setActivePersona({ ...activePersona, text })}
+                        handleUpdatePersona={handleUpdatePersona}
+                        handleDeletePersona={handleDeletePersona} />
+                )}
+            </Box>
+        </>
     );
 }
-
-const SocialMediaIcons = ({ persona }) => {
-    return (
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
-            {isPlatformConnected(persona, Platform.TWITTER) && (
-                <TwitterIcon style={{ color: 'blue', marginRight: '5px' }} />
-            )}
-            {isPlatformConnected(persona, Platform.LINKEDIN) && (
-                <LinkedInIcon style={{ color: 'blue', marginRight: '5px' }} />
-            )}
-            {isPlatformConnected(persona, Platform.THREADS) && <ForumIcon style={{ color: 'blue' }} />}
-        </div>
-    );
-};

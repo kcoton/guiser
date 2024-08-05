@@ -1,18 +1,4 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f0f0;
-}
-
-.page-container {
-    padding: 20px;
-    background-color: transparent;
-    font-weight: bold;
-    color: black;
-}
-
-.page-container a {
-    color: black;
-}    
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 #tsparticles {
     position: absolute;
@@ -26,3 +12,11 @@ body {
     background-position: 50% 50%;
 }
 
+.slick-prev:before,
+.slick-next:before {
+  color: rgb(255, 255, 255, 0.6) !important;
+}
+
+.slick-dots li button:after, .slick-dots li button:before, .slick-dots li button {
+  color: white !important;
+}
