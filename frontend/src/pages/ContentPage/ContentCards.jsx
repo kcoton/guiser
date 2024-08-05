@@ -57,6 +57,7 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
                                     <CheckIcon color='success' sx={{ fontSize: 16 }} /> : 
                                     <CloseIcon color='error' sx={{ fontSize: 16 }} />
                                 }
+                                <Typography variant='caption'>Posted</Typography>
                             </Stack>
                             <Box sx={{ p: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Typography variant='h6' component='div'>
