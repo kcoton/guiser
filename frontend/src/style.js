@@ -118,5 +118,21 @@ export const themeOptions = {
         },
       },
     },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: '#121212',
+          color: '#FFFFFF',
+          '& .MuiSvgIcon-root': {
+            color: '#FFFFFF',
+          },
+        },
+      },
+    },
   },
+};
+
+export const navLinkStyle = {
+  color: 'white',
+  textDecoration: 'none',
 };
