@@ -14,7 +14,13 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
     const dispatch = useDispatch();
 
     async function handlePostButtonClick(userId, personaId, contentId, appSeqNo) {
-        const response = await postToApp(userId, personaId, contentId, appSeqNo);
+        let response; 
+        try {
+            response = await postToApp(userId, personaId, contentId, appSeqNo);
+        } catch (err) {
+            alert('Sorry, this content could not be posted. Please retry later.');
+            return;
+        }
         setSelectedContent((prev) => ({
             ...prev,
             posted: response,
