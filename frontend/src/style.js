@@ -18,6 +18,12 @@ export const themeOptions = {
     warning: {
       main: '#A688FA',
     },
+    error: {
+      main: '#FA6868'
+    },
+    success: {
+      main: '#68FAA6'
+    },
     info: {
       main: '#A688FA',
     },
