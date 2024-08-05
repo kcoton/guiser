@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Box, Card, Stack, CardContent, Button, Typography, Grid } from '@mui/material';
+import { Box, Card, Stack, Button, Typography, Grid } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowCircleRight from '@mui/icons-material/ArrowCircleRight';
@@ -51,19 +51,24 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
                 const tokenIsExpired = token && token.expiry && !isTokenValid(token.expiry);
                 return (
                     <Grid item xs={12} sm={6} md={4} key={app.seqNo}>
-                        <Card sx={{ p: 1, minWidth: 20, height: 120 }}>
-                            <CardContent>
-                                <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
-                                    {isPostedToSite ? '' : 'Not'} Posted {contentTooLong ? '- Too Long for App' : ''}
-                                </Typography>
-                                <Typography variant='h5' component='div'>
+                        <Card sx={{ p: 3, minWidth: 20, height: 120 }}>
+                            <Stack direction='row' spacing={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                                {isPostedToSite ? 
+                                    <CheckIcon color='success' sx={{ fontSize: 16 }} /> : 
+                                    <CloseIcon color='error' sx={{ fontSize: 16 }} />
+                                }
+                                <Typography variant='caption'>Posted {contentTooLong ? '-> Too Long for App' : ''}</Typography>
+                            </Stack>
+                            <Box sx={{ p: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <Typography variant='h6' component='div'>
                                     {app.name}
                                 </Typography>
-                            </CardContent>
-                            <CardActions>
                                 {!isPostedToSite && !contentTooLong && token && !tokenIsExpired ? (
                                     <Button
-                                        size='small'
+                                        variant='outlined'
+                                        color='secondary'
+                                        size='medium'
+                                        endIcon={<ArrowCircleRight />}
                                         onClick={() =>
                                             handlePostButtonClick(
                                                 userId,
@@ -76,11 +81,13 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
                                         Post
                                     </Button>
                                 ) : (
-                                    <Typography sx={{ fontSize: 12 }} color='text.secondary' gutterBottom>
-                                        {isPostedToSite ? '' : cardAlertMessage(contentTooLong, token, tokenIsExpired)}
-                                    </Typography>
+                                    <Box sx={{ ml: 4 }}>
+                                        <Typography sx={{ fontSize: 12 }} color='text.secondary' gutterBottom>
+                                            {isPostedToSite ? '' : cardAlertMessage(contentTooLong, token, tokenIsExpired)}
+                                        </Typography>
+                                    </Box>
                                 )}
-                            </CardActions>
+                            </Box>
                         </Card>
                     </Grid>
                 );
