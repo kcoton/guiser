@@ -4,7 +4,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import Delete from '@mui/icons-material/Delete';
 import Save from '@mui/icons-material/Save';
-import ForumIcon from '@mui/icons-material/Forum';
+import AlternateEmail from '@mui/icons-material/AlternateEmail';
 import { useSelector } from 'react-redux';
 import LinkToThreads from './LinkToThreads';
 import { Platform } from '../../enum/common.enum';
@@ -129,7 +129,7 @@ export default function PersonaModal({
                         <LinkToThreads
                             personaID={persona._id}
                             variant='outlined'
-                            startIcon={<ForumIcon />}
+                            startIcon={<AlternateEmail />}
                             disabled={isPlatformConnected(persona, Platform.THREADS)}
                             displayText={
                                 'Connect Threads'

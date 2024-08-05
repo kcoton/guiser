@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { Avatar, Stack, TextField, Button, Card, Typography, Box } from '@mui/material';
+import { Stack, TextField, Button, Card, Typography, Box } from '@mui/material';
 import PersonaModal from './PersonaModal';
-import ForumIcon from '@mui/icons-material/Forum';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import AlternateEmail from '@mui/icons-material/AlternateEmail';
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaService from '../../services/PersonaService';
 import { addPersona, updatePersona, deletePersona } from '../../redux/userSlice';
@@ -11,6 +12,33 @@ import { Platform } from '../../enum/common.enum';
 import { isPlatformConnected } from './Common';
 import './PersonasPage.css';
 import Save from '@mui/icons-material/Save';
+import Slider from "react-slick";
+
+const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    responsive: [
+        {
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                infinite: true,
+                dots: true
+            }
+        },
+        {
+            breakpoint: 600,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+        }
+    ]
+};
 
 export default function PersonasPage() {
     const dispatch = useDispatch();
@@ -69,30 +97,19 @@ export default function PersonasPage() {
 
     return (
         <>
-            {/* TODO: refactor into custom component */}
             <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24, mx: 10 }}>
                 Your Personas
             </Typography>
-            <Card sx={{ p: 5, mx: 8, mb: 4, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
-                <Stack direction='row' spacing={5}>
+
+            <Box sx={{ mx: 8, mb: 4 }}>
+                <Slider {...settings}>
                     {personas?.map((persona, index) => (
-                        <div
-                            key={index}
-                            className={`persona-tile ${persona === activePersona ? 'active' : ''}`}
-                            onClick={() => handlePersonaClick(persona)}
-                        >
-                            <Avatar
-                                variant='rounded'
-                                className={`persona-avatar ${persona === activePersona ? 'active' : ''}`}
-                            >
-                                {persona.name[0]}
-                            </Avatar>
-                            <p>{persona.name}</p>
-                            <SocialMediaIcons persona={persona} />
+                        <div key={index}>
+                            <PersonaCard persona={persona} handlePersonaClick={handlePersonaClick} />
                         </div>
                     ))}
-                </Stack>
-            </Card>
+                </Slider>
+            </Box>
 
             <Stack direction='row' sx={{ mx: 10, mb: 1, justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24 }}>
@@ -143,16 +160,37 @@ export default function PersonasPage() {
     );
 }
 
+const PersonaCard = ({ persona, handlePersonaClick }) => {
+    return (
+        <Card 
+            onClick={() => handlePersonaClick(persona)}
+            sx={{ 
+                p: 3, 
+                width: '17vw',
+                height: '100px',
+                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center' 
+            }}>
+            <Typography variant='body1' sx={{ mb: 1, fontWeight: 500, letterSpacing: 0.5 }}>
+                {persona.name}
+            </Typography>
+            <SocialMediaIcons persona={persona} />
+        </Card>
+    );
+};
+
 const SocialMediaIcons = ({ persona }) => {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '5px' }}>
+        <Stack direction='row' sx={{ justifyContent: 'space-evenly' }}>
             {isPlatformConnected(persona, Platform.TWITTER) && (
-                <TwitterIcon style={{ color: 'blue', marginRight: '5px' }} />
+                <TwitterIcon sx={{ color: '#A688FA' }} />
             )}
             {isPlatformConnected(persona, Platform.LINKEDIN) && (
-                <LinkedInIcon style={{ color: 'blue', marginRight: '5px' }} />
+                <LinkedInIcon sx={{ color: '#A688FA' }} />
             )}
-            {isPlatformConnected(persona, Platform.THREADS) && <ForumIcon style={{ color: 'blue' }} />}
-        </div>
+            {isPlatformConnected(persona, Platform.THREADS) && <AlternateEmail sx={{ color: '#A688FA' }} />}
+        </Stack>
     );
 };
