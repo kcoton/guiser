@@ -77,5 +77,22 @@ export const themeOptions = {
         },
       },
     },
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#121212',
+          color: '#ffffff', // Set text color to white
+          '& .MuiSvgIcon-root': {
+            color: '#ffffff', // Set icon color to white
+          },
+        },
+        gutters: {
+          backgroundColor: '#121212',
+        },
+        regular: {
+          backgroundColor: '#121212',
+        },
+      },
+    },
   },
 };

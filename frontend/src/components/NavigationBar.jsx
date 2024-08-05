@@ -19,7 +19,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import SwitchAccountRoundedIcon from '@mui/icons-material/SwitchAccountRounded';
-import ShareRoundedIcon from '@mui/icons-material/ShareRounded';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import EditNoteRoundedIcon from '@mui/icons-material/EditNoteRounded';
 import SettingsApplicationsRoundedIcon from '@mui/icons-material/SettingsApplicationsRounded';
