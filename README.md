@@ -68,9 +68,8 @@ I implemented significant parts of the frontend (the Generate and Content pages)
 - Ewan Townshend:
 I implemented Google authentication, Threads OAuth integration and Threads posting, and infrastructure for session management, all spanning front and back end. I also pitched and refined the app idea, made various UI and server-side changes, implemented the (current) LLM integration, and set up / linked admin and tester accounts for platform integrations.
 
--
-
-
+- Kiara Melocoton:
+I implemented the Persona page with CRUD functionality and redux store. I designed and developed a major user interface overhaul for the entire application by creating themes in Material UI to convert our separate div/css based pages into a streamlined component based structure to have consistent design for every page. I added many tweaks to help user experience such as: converting the datetime object into a readable format, creating verification for expired tokens, adding tooltips to display full text properly, modifying helper text and buttons to have clear readability using icons, sizing and colors.
 
 # Demo accounts
 
