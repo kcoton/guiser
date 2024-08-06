@@ -20,3 +20,11 @@
 .slick-dots li button:after, .slick-dots li button:before, .slick-dots li button {
   color: white !important;
 }
+
+.slick-slide {
+  padding: 0 10px;
+}
+
+.slick-list {
+  margin: 0 -10px;
+}

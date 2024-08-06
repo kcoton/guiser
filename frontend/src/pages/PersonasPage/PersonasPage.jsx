@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { Stack, TextField, Button, Typography, Box } from '@mui/material';
+import { Stack, TextField, Button, Typography, Box, useMediaQuery } from '@mui/material';
 import PersonaModal from './PersonaModal';
 import { useDispatch, useSelector } from 'react-redux';
 import PersonaService from '../../services/PersonaService';
@@ -12,6 +12,8 @@ import { sliderSettings } from '../Common';
 import { PersonaCard } from '../../components/PersonaComponent';
 
 export default function PersonasPage() {
+    const isMediumUp = useMediaQuery((theme) => theme.breakpoints.up('md'));
+
     const dispatch = useDispatch();
     const userDB = useSelector((state) => state.user?.db);
     const personaService = new PersonaService(userDB?.externalId, userDB?._id);
@@ -94,12 +96,12 @@ export default function PersonasPage() {
 
     return (
         <>
-            <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24, mx: 10 }}>
+            <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: { xs: 10.5, sm: 24 }, mx: 10 }}>
                 <span style={{ color: '#A688FA' }}>View</span> Your Personas
             </Typography>
 
             <Box sx={{ mx: 8, mb: 4 }}>
-                <Slider {...sliderSettings}>
+                <Slider {...sliderSettings(personas?.length)}>
                     {personas?.map((persona, index) => (
                         <div key={index}>
                             <PersonaCard persona={persona} selectedPersona={activePersona} handlePersonaClick={handlePersonaClick} />
@@ -108,23 +110,23 @@ export default function PersonasPage() {
                 </Slider>
             </Box>
 
-            <Stack direction='row' sx={{ mx: 10, mb: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24 }}>
+            <Stack direction='row' sx={{ mx: { xs: 6, sm: 10 }, mb: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: { xs: 10.5, sm: 24 }}}>
                     <span style={{ color: '#A688FA' }}>Create</span> Your New Persona
                 </Typography>
                 <Box>
-                    <Button
-                    variant='contained'
-                    color='primary'
-                    size='large'
-                    startIcon={<Save />}
-                    onClick={handleSavePersona}
+                    {isMediumUp && <Button
+                        variant='contained'
+                        color='primary'
+                        size='large'
+                        startIcon={<Save />}
+                        onClick={handleSavePersona}
                     >
-                    Create Persona
-                    </Button>
+                        Create Persona
+                    </Button>}
                 </Box>
             </Stack>
-            <Box sx={{ mx: 10, mt: 2, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
+            <Box sx={{ mx: { xs: 5, sm: 10 }, mt: 2, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
                 <Stack direction='column' spacing={4}>
                     <TextField
                         required
@@ -152,6 +154,17 @@ export default function PersonasPage() {
                         handleUpdatePersona={handleUpdatePersona}
                         handleDeletePersona={handleDeletePersona} />
                 )}
+                {!isMediumUp && <Button
+                    variant='contained'
+                    fullWidth='true'
+                    color='primary'
+                    size='small'
+                    startIcon={<Save />}
+                    onClick={handleSavePersona}
+                    sx={{ mt: 2 }}
+                >
+                    Create Persona
+                </Button>}
             </Box>
         </>
     );
