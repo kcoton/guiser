@@ -26,6 +26,7 @@ export const PersonaCard = ({ persona, selectedPersona, handlePersonaClick }) =>
                     variant='body1'
                     sx={{
                     mb: 1,
+		    mt: -1,
                     fontWeight: 500,
                     letterSpacing: 0.5,
                     whiteSpace: 'nowrap',

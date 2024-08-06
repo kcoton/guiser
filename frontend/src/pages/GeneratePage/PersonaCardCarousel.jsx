@@ -18,7 +18,7 @@ export default function PersonaCardCarousel({ personas, selectedPersona, onSelec
                 </Fragment>
                 ) : 
                 <Fragment>
-                    <span style={{ color: '#A688FA' }}>Generate</span> content for who?
+                    <span style={{ color: '#A688FA' }}>Generate</span> content for whom?
                 </Fragment>
             }   
             </Typography>
