@@ -23,7 +23,7 @@ export default function ContentPage() {
     return (
         <>
             <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24, mx: 10 }}>
-                <span style={{ color: '#A688FA' }}>Post</span> To Your Social Media
+                <span style={{ color: '#A688FA' }}>Post</span> To Social Media
             </Typography>
             <Box sx={{ mx: 10, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
                 <ContentTable socialApps={socialApps} onRowClick={handleRowClick} />

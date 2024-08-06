@@ -9,7 +9,7 @@ export default function PersonaCardCarousel({ personas, selectedPersona, onSelec
     return (
         <>
             <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24, mx: 10 }}>
-                <span style={{ color: '#A688FA' }}>Generate</span> Content for Who?
+              <span style={{ color: '#A688FA' }}>Generate</span> Content for which persona?
             </Typography>
             <Box sx={{ mx: 8, mb: 4 }}>
                 {personas?.length ? (
