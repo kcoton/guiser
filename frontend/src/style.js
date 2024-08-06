@@ -82,6 +82,26 @@ export const themeOptions = {
           shrink: true,
         },
       },
+      styleOverrides: {
+        root: ({ theme }) => ({
+          '& .MuiInputBase-input': {
+            [theme.breakpoints.up('xs')]: {
+              fontSize: '14px',
+            },
+            [theme.breakpoints.up('md')]: {
+              fontSize: '16px',
+            },
+          },
+          '& .MuiInputLabel-root': {
+            [theme.breakpoints.up('xs')]: {
+              fontSize: '14px',
+            },
+            [theme.breakpoints.up('md')]: {
+              fontSize: '16px',
+            },
+          },
+        }),
+      },
     },
     MuiButton: {
       styleOverrides: {
