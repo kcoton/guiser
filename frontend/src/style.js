@@ -5,7 +5,7 @@ export const themeOptions = {
       xs: 0,
       sm: 600,
       md: 768, // change md to 768
-      lg: 1200,
+      lg: 1100,
       xl: 1536,
     },
   },

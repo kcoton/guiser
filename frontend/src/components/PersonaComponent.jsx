@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Card, Typography, Stack, Box } from '@mui/material';
+import { Card, Typography, Stack, Box, Tooltip } from '@mui/material';
 import { Twitter, LinkedIn } from '@mui/icons-material';
 import { isPlatformConnected } from '../pages/PersonasPage/Common';
 import { Platform } from '../enum/common.enum';
@@ -22,9 +22,22 @@ export const PersonaCard = ({ persona, selectedPersona, handlePersonaClick }) =>
                 alignItems: 'center',
                 border: selectedPersona?._id === persona._id ? '1px solid white' : 'none'
             }}>
-            <Typography variant='body1' sx={{ mb: 1, fontWeight: 500, letterSpacing: 0.5 }}>
-                {persona.name}
-            </Typography>
+                <Tooltip title={persona.name}>
+                    <Typography
+                        variant='body1'
+                        sx={{
+                        mb: 1,
+                        fontWeight: 500,
+                        letterSpacing: 0.5,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        maxWidth: '100%',
+                        }}
+                    >
+                        {persona.name}
+                    </Typography>
+                </Tooltip>
             <SocialMediaIcons persona={persona} />
         </Card>
     );
