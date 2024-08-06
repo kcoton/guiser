@@ -219,4 +219,4 @@
 + prompt: threads post about wrapping up CPSC 455
 ** LinkedIn (Brant)
 + persona: Cire Rekatrap
-+ prompt: post about facilitating a culture of out-of-the-box, goal-oriented, value-added, agile, disruptive synergy powered by the fourth industrial revolution of generative AI
++ prompt: linkedin post about facilitating a culture of out-of-the-box, goal-oriented, value-added, agile, disruptive synergy powered by the fourth industrial revolution of generative AI
