@@ -61,7 +61,7 @@ export default function ContentTable({ socialApps, onRowClick }) {
             renderCell: (params) => (
                 <Tooltip
                 title={params.value}
-                placement="top"
+                placement='bottom'
                 followCursor
                 PopperProps={{
                     modifiers: [
