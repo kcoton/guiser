@@ -59,28 +59,35 @@ export default function ContentTable({ socialApps, onRowClick }) {
             width: 500,
             renderCell: (params) => (
                 <Tooltip
-                title={params.value}
-                placement='bottom'
-                followCursor
-                PopperProps={{
-                    modifiers: [
-                        {
-                            name: 'offset',
-                            options: {
-                                offset: [0, 10],
+                    title={params.value}
+                    placement='bottom'
+                    followCursor
+                    PopperProps={{
+                        modifiers: [
+                            {
+                                name: 'offset',
+                                options: {
+                                    offset: [0, 10],
+                                },
+                            },
+                            {
+                                name: 'preventOverflow',
+                                options: {
+                                    boundary: 'viewport',
+                                },
+                            },
+                        ],
+                    }}
+                    componentsProps={{
+                        tooltip: {
+                            sx: {
+                                maxWidth: '1000px',
+                                fontSize: '11px',
                             },
                         },
-                        {
-                            name: 'preventOverflow',
-                            options: {
-                                boundary: 'viewport',
-                            },
-                        },
-                    ],
-                }}
-            >
-                <span>{params.value}</span>
-            </Tooltip>
+                    }}           >
+                    <span>{params.value}</span>
+                </Tooltip>
             ),
         },
         {
