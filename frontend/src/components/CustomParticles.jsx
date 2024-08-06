@@ -34,7 +34,7 @@ export default function CustomParticles() {
                         mode: 'grab',
                     },
                     onClick: {
-                        enable: true,
+                        enable: false,
                         mode: 'push',
                     },
                     resize: true,
@@ -58,7 +58,7 @@ export default function CustomParticles() {
                         duration: 0.4,
                     },
                     push: {
-                        quantity: 4,
+                        quantity: 2,
                     },
                     remove: {
                         quantity: 2,
@@ -68,6 +68,7 @@ export default function CustomParticles() {
             particles: {
                 number: {
                     value: 130,
+		    limit: 160,
                     density: {
                         enable: true,
                         area: 993.6489272731785,

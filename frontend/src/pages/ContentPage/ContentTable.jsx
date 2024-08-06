@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { DataGrid } from '@mui/x-data-grid';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import AlternateEmail from '@mui/icons-material/AlternateEmail';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { Tooltip, Box } from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -10,12 +9,12 @@ function getIcon(appName) {
     const iconMap = {
         Twitter: <TwitterIcon sx={{ marginLeft: '5px', marginRight: '5px' }} />,
         Threads: <Box sx={{ display: 'flex', alignItems: 'center' }}>
-		     <i className={'fab fa-threads'}
-			style={{ fontSize: '20px',
-				 marginBottom: '12px',
-				 marginLeft: '5px',
-				 marginRight: '5px' }}></i>
-		 </Box>,
+            <i className={'fab fa-threads'}
+            style={{ fontSize: '20px',
+                 marginBottom: '12px',
+                 marginLeft: '5px',
+                 marginRight: '5px' }}></i>
+         </Box>,
         LinkedIn: <LinkedInIcon sx={{ marginLeft: '5px', marginRight: '5px' }} />,
     };
     return iconMap[appName];
@@ -60,28 +59,35 @@ export default function ContentTable({ socialApps, onRowClick }) {
             width: 500,
             renderCell: (params) => (
                 <Tooltip
-                title={params.value}
-                placement="top"
-                followCursor
-                PopperProps={{
-                    modifiers: [
-                        {
-                            name: 'offset',
-                            options: {
-                                offset: [0, 10],
+                    title={params.value}
+                    placement='bottom'
+                    followCursor
+                    PopperProps={{
+                        modifiers: [
+                            {
+                                name: 'offset',
+                                options: {
+                                    offset: [0, 10],
+                                },
+                            },
+                            {
+                                name: 'preventOverflow',
+                                options: {
+                                    boundary: 'viewport',
+                                },
+                            },
+                        ],
+                    }}
+                    componentsProps={{
+                        tooltip: {
+                            sx: {
+                                maxWidth: '1000px',
+                                fontSize: '11px',
                             },
                         },
-                        {
-                            name: 'preventOverflow',
-                            options: {
-                                boundary: 'viewport',
-                            },
-                        },
-                    ],
-                }}
-            >
-                <span>{params.value}</span>
-            </Tooltip>
+                    }}           >
+                    <span>{params.value}</span>
+                </Tooltip>
             ),
         },
         {

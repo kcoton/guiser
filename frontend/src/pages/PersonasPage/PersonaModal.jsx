@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Modal, Box, TextField, Button, Stack, Typography } from '@mui/material';
+import { Modal, Box, TextField, Button, Stack, Typography, useMediaQuery } from '@mui/material';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import Delete from '@mui/icons-material/Delete';
@@ -38,6 +38,7 @@ export default function PersonaModal({
     handleUpdatePersona,
     handleDeletePersona,
 }) {
+    const isMediumUp = useMediaQuery((theme) => theme.breakpoints.up('md'));
     const user = useSelector((state) => state?.user);
 
     async function handleLinkedInClick(personaId) {
@@ -71,22 +72,22 @@ export default function PersonaModal({
         <Modal open={open} onClose={handleClose} aria-labelledby='modal-title' aria-describedby='modal-description'>
             <Box sx={style}>
                 <Stack direction='row' sx={{ mb: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: 24 }}>
-                        Edit Persona
+                    <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: { xs: 14, sm: 24 }}}>
+                        <span style={{ color: '#A688FA' }}>Edit</span> Your Persona
                     </Typography>
                     <Box>
-                        <Button
-                        variant='contained'
-                        color='error'
-                        size='medium'
-                        startIcon={<Delete />}
-                        onClick={handleDeletePersona}
+                        {isMediumUp && <Button
+                            variant='contained'
+                            color='error'
+                            size='medium'
+                            startIcon={<Delete />}
+                            onClick={handleDeletePersona}
                         >
-                        Delete Persona
-                        </Button>
+                            Delete Persona
+                        </Button>}
                     </Box>
                 </Stack>
-                <Stack direction='column' spacing={3}>
+                <Stack direction='column' spacing={isMediumUp ? 3 : 2}>
                     <TextField
                         label="What's your persona's name?"
                         variant='outlined'
@@ -103,36 +104,46 @@ export default function PersonaModal({
                     />
                     <Button
                         variant='contained'
-                        size='large'
+                        size={isMediumUp ? 'large' : 'small'}
                         startIcon={<Save />}
                         onClick={handleUpdatePersona}
                         >
                         Save Changes
                     </Button>
+                    {!isMediumUp && <Button
+                        variant='contained'
+                        fullWidth='true'
+                        color='error'
+                        size='small'
+                        startIcon={<Delete />}
+                        onClick={handleDeletePersona}
+                    >
+                        Delete Persona
+                    </Button>}
                     <Stack direction='row' spacing={3} justifyContent='center'>
                         <Button
                             variant='outlined'
-                            startIcon={<TwitterIcon />}
+                            startIcon={isMediumUp && <TwitterIcon />}
                             disabled={isPlatformConnected(persona, Platform.TWITTER)}
                             onClick={() => handleTwitterClick(persona._id)}
                         >
-                            Connect Twitter
+                            {isMediumUp ? 'Connect Twitter' : <TwitterIcon />}
                         </Button>
                         <Button
                             variant='outlined'
-                            startIcon={<LinkedInIcon />}
+                            startIcon={isMediumUp && <LinkedInIcon />}
                             disabled={isPlatformConnected(persona, Platform.LINKEDIN)}
                             onClick={() => handleLinkedInClick(persona._id)}
                         >
-                            Connect LinkedIn
+                            {isMediumUp ? 'Connect LinkedIn' : <LinkedInIcon />}
                         </Button>
                         <LinkToThreads
                             personaID={persona._id}
                             variant='outlined'
-                            startIcon={<AlternateEmail />}
+                            startIcon={isMediumUp && <AlternateEmail />}
                             disabled={isPlatformConnected(persona, Platform.THREADS)}
                             displayText={
-                                'Connect Threads'
+                                isMediumUp ? 'Connect Threads' : <AlternateEmail />
                             }
                         />
                     </Stack>

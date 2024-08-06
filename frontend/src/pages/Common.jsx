@@ -9,28 +9,33 @@ export const getDbUser = async (externalId) => {
     }
 };
 
-export const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    responsive: [
-        {
-            breakpoint: 1024,
-            settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2,
-                infinite: true,
-                dots: true
+export const sliderSettings = (slideLength) => {
+    return {
+        dots: true,
+        infinite: slideLength >= 5 ? true : false,
+        speed: 500,
+        slidesToShow: slideLength >= 5 ? 5 : slideLength,
+        slidesToScroll: 1,
+        centerPadding: '10px',
+        responsive: [
+            {
+                breakpoint: 768, // md
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    infinite: false,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600, // sm
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    infinite: false,
+                    dots: true
+                }
             }
-        },
-        {
-            breakpoint: 600,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-            }
-        }
-    ]
+        ]
+    }
 };

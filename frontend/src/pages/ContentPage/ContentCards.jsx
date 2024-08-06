@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Box, Card, Stack, Button, Typography, Grid } from '@mui/material';
+import { Box, Card, Stack, Button, Typography, Grid, useMediaQuery } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowCircleRight from '@mui/icons-material/ArrowCircleRight';
@@ -9,6 +9,7 @@ import { postToApp } from '../../services/ContentService';
 import { isTokenValid } from '../PersonasPage/Common';
 
 export default function ContentCards({ socialApps, selectedContent, setSelectedContent }) {
+    const isMediumUp = useMediaQuery((theme) => theme.breakpoints.up('md'));
     const userId = useSelector((state) => state.user.db?._id);
     const tokens = useSelector((state) => 
         state.user.db?.personas?.find(p => p._id === selectedContent.personaId)?.authTokens
@@ -35,10 +36,10 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
             return 'Content too long for app';
         }
         if (!token) {
-            return 'Not connected to app. Connect using Personas page.';
+            return 'Not connected, go to Personas page.';
         }
         if (tokenIsExpired) {
-            return 'Token is expired. Reconnect using Personas page.';
+            return 'Expired token, reconnect on Personas page.';
         }
     }
 
@@ -50,17 +51,17 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
                 const token = tokens.find(t => t.platform === app.name);
                 const tokenIsExpired = token && token.expiry && !isTokenValid(token.expiry);
                 return (
-                    <Grid item xs={12} sm={6} md={4} key={app.seqNo}>
-                        <Card sx={{ p: 3, minWidth: 20, height: 120 }}>
+                    <Grid item xs={12} sm={4} md={4} key={app.seqNo}>
+                        <Card sx={{ p: 3, minWidth: { xs: 75 }, minHeight: { xs: 100, md: 120 } }}>
                             <Stack direction='row' spacing={1} sx={{ display: 'flex', alignItems: 'center' }}>
                                 {isPostedToSite ? 
-                                    <CheckIcon color='success' sx={{ fontSize: 16 }} /> : 
-                                    <CloseIcon color='error' sx={{ fontSize: 16 }} />
+                                    <CheckIcon color='success' sx={{ fontSize: { xs: 10.5, sm: 16 } }} /> : 
+                                    <CloseIcon color='error' sx={{ fontSize: { xs: 10.5, sm: 16 } }} />
                                 }
-                                <Typography variant='caption'>Posted</Typography>
+                                <Typography variant='caption' sx={{ fontSize: { xs: 10.5, md: 16 } }}>Posted</Typography>
                             </Stack>
                             <Box sx={{ p: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <Typography variant='h6' component='div'>
+                                <Typography variant={isMediumUp ? 'h6' : 'caption'} component='div'>
                                     {app.name}
                                 </Typography>
                                 {!isPostedToSite && !contentTooLong && token && !tokenIsExpired ? (
@@ -82,7 +83,7 @@ export default function ContentCards({ socialApps, selectedContent, setSelectedC
                                     </Button>
                                 ) : (
                                     <Box sx={{ ml: 4 }}>
-                                        <Typography sx={{ fontSize: 12 }} color='text.secondary' gutterBottom>
+                                        <Typography sx={{ fontSize: { xs: 10, md: 10 } }} color='text.secondary' gutterBottom>
                                             {isPostedToSite ? '' : cardAlertMessage(contentTooLong, token, tokenIsExpired)}
                                         </Typography>
                                     </Box>

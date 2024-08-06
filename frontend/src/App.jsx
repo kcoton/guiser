@@ -44,7 +44,7 @@ function MainApp() {
 
     return (
         <div className='App'>
-            <CustomParticles />
+            {location.pathname !== '/' && <CustomParticles />}
             {location.pathname !== '/' && location.pathname !== '/login' && <NavigationBar />}
             <Routes>
                 <Route path='/' element={<LandingPage />} />
