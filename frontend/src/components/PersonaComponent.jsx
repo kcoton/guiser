@@ -22,22 +22,20 @@ export const PersonaCard = ({ persona, selectedPersona, handlePersonaClick }) =>
                 alignItems: 'center',
                 border: selectedPersona?._id === persona._id ? '1px solid white' : 'none'
             }}>
-                <Tooltip title={persona.name}>
-                    <Typography
-                        variant='body1'
-                        sx={{
-                        mb: 1,
-                        fontWeight: 500,
-                        letterSpacing: 0.5,
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        maxWidth: '100%',
-                        }}
-                    >
-                        {persona.name}
-                    </Typography>
-                </Tooltip>
+                <Typography
+                    variant='body1'
+                    sx={{
+                    mb: 1,
+                    fontWeight: 500,
+                    letterSpacing: 0.5,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '100%',
+                    }}
+                >
+                    {persona.name}
+                </Typography>
             <SocialMediaIcons persona={persona} />
         </Card>
     );
