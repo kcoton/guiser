@@ -27,7 +27,7 @@ export default function HomePage() {
             </Typography>
         </Stack>
         <Box sx={{ mx: { xs: 2, sm: 10 }, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
-            <Typography variant='h5'>
+            <Typography variant='h5' sx={{ mx: { xs: 2 } }}>
                 You can be <span style={{ color: '#A688FA' }}>anyone</span> on social media. Here's how to get started:
             </Typography>
             <Box sx={{ mb: 1, border: 1, borderRadius: 1, m: 2, borderColor: 'rgba(255, 255, 255, 0.2)' }}>
