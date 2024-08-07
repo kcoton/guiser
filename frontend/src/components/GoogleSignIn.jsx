@@ -19,7 +19,6 @@ const GoogleSignIn = () => {
     }, []);
 
     const reqID = util.requestID();
-    //sessionStorage.setItem("reqID", reqID);
     return (
         <>
             <div
