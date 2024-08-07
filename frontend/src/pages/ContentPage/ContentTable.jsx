@@ -8,42 +8,45 @@ import { useSelector } from 'react-redux';
 function getIcon(appName) {
     const iconMap = {
         Twitter: <TwitterIcon sx={{ marginLeft: '5px', marginRight: '5px' }} />,
-        Threads: <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <i className={'fab fa-threads'}
-            style={{ fontSize: '20px',
-                 marginBottom: '12px',
-                 marginLeft: '5px',
-                 marginRight: '5px' }}></i>
-         </Box>,
+        Threads: (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <i
+                    className={'fab fa-threads'}
+                    style={{ fontSize: '20px', marginBottom: '12px', marginLeft: '5px', marginRight: '5px' }}
+                ></i>
+            </Box>
+        ),
         LinkedIn: <LinkedInIcon sx={{ marginLeft: '5px', marginRight: '5px' }} />,
     };
     return iconMap[appName];
 }
 
 function formatDate(dateString) {
-    const options = { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric', 
-        hour: '2-digit', 
-        minute: '2-digit' 
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
     };
     return new Intl.DateTimeFormat('en-US', options).format(new Date(dateString));
 }
 
 export default function ContentTable({ socialApps, onRowClick }) {
-    const content = useSelector((state) => state.user.db?.personas ?? []).reduce((acc, persona) => {
-        const personaName = persona.name;
-        const personaId = persona._id;
-        if (!persona.deleted) {
-            persona.content.forEach((contentEntry) => {
-                if (!contentEntry.isRejected) {
-                    acc.push({ ...contentEntry, personaName, personaId, id: contentEntry._id });
-                }
-            });
-        }
-        return acc;
-    }, []).sort((x, y) => new Date(y.createdAt) - new Date(x.createdAt));
+    const content = useSelector((state) => state.user.db?.personas ?? [])
+        .reduce((acc, persona) => {
+            const personaName = persona.name;
+            const personaId = persona._id;
+            if (!persona.deleted) {
+                persona.content.forEach((contentEntry) => {
+                    if (!contentEntry.isRejected) {
+                        acc.push({ ...contentEntry, personaName, personaId, id: contentEntry._id });
+                    }
+                });
+            }
+            return acc;
+        }, [])
+        .sort((x, y) => new Date(y.createdAt) - new Date(x.createdAt));
 
     const columns = [
         { field: 'personaName', headerName: 'Persona Name', width: 200 },
@@ -85,7 +88,8 @@ export default function ContentTable({ socialApps, onRowClick }) {
                                 fontSize: '11px',
                             },
                         },
-                    }}           >
+                    }}
+                >
                     <span>{params.value}</span>
                 </Tooltip>
             ),
@@ -97,14 +101,14 @@ export default function ContentTable({ socialApps, onRowClick }) {
             renderCell: (params) => {
                 return (
                     <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                        mt: 0.8,
-                        mx: 1,
-                    }}
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '100%',
+                            mt: 0.8,
+                            mx: 1,
+                        }}
                     >
                         {socialApps.map((app) =>
                             params.row.posted & (2 ** (app.seqNo - 1)) ? (

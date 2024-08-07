@@ -14,8 +14,8 @@ export default function CustomParticles() {
     }, []);
 
     const particlesLoaded = (container) => {
-	// success
-	// console.log(container);
+        // success
+        // console.log(container);
     };
 
     const options = useMemo(
@@ -68,7 +68,7 @@ export default function CustomParticles() {
             particles: {
                 number: {
                     value: 130,
-		    limit: 160,
+                    limit: 160,
                     density: {
                         enable: true,
                         area: 993.6489272731785,

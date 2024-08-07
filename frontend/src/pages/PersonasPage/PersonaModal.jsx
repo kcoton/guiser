@@ -72,19 +72,26 @@ export default function PersonaModal({
         <Modal open={open} onClose={handleClose} aria-labelledby='modal-title' aria-describedby='modal-description'>
             <Box sx={style}>
                 <Stack direction='row' sx={{ mb: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: { xs: 14, sm: 24 }}}>
+                    <Typography
+                        variant='overline'
+                        noWrap
+                        component='div'
+                        sx={{ letterSpacing: 2, fontSize: { xs: 14, sm: 24 } }}
+                    >
                         <span style={{ color: '#A688FA' }}>Edit</span> Your Persona
                     </Typography>
                     <Box>
-                        {isMediumUp && <Button
-                            variant='contained'
-                            color='error'
-                            size='medium'
-                            startIcon={<Delete />}
-                            onClick={handleDeletePersona}
-                        >
-                            Delete Persona
-                        </Button>}
+                        {isMediumUp && (
+                            <Button
+                                variant='contained'
+                                color='error'
+                                size='medium'
+                                startIcon={<Delete />}
+                                onClick={handleDeletePersona}
+                            >
+                                Delete Persona
+                            </Button>
+                        )}
                     </Box>
                 </Stack>
                 <Stack direction='column' spacing={isMediumUp ? 3 : 2}>
@@ -95,7 +102,7 @@ export default function PersonaModal({
                         onChange={(e) => setPersonaName(e.target.value)}
                     />
                     <TextField
-                        label="What personality does your persona have?"
+                        label='What personality does your persona have?'
                         variant='outlined'
                         multiline
                         rows={4}
@@ -107,19 +114,21 @@ export default function PersonaModal({
                         size={isMediumUp ? 'large' : 'small'}
                         startIcon={<Save />}
                         onClick={handleUpdatePersona}
-                        >
+                    >
                         Save Changes
                     </Button>
-                    {!isMediumUp && <Button
-                        variant='contained'
-                        fullWidth='true'
-                        color='error'
-                        size='small'
-                        startIcon={<Delete />}
-                        onClick={handleDeletePersona}
-                    >
-                        Delete Persona
-                    </Button>}
+                    {!isMediumUp && (
+                        <Button
+                            variant='contained'
+                            fullWidth='true'
+                            color='error'
+                            size='small'
+                            startIcon={<Delete />}
+                            onClick={handleDeletePersona}
+                        >
+                            Delete Persona
+                        </Button>
+                    )}
                     <Stack direction='row' spacing={3} justifyContent='center'>
                         <Button
                             variant='outlined'
@@ -142,9 +151,7 @@ export default function PersonaModal({
                             variant='outlined'
                             startIcon={isMediumUp && <AlternateEmail />}
                             disabled={isPlatformConnected(persona, Platform.THREADS)}
-                            displayText={
-                                isMediumUp ? 'Connect Threads' : <AlternateEmail />
-                            }
+                            displayText={isMediumUp ? 'Connect Threads' : <AlternateEmail />}
                         />
                     </Stack>
                 </Stack>
