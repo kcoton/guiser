@@ -143,12 +143,12 @@ export default function NavigationBar() {
                         {['Dashboard', 'Personas', 'Generate', 'Content', 'Logout'].map((text) => (
                             <ListItem key={text} disablePadding>
                                 <Link to={routesMap[text]} style={navLinkStyle}>
-                                <ListItemButton onClick={handleDrawerClose}>
-                                    <ListItemIcon sx={{ ml: 1.5 }}>{iconMap[text]}</ListItemIcon>
-                                    <Typography variant='overline' sx={{ letterSpacing: 1, fontSize: 16 }}>
-                                        {text}
-                                    </Typography>
-                                </ListItemButton>
+                                    <ListItemButton onClick={handleDrawerClose}>
+                                        <ListItemIcon sx={{ ml: 1.5 }}>{iconMap[text]}</ListItemIcon>
+                                        <Typography variant='overline' sx={{ letterSpacing: 1, fontSize: 16 }}>
+                                            {text}
+                                        </Typography>
+                                    </ListItemButton>
                                 </Link>
                             </ListItem>
                         ))}

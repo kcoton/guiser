@@ -17,10 +17,10 @@ export async function loginGoogleUser(req: Request, res: Response) {
     // Restore after migrating.
     // ************************************************************
     // const cookieToken = req.cookies.g_csrf_token;
-    // const bodyToken = req.body.g_csrf_token;    
+    // const bodyToken = req.body.g_csrf_token;
     // if (!(cookieToken && bodyToken && cookieToken === bodyToken)) {
     // 	res.status(403).json({ error: "CSRF token validation failed" });
-	//     return;
+    //     return;
     // }
     // Parse/validate then interpret by redirect into joint session with client
     try {
@@ -156,16 +156,16 @@ export async function processTwitterAuthCode(req: Request, res: Response) {
     const basicSecret = Buffer.from(`${process.env.TWITTER_CLIENT_ID}:${process.env.TWITTER_SECRET}`).toString(
         'base64',
     );
-    
+
     const headers = {
         Authorization: `Basic ${basicSecret}`,
     };
 
     try {
         const response = await axios.post(url, null, { headers: headers });
-        const token = response.data.access_token as string;       
+        const token = response.data.access_token as string;
         const expires = 0 + response.data.expires_in;
-        
+
         // Fetch t// DB interaction
         const newAuthToken = await wrapPlatformToken('Twitter', token, expires);
         const linked = await linkPlatform(pid, newAuthToken);
