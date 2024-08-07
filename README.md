@@ -73,13 +73,12 @@ I implemented the Persona page with CRUD functionality and redux store. I design
 
 # Demo accounts
 
-| Username                   | Password               | Type                |
-|----------------------------|------------------------|---------------------|
-| guiser.user.az@gmail.com   | projectadmin           | Google              |
-| guiser.user.az@gmail.com   | projectadmin           | Threads             |
-| guiserteam@gmail.com       | projectadmin           | LinkedIn            |
-| Alice_guiser               | projectadmin           | Twitter             |
-
+| Username                     | Email                     | Password       | Type       |
+|------------------------------|---------------------------|----------------|------------|
+| guiser.user.az@gmail.com     | guiser.user.az@gmail.com  | projectadmin   | Google     |
+| guiser.user.az@gmail.com     | guiser.user.az@gmail.com  | projectadmin   | Threads    |
+| guiserteam@gmail.com         | guiserteam@gmail.com      | projectadmin   | LinkedIn   |
+| bella_guiser                 | guiserteam@outlook.com    | projectadmin   | Twitter    |
 
 This is the end of the Final Project Report.
 
