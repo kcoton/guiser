@@ -24,8 +24,8 @@ export const sliderSettings = (slideLength) => {
                     slidesToShow: 3,
                     slidesToScroll: 1,
                     infinite: false,
-                    dots: true
-                }
+                    dots: true,
+                },
             },
             {
                 breakpoint: 600, // sm
@@ -33,9 +33,9 @@ export const sliderSettings = (slideLength) => {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     infinite: false,
-                    dots: true
-                }
-            }
-        ]
-    }
+                    dots: true,
+                },
+            },
+        ],
+    };
 };

@@ -7,7 +7,7 @@ import PersonaService from '../../services/PersonaService';
 import { addPersona, updatePersona, deletePersona } from '../../redux/userSlice';
 import '../../App.css';
 import Save from '@mui/icons-material/Save';
-import Slider from "react-slick";
+import Slider from 'react-slick';
 import { sliderSettings } from '../Common';
 import { PersonaCard } from '../../components/PersonaComponent';
 
@@ -36,14 +36,14 @@ export default function PersonasPage() {
     const handleSavePersona = async () => {
         try {
             if (!newPersonaName) {
-                alert("Persona name is required.");
+                alert('Persona name is required.');
                 return;
             }
             if (!newPersonaText) {
-                alert("Persona content is required.");
+                alert('Persona content is required.');
                 return;
-            }          
-            const MAX_NAME_LENGTH = 20; 
+            }
+            const MAX_NAME_LENGTH = 20;
             if (newPersonaName.length > MAX_NAME_LENGTH) {
                 alert(`Persona name should not exceed ${MAX_NAME_LENGTH} characters.`);
                 return;
@@ -60,14 +60,14 @@ export default function PersonasPage() {
     const handleUpdatePersona = async () => {
         try {
             if (!activePersona.name) {
-                alert("Persona name is required.");
+                alert('Persona name is required.');
                 return;
             }
             if (!activePersona.text) {
-                alert("Persona content is required.");
+                alert('Persona content is required.');
                 return;
-            }  
-            const MAX_NAME_LENGTH = 20; 
+            }
+            const MAX_NAME_LENGTH = 20;
             if (activePersona.name.length > MAX_NAME_LENGTH) {
                 alert(`Persona name should not exceed ${MAX_NAME_LENGTH} characters.`);
                 return;
@@ -96,7 +96,12 @@ export default function PersonasPage() {
 
     return (
         <>
-            <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: { xs: 10.5, sm: 24 }, mx: 10 }}>
+            <Typography
+                variant='overline'
+                noWrap
+                component='div'
+                sx={{ letterSpacing: 2, fontSize: { xs: 10.5, sm: 24 }, mx: 10 }}
+            >
                 <span style={{ color: '#A688FA' }}>View</span> Your Personas
             </Typography>
 
@@ -104,26 +109,40 @@ export default function PersonasPage() {
                 <Slider {...sliderSettings(personas?.length)}>
                     {personas?.map((persona, index) => (
                         <div key={index}>
-                            <PersonaCard persona={persona} selectedPersona={activePersona} handlePersonaClick={handlePersonaClick} />
+                            <PersonaCard
+                                persona={persona}
+                                selectedPersona={activePersona}
+                                handlePersonaClick={handlePersonaClick}
+                            />
                         </div>
                     ))}
                 </Slider>
             </Box>
 
-            <Stack direction='row' sx={{ mx: { xs: 6, sm: 10 }, mb: 1, justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: { xs: 10.5, sm: 24 }}}>
+            <Stack
+                direction='row'
+                sx={{ mx: { xs: 6, sm: 10 }, mb: 1, justifyContent: 'space-between', alignItems: 'center' }}
+            >
+                <Typography
+                    variant='overline'
+                    noWrap
+                    component='div'
+                    sx={{ letterSpacing: 2, fontSize: { xs: 10.5, sm: 24 } }}
+                >
                     <span style={{ color: '#A688FA' }}>Create</span> Your New Persona
                 </Typography>
                 <Box>
-                    {isMediumUp && <Button
-                        variant='contained'
-                        color='primary'
-                        size='large'
-                        startIcon={<Save />}
-                        onClick={handleSavePersona}
-                    >
-                        Create Persona
-                    </Button>}
+                    {isMediumUp && (
+                        <Button
+                            variant='contained'
+                            color='primary'
+                            size='large'
+                            startIcon={<Save />}
+                            onClick={handleSavePersona}
+                        >
+                            Create Persona
+                        </Button>
+                    )}
                 </Box>
             </Stack>
             <Box sx={{ mx: { xs: 5, sm: 10 }, mt: 2, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
@@ -133,7 +152,7 @@ export default function PersonasPage() {
                         variant='outlined'
                         label="What's your persona's name?"
                         value={newPersonaName}
-                        onChange={(e) => setNewPersonaName(e.target.value)} 
+                        onChange={(e) => setNewPersonaName(e.target.value)}
                     />
                     <TextField
                         required
@@ -142,7 +161,8 @@ export default function PersonasPage() {
                         multiline
                         rows={4}
                         value={newPersonaText}
-                        onChange={(e) => setNewPersonaText(e.target.value)} />
+                        onChange={(e) => setNewPersonaText(e.target.value)}
+                    />
                 </Stack>
                 {activePersona && (
                     <PersonaModal
@@ -152,19 +172,22 @@ export default function PersonasPage() {
                         setPersonaName={(name) => setActivePersona({ ...activePersona, name })}
                         setPersonaText={(text) => setActivePersona({ ...activePersona, text })}
                         handleUpdatePersona={handleUpdatePersona}
-                        handleDeletePersona={handleDeletePersona} />
+                        handleDeletePersona={handleDeletePersona}
+                    />
                 )}
-                {!isMediumUp && <Button
-                    variant='contained'
-                    fullWidth='true'
-                    color='primary'
-                    size='small'
-                    startIcon={<Save />}
-                    onClick={handleSavePersona}
-                    sx={{ mt: 2 }}
-                >
-                    Create Persona
-                </Button>}
+                {!isMediumUp && (
+                    <Button
+                        variant='contained'
+                        fullWidth='true'
+                        color='primary'
+                        size='small'
+                        startIcon={<Save />}
+                        onClick={handleSavePersona}
+                        sx={{ mt: 2 }}
+                    >
+                        Create Persona
+                    </Button>
+                )}
             </Box>
         </>
     );

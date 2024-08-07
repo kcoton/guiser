@@ -23,7 +23,12 @@ export default function ContentPage() {
 
     return (
         <>
-            <Typography variant='overline' noWrap component='div' sx={{ letterSpacing: 2, fontSize: { xs: 10.5, sm: 16, md: 24 }, mx: { xs: 3, md: 5, lg: 10 } }}>
+            <Typography
+                variant='overline'
+                noWrap
+                component='div'
+                sx={{ letterSpacing: 2, fontSize: { xs: 10.5, sm: 16, md: 24 }, mx: { xs: 3, md: 5, lg: 10 } }}
+            >
                 <span style={{ color: '#A688FA' }}>Post</span> To Social Media
             </Typography>
             <Box sx={{ mx: { xs: 3, md: 5, lg: 10 }, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}>
@@ -32,7 +37,8 @@ export default function ContentPage() {
                     <ContentCards
                         setSelectedContent={setSelectedContent}
                         socialApps={socialApps}
-                        selectedContent={selectedContent} />
+                        selectedContent={selectedContent}
+                    />
                 )}
             </Box>
         </>

@@ -14,7 +14,8 @@ const LandingPage = () => {
         <ThemeProvider theme={theme}>
             <div className='landing-page-container'>
                 <div className='background-image' />
-                <Stack direction='column'
+                <Stack
+                    direction='column'
                     sx={{
                         width: '100vw',
                         display: 'flex',
@@ -23,7 +24,9 @@ const LandingPage = () => {
                         pt: 12,
                     }}
                 >
-                    <Typography variant='h1' sx={{ letterSpacing: 1 }}>GUISER</Typography>
+                    <Typography variant='h1' sx={{ letterSpacing: 1 }}>
+                        GUISER
+                    </Typography>
                     <Typography variant='h5' sx={{ m: 1, color: '#4B59AF' }}>
                         Boost your online presence with the power of AI
                     </Typography>
@@ -43,7 +46,7 @@ const LandingPage = () => {
                         title='Threads'
                         description='Start a conversation and attract new followers.'
                         link='https://www.threads.net/'
-                    />		    
+                    />
                     <SocialMediaIcon
                         iconClass='fab fa-linkedin-in'
                         title='LinkedIn'

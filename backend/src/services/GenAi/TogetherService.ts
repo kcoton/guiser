@@ -14,6 +14,9 @@ export default class TogetherService implements IGenAiService {
             model: process.env.TOGETHER_LLM as string,
             messages: [{ role: 'user', content: content }],
         });
-        return (response as { choices: [{ message: { content: string } }] }).choices[0].message.content.replace(/^"(.*)"$/, '$1');
+        return (response as { choices: [{ message: { content: string } }] }).choices[0].message.content.replace(
+            /^"(.*)"$/,
+            '$1',
+        );
     }
 }
