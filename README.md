@@ -4,6 +4,8 @@ Transform your content game with Guiser (pronounced like 'geyser'): a revolution
 
 ![Deployment to Render.com](https://github.com/ubc-cpsc455-2024S/project-02_2s_complement/actions/workflows/ci.yml/badge.svg)
 
+https://guiser.onrender.com/
+
 ## Project Goals
 
 ### Minimal Requirements
